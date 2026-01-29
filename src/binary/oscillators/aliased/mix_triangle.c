@@ -39,11 +39,8 @@ void mix_triangle(int *osc_state, short *chunk_buffer, int chunk_len) {
     if (osc_buzz) {
       const _Bool is_buzz_duty = cur_phase > 0xdfff;
       const _Bool is_buzz_detune_duty = cur_detune_partial > 0xdfff;
-
-      const int buzz_amp = is_buzz_duty
-                               ? ((0xffff - cur_phase) * 0x5ffc) / 0x2000
-                               : (cur_phase * 0x5ffc) / 0xe000;
-
+      const int buzz_amp = is_buzz_duty ? ((0xffff - cur_phase) * 0x5ffc) >> 13
+                                        : (cur_phase * 0x5ffc) / 0xe000;
       const int detune_buzz_amp =
           is_buzz_detune_duty ? ((cur_detune_partial ^ 0xffff) * 0x5ffc) >> 13
                               : (cur_detune_partial * 0x5ffc) / 0xe000;
