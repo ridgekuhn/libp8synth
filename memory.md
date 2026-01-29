@@ -107,6 +107,12 @@ CHANNEL STATE + 0x2d20
 
 ### OSCILLATOR STATES
 
+#### Notes
+
+* The primary phasor period is represented by an unsigned 16-bit integer, `0` - `0xffff`. The detune phasor period is represented by a 17-bit integer, `0` - `0x0001ffff`.
+
+* Reverb is the value set by current sfx, or the value at `0x5f41` in guest memory, whichever is greater.
+
 ```
 CHANNEL STATE + 0x2d30
 
@@ -124,8 +130,8 @@ CHANNEL STATE + 0x2d30
 +0x0024: current pitch
 +0x0028: current vol
 +0x002c: noise seed
-+0x0030: noise value
-+0x0034: noise value
++0x0030: noise accumulator 1
++0x0034: noise accumulator 2
 +0x0038: sfx step vol
 +0x003c: sfx step pitch
 +0x0040: sfx step waveform
