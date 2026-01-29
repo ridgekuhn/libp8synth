@@ -2,7 +2,21 @@
 
 A library for community patching of [Pico-8](https://www.lexaloffle.com/pico-8.php)'s synthesizer.
 
-Pico-8's oscillators output "naive" waveforms, resulting in [aliasing distortion](https://en.wikipedia.org/wiki/Aliasing) unsuitable for professional audio applications. The goal of this project is to provide patches for Pico-8's synthesizer to remove this distortion.
+---
+
+Pico-8 is the property of [Lexaloffle Games LLP](https://www.lexaloffle.com/). This project is intended for educational purposes only.
+
+---
+
+Pico-8's oscillators output "naive" waveforms, resulting in [aliasing distortion](https://en.wikipedia.org/wiki/Aliasing). The goal of this project is to provide patches for Pico-8's synthesizer to remove this distortion, allowing for high-quality audio exports suitable for mixing in professional audio applications.
+
+### Project State
+
+* All [aliased oscillators](/src/binary/oscillators/aliased) have been reimplemented.
+
+* [Additive synthesis oscillators](/src/binary/oscillators/additive) are partially implemented. Pull requests welcome.
+
+* Some [polyblep](https://www.kvraudio.com/forum/viewtopic.php?t=375517) oscillators have been [implemented](/src/binary/oscillators/polyblepped), but the results are not ideal. Oversampling, or other algorithms should be explored. Pull requests welcome.
 
 ## Development
 
@@ -28,11 +42,14 @@ See [memory.md](/memory.md) for a list of known host application memory states.
 
 ### For Linux Developers
 
-A [Patcherex2](https://purseclab.github.io/Patcherex2/) script ([patch_pico8.py](/patch_pico8.py)) is provided for convenience. You may also need to install dependencies as required by the original [Patcherex](https://github.com/angr/patcherex).
+A [Patcherex2](https://purseclab.github.io/Patcherex2/) script ([patch_pico8.py](/patch_pico8.py)) is provided for convenience. Edit this file and replace oscillator functions as needed.
+
+You may also need to install dependencies as required by the original [Patcherex](https://github.com/angr/patcherex).
 
 ```shell
 python3 patch_pico8.py [/path/to/pico8/executable]
 ```
+
 ### For Windows/MacOS Developers
 
 Pull requests welcome.
