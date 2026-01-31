@@ -27,8 +27,8 @@ os.makedirs("./out", exist_ok=True)
 
 oscillators = [
 	["mix_organ", "./src/binary/oscillators/aliased/mix_organ.c"],
-	["mix_pulse", "./src/binary/oscillators/additive/mix_pulse.c"],
-	["mix_sawtooth", "./src/binary/oscillators/additive/mix_sawtooth.c"],
+	["mix_pulse", "./src/binary/oscillators/hq/mix_pulse.c"],
+	["mix_sawtooth", "./src/binary/oscillators/hq/mix_sawtooth.c"],
 	["mix_supersaw", "./src/binary/oscillators/aliased/mix_supersaw.c"],
 	["mix_triangle", "./src/binary/oscillators/aliased/mix_triangle.c"],
 	["mix_wavetable", "./src/binary/oscillators/aliased/mix_wavetable.c"],
@@ -44,8 +44,8 @@ oscillators = [
 #######
 p = Patcherex(args.p8path)
 
-p.patches.append(InsertFunctionPatch("polyblep", Path(
-	"./src/binary/filters/polyblep.c").read_text()))
+# p.patches.append(InsertFunctionPatch("polyblep", Path(
+# 	"./src/binary/filters/polyblep.c").read_text()))
 
 for o in oscillators:
 	p.patches.append(InsertFunctionPatch(o[0], Path(o[1]).read_text()))

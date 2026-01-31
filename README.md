@@ -12,11 +12,11 @@ Pico-8's oscillators output "naive" waveforms, resulting in [aliasing distortion
 
 ### Project State
 
-* All [aliased oscillators](/src/binary/oscillators/aliased) have been reimplemented.
+* [Aliased oscillators](/src/binary/oscillators/aliased) have been reimplemented.
 
-* [Additive synthesis oscillators](/src/binary/oscillators/additive) are partially implemented. Pull requests welcome.
+* [High-quality oscillators](/src/binary/oscillators/hq) are partially implemented. Pull requests welcome.
 
-* Some [polyblep](https://www.kvraudio.com/forum/viewtopic.php?t=375517) oscillators have been [implemented](/src/binary/oscillators/polyblepped), but the results are not ideal. Oversampling, or other algorithms should be explored. Pull requests welcome.
+* [Fast oscillators](/src/binary/fast), such as with [polyblep](https://www.kvraudio.com/forum/viewtopic.php?t=375517) are partially implemented, but the results are not ideal. Oversampling, or other algorithms should be explored. Pull requests welcome.
 
 ## Development
 
