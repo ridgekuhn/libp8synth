@@ -4,10 +4,10 @@
  * @param osc_state Mixer channel oscillator state
  * @param chunk_buffer Mixer channel chunk buffer
  * @param chunk_len Length of chunk_buffer in samples
- * @param negative_cycle_init 0x10000 - duty cycle
+ * @param duty_cycle_init 0x10000 - duty cycle
  */
 void mix_pulse(int *osc_state, short *chunk_buffer, int chunk_len,
-               int negative_cycle_init) {
+               int duty_cycle_init) {
   /*
    * Oscillator state
    */
@@ -25,8 +25,7 @@ void mix_pulse(int *osc_state, short *chunk_buffer, int chunk_len,
   /*
    * Buffer state
    */
-  const int negative_cycle =
-      osc_buzz ? negative_cycle_init + 0x1800 : negative_cycle_init;
+  const int duty_cycle = osc_buzz ? duty_cycle_init + 0x1800 : duty_cycle_init;
 
   /*
    * Populate buffer
@@ -35,25 +34,25 @@ void mix_pulse(int *osc_state, short *chunk_buffer, int chunk_len,
   int cur_detune_phase = osc_detune_phase;
 
   for (int i = 0; i < chunk_len; i += 1) {
-    const _Bool is_negative = cur_phase < negative_cycle;
+    const _Bool is_duty = cur_phase < duty_cycle;
 
-    int amplitude = is_negative ? -0x17ff : 0x17ff;
-    amplitude += (-amplitude * polyblep((cur_phase + negative_cycle) & 0xffff,
-                                       osc_phase_inc)) >>
+    int amplitude = is_duty ? -0x17ff : 0x17ff;
+    amplitude += (-amplitude *
+                  polyblep((cur_phase + duty_cycle) & 0xffff, osc_phase_inc)) >>
                  16;
     amplitude -= (amplitude * polyblep(cur_phase, osc_phase_inc)) >> 16;
 
     const detune_partial = cur_detune_phase & -0xffff;
 
-    const _Bool is_detune_negative =
-        osc_detune == 2 ? ((cur_detune_phase << 1) & 0xfffe) < negative_cycle
-                        : detune_partial < negative_cycle;
+    const _Bool is_detune_duty =
+        osc_detune == 2 ? ((cur_detune_phase << 1) & 0xfffe) < duty_cycle
+                        : detune_partial < duty_cycle;
 
-    int detune_amplitude = is_detune_negative ? -0xbff : 0xbff;
-    detune_amplitude += (-detune_amplitude *
-                         polyblep((detune_partial + negative_cycle) & 0xffff,
-                                  osc_detune_phase_inc)) >>
-                        16;
+    int detune_amplitude = is_detune_duty ? -0xbff : 0xbff;
+    detune_amplitude +=
+        (-detune_amplitude * polyblep((detune_partial + duty_cycle) & 0xffff,
+                                      osc_detune_phase_inc)) >>
+        16;
     detune_amplitude -=
         (detune_amplitude * polyblep(detune_partial, osc_detune_phase_inc)) >>
         16;

@@ -4,10 +4,10 @@
  * @param osc_state Mixer channel oscillator state
  * @param chunk_buffer Mixer channel chunk buffer
  * @param chunk_len Length of chunk_buffer in samples
- * @param negative_cycle_init 0x10000 - duty cycle
+ * @param duty_cycle_init 0x10000 - duty cycle
  */
 void mix_pulse(int *osc_state, short *chunk_buffer, int chunk_len,
-               int negative_cycle_init) {
+               int duty_cycle_init) {
   /*
    * Oscillator state
    */
@@ -25,8 +25,7 @@ void mix_pulse(int *osc_state, short *chunk_buffer, int chunk_len,
   /*
    * Buffer state
    */
-  const int negative_cycle =
-      osc_buzz ? negative_cycle_init + 0x1800 : negative_cycle_init;
+  const int duty_cycle = osc_buzz ? duty_cycle_init + 0x1800 : duty_cycle_init;
 
   /*
    * Populate buffer
@@ -35,12 +34,12 @@ void mix_pulse(int *osc_state, short *chunk_buffer, int chunk_len,
   int cur_detune_phase = osc_detune_phase;
 
   for (int i = 0; i < chunk_len; i += 1) {
-    const _Bool is_negative = cur_phase < negative_cycle;
-    const int amplitude = is_negative ? -0x17ff : 0x17ff;
-    const _Bool is_detune_negative =
-        osc_detune == 2 ? ((cur_detune_phase << 1) & 0xfffe) < negative_cycle
-                        : (cur_detune_phase & 0xffff) < negative_cycle;
-    const int detune_amplitude = is_detune_negative ? -0xbff : 0xbff;
+    const _Bool is_duty = cur_phase < duty_cycle;
+    const int amplitude = is_duty ? -0x17ff : 0x17ff;
+    const _Bool is_detune_duty =
+        osc_detune == 2 ? ((cur_detune_phase << 1) & 0xfffe) < duty_cycle
+                        : (cur_detune_phase & 0xffff) < duty_cycle;
+    const int detune_amplitude = is_detune_duty ? -0xbff : 0xbff;
 
     // Write new sample
     const int s_pregain = amplitude + detune_amplitude;
