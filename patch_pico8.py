@@ -27,6 +27,7 @@ os.makedirs("./out", exist_ok=True)
 
 phasors = [
     ["sample_sawtooth", "./src/binary/oscillators/hq/phasors/sample_sawtooth.c"],
+    ["sample_tilted", "./src/binary/oscillators/hq/phasors/sample_tilted.c"],
     ["sample_triangle", "./src/binary/oscillators/hq/phasors/sample_triangle.c"],
 ]
 
@@ -35,7 +36,7 @@ oscillators = [
 	["mix_pulse", "./src/binary/oscillators/hq/mix_pulse.c"],
 	["mix_sawtooth", "./src/binary/oscillators/hq/mix_sawtooth.c"],
 	["mix_supersaw", "./src/binary/oscillators/aliased/mix_supersaw.c"],
-	["mix_triangle", "./src/binary/oscillators/hq/mix_triangle.c"],
+	["mix_triangle", "./src/binary/oscillators/aliased/mix_triangle.c"],
 	["mix_wavetable", "./src/binary/oscillators/aliased/mix_wavetable.c"],
 	["mix_brown_noise", "./src/binary/oscillators/aliased/mix_brown_noise.c"],
 	["mix_pink_noise", "./src/binary/oscillators/aliased/mix_pink_noise.c"],
