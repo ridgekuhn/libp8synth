@@ -25,12 +25,17 @@ args = parser.parse_args()
 ############
 os.makedirs("./out", exist_ok=True)
 
+phasors = [
+    ["sample_sawtooth", "./src/binary/oscillators/hq/phasors/sample_sawtooth.c"],
+    ["sample_triangle", "./src/binary/oscillators/hq/phasors/sample_triangle.c"],
+]
+
 oscillators = [
 	["mix_organ", "./src/binary/oscillators/aliased/mix_organ.c"],
 	["mix_pulse", "./src/binary/oscillators/hq/mix_pulse.c"],
 	["mix_sawtooth", "./src/binary/oscillators/hq/mix_sawtooth.c"],
 	["mix_supersaw", "./src/binary/oscillators/aliased/mix_supersaw.c"],
-	["mix_triangle", "./src/binary/oscillators/aliased/mix_triangle.c"],
+	["mix_triangle", "./src/binary/oscillators/hq/mix_triangle.c"],
 	["mix_wavetable", "./src/binary/oscillators/aliased/mix_wavetable.c"],
 	["mix_brown_noise", "./src/binary/oscillators/aliased/mix_brown_noise.c"],
 	["mix_pink_noise", "./src/binary/oscillators/aliased/mix_pink_noise.c"],
@@ -47,8 +52,8 @@ p = Patcherex(args.p8path)
 # p.patches.append(InsertFunctionPatch("polyblep", Path(
 # 	"./src/binary/filters/polyblep.c").read_text()))
 
-p.patches.append(InsertFunctionPatch("sample_sawtooth", Path(
-	"./src/binary/oscillators/hq/phasors/sample_sawtooth.c").read_text()))
+for x in phasors:
+	p.patches.append(InsertFunctionPatch(x[0], Path(x[1]).read_text()))
 
 for o in oscillators:
 	p.patches.append(InsertFunctionPatch(o[0], Path(o[1]).read_text()))
