@@ -1,4 +1,4 @@
-#include <math.h>
+// #include "./phasors/sample_sawtooth.c"
 
 /**
  * Mix sawtooth oscillator
@@ -26,39 +26,8 @@ void mix_sawtooth(int *osc_state, short *chunk_buffer, int chunk_len) {
   /*
    * Buffer Constants
    */
-  const double TWO_PI = M_PI * 2;
   const int freq = (osc_phase_inc * 22050) >> 16;
   const int detune_freq = (osc_detune_phase_inc * 22050) >> 16;
-
-  double normalize = 0;
-
-  // 10914 = 11025 * 0.99
-  for (int i = 1; (i * freq / 2) < 10914; i += 1) {
-    if ((i & 1) == 0) {
-      normalize += 1.0 / ((double)i / 2);
-    }
-
-    if (osc_buzz) {
-      normalize += 1.0 / i / 2;
-    }
-  }
-
-  double detune_normalize = 0;
-
-  for (int i = 1; (i * detune_freq / 2) < 10914; i += 1) {
-    if ((i & 1) == 0) {
-      detune_normalize += 1.0 / ((double)i / 2);
-    }
-
-    if (osc_buzz) {
-      detune_normalize += 1.0 / i / 2;
-    }
-  }
-
-  if (osc_buzz) {
-    normalize /= 0.75;
-    detune_normalize /= 0.75;
-  }
 
   /*
    * Populate buffer
@@ -67,30 +36,18 @@ void mix_sawtooth(int *osc_state, short *chunk_buffer, int chunk_len) {
   int cur_detune_phase = osc_detune_phase;
 
   for (int i = 0; i < chunk_len; i += 1) {
-    const double radians = (((double)cur_phase / 0x10000) * TWO_PI);
-
     /*
      * Primary phasor
      */
-    double amplitude = 0;
-
-    // 10914 = 11025 * 0.99
-    for (int j = 1; (j * freq) < 10914; j += 1) {
-      amplitude -= (1.0 / j) * sin(j * radians);
-    }
+    double amplitude = (double)sample_sawtooth(freq, cur_phase) / 0x10000;
 
     /*
      * Detune phasor
      */
     const int detune_phase = cur_detune_phase << osc_detune_m1;
-    const int detune_partial = detune_phase & 0xffff;
-    const double detune_radians = (((double)detune_partial / 0x10000) * TWO_PI);
 
-    double detune_amplitude = 0;
-
-    for (int j = 1; (j * detune_freq) < 10914; j += 1) {
-      detune_amplitude -= (1.0 / j) * sin(j * detune_radians);
-    }
+    double detune_amplitude =
+        (double)sample_sawtooth(detune_freq, detune_phase & 0xffff) / 0x10000;
 
     /*
      * Buzz phasors
@@ -99,31 +56,25 @@ void mix_sawtooth(int *osc_state, short *chunk_buffer, int chunk_len) {
      */
     if (osc_buzz) {
       // Primary phasor
-      const double buzz_radians =
-          ((((double)cur_phase / 2) / 0x10000) * TWO_PI);
-
-      for (int j = 1; (j * (freq / 2)) < 10914; j += 1) {
-        amplitude -= (1.0 / j / 2) * sin(j * buzz_radians);
-      }
+      amplitude += (double)sample_sawtooth(freq / 2, cur_phase / 2) / 0x10000;
 
       // Detune phasor
-      const double buzz_detune_radians =
-          ((((double)detune_phase / 2) / 0x10000) * TWO_PI);
+      detune_amplitude +=
+          (double)sample_sawtooth(detune_freq / 2, detune_phase / 2) / 0x10000;
 
-      for (int j = 1; (j * (freq / 2)) < 10914; j += 1) {
-        detune_amplitude -= (1.0 / j / 2) * sin(j * buzz_detune_radians);
-      }
+      amplitude /= 2;
+      detune_amplitude /= 2;
     }
 
     /*
      * Mix sample
      */
-    amplitude = (amplitude / normalize) * 0x8000;
-    detune_amplitude = (detune_amplitude / detune_normalize) * 0x4000;
+    amplitude *= 0x8000;
+    detune_amplitude *= 0x4000;
 
     // Write new sample
-    const int s_pregain = amplitude + detune_amplitude;
-    const int s = (s_pregain * osc_amplitude) / 3072;
+    const double s_prefader = amplitude + detune_amplitude;
+    const double s = (s_prefader * osc_amplitude) / 3072;
     chunk_buffer[i] = (short)s;
 
     // Increment phase
