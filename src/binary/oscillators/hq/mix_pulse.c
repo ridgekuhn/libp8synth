@@ -1,4 +1,4 @@
-#include <math.h>
+// #include "./phasors/sample_pulse.c"
 
 /**
  * Mix pulse oscillator
@@ -20,7 +20,6 @@ void mix_pulse(int *osc_state, short *chunk_buffer, int chunk_len,
   const int osc_vol = osc_state[7];
   const int osc_detune_phase_inc = osc_state[4];
   const int osc_detune = osc_state[20];
-  const int osc_detune_m1 = osc_detune == 2 ? 1 : 0;
   const int osc_detune_phase =
       osc_phase_inc == osc_detune_phase_inc ? osc_phase : osc_phase_detuned;
   const int osc_amplitude = (osc_vol * 3) / 2;
@@ -28,28 +27,9 @@ void mix_pulse(int *osc_state, short *chunk_buffer, int chunk_len,
   /*
    * Buffer constants
    */
-  const double TWO_PI = M_PI * 2;
   const int duty_cycle = osc_buzz ? duty_cycle_init + 0x1800 : duty_cycle_init;
-  const int L_NUM = 0x10000 / (0x10000 - duty_cycle);
   const int freq = (osc_phase_inc * 22050) >> 16;
   const int detune_freq = (osc_detune_phase_inc * 22050) >> 16;
-
-  double normalize = 0;
-
-  // 10914 = 11025 * 0.99
-  for (int i = 1; (i * freq) < 10914; i += 1) {
-    if (i % L_NUM != 0) {
-      normalize += 1.0 / i;
-    }
-  }
-
-  double detune_normalize = 0;
-
-  for (int i = 1; (i * detune_freq) < 10914; i += 1) {
-    if (i % L_NUM != 0) {
-      detune_normalize += 1.0 / i;
-    }
-  }
 
   /*
    * Populate buffer
@@ -61,43 +41,28 @@ void mix_pulse(int *osc_state, short *chunk_buffer, int chunk_len,
     /*
      * Primary phasor
      */
-    const double radians = ((double)cur_phase / 0x10000) * TWO_PI;
-
-    double amplitude = 0;
-
-    // 10914 = 11025 * 0.99
-    for (int j = 1; (j * freq) < 10914; j += 1) {
-      if (j % L_NUM != 0) {
-        amplitude -= (1.0 / j) * sin(j * radians);
-      }
-    }
+    double amplitude =
+        (double)sample_pulse(freq, cur_phase, duty_cycle) / 0x10000;
 
     /*
      * Detune phasor
      */
     const int detune_phase =
         osc_detune == 2 ? cur_detune_phase << 1 : cur_detune_phase;
-    const double detune_radians =
-        ((double)(detune_phase & 0xffff) / 0x10000) * TWO_PI;
 
-    double detune_amplitude = 0;
-
-    // 10914 = 11025 * 0.99
-    for (int j = 1; (j * detune_freq) < 10914; j += 1) {
-      if (j % L_NUM != 0) {
-        detune_amplitude -= (1.0 / j) * sin(j * detune_radians);
-      }
-    }
+    double detune_amplitude =
+        (double)sample_pulse(detune_freq, detune_phase & 0xffff, duty_cycle) /
+        0x10000;
 
     /*
      * Mix sample
      */
-    amplitude = (amplitude / normalize) * 0x5ffc;
-    detune_amplitude = (detune_amplitude / detune_normalize) * 0x2ffc;
+    amplitude *= 0x5ffc;
+    detune_amplitude *= 0x2ffc;
 
     // Write new sample
-    const int s_pregain = amplitude + detune_amplitude;
-    const int s = (s_pregain * osc_amplitude) / 3072;
+    const double s_prefader = amplitude + detune_amplitude;
+    const double s = (s_prefader * osc_amplitude) / 3072;
     chunk_buffer[i] = (short)s;
 
     // Increment phase
