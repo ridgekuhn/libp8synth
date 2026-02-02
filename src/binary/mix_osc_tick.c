@@ -53,7 +53,7 @@ void mix_osc_tick(int *osc_state, short *chunk_buffer, int chunk_len,
 
   // Tilted sawtooth waveform
   if (waveform == 1) {
-    mix_supersaw(osc_state, chunk_buffer, chunk_len);
+    mix_tilted(osc_state, chunk_buffer, chunk_len);
   }
 
   // Sawtooth waveform
