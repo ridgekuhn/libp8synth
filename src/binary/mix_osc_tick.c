@@ -63,10 +63,10 @@ void mix_osc_tick(int *osc_state, short *chunk_buffer, int chunk_len,
 
   // Square waveform
   if (waveform == 3) {
-    mix_pulse(osc_state, chunk_buffer, chunk_len, 0x8000);
+    mix_square(osc_state, chunk_buffer, chunk_len);
   }
 
-  // 25% duty cycle pulse waveform
+  // 75% duty cycle pulse waveform
   if (waveform == 4) {
     mix_pulse(osc_state, chunk_buffer, chunk_len, 0xb000);
   }

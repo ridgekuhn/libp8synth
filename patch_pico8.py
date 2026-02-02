@@ -36,6 +36,8 @@ phasors = [
 oscillators = [
 	["mix_organ", "./src/binary/oscillators/aliased/mix_organ.c"],
 	["mix_pulse", "./src/binary/oscillators/hq/mix_pulse.c"],
+	# mix_square must come after mix_pulse
+	["mix_square", "./src/binary/oscillators/hq/mix_square.c"],
 	["mix_sawtooth", "./src/binary/oscillators/hq/mix_sawtooth.c"],
 	["mix_supersaw", "./src/binary/oscillators/aliased/mix_supersaw.c"],
 	["mix_triangle", "./src/binary/oscillators/aliased/mix_triangle.c"],
