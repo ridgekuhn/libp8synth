@@ -26,6 +26,7 @@ args = parser.parse_args()
 os.makedirs("./out", exist_ok=True)
 
 phasors = [
+    ["sample_organ", "./src/binary/oscillators/hq/phasors/sample_organ.c"],
     ["sample_pulse", "./src/binary/oscillators/hq/phasors/sample_pulse.c"],
     ["sample_sawtooth", "./src/binary/oscillators/hq/phasors/sample_sawtooth.c"],
     ["sample_square", "./src/binary/oscillators/hq/phasors/sample_square.c"],
