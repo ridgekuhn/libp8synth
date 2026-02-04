@@ -8,17 +8,19 @@ Pico-8 is the property of [Lexaloffle Games LLP](https://www.lexaloffle.com/). T
 
 ---
 
-Pico-8's oscillators output "naive" waveforms, resulting in [aliasing distortion](https://en.wikipedia.org/wiki/Aliasing). The goal of this project is to provide patches for Pico-8's synthesizer to remove this distortion, allowing for high-quality audio exports suitable for mixing in professional audio applications.
-
 ### Project State
+
+Pico-8's oscillators output "naive" waveforms, resulting in [aliasing distortion](https://en.wikipedia.org/wiki/Aliasing). The goal of this project is to provide patches for Pico-8's synthesizer to remove this distortion, allowing for high-quality audio exports suitable for mixing in professional audio applications.
 
 * [Aliased oscillators](/src/binary/oscillators/aliased) have been reimplemented.
 
-* [High-quality oscillators](/src/binary/oscillators/hq) are partially implemented. Pull requests welcome.
+* [High-quality oscillators](/src/binary/oscillators/hq) are implemented (tone-generating oscillators only), but are not completely accurate yet. A fast CPU is recommended for realtime playback.
 
 * [Fast oscillators](/src/binary/fast), such as with [polyblep](https://www.kvraudio.com/forum/viewtopic.php?t=375517) are partially implemented, but the results are not ideal. Oversampling, or other algorithms should be explored. Pull requests welcome.
 
 ## Development
+
+Please make any pull requests against the [dev branch](https://github.com/ridgekuhn/libz8synth/tree/dev).
 
 ### Mixer Logic
 
