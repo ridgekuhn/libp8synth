@@ -22,7 +22,7 @@ int sample_organ(int freq, int t) {
   // 10914 = 11025 * 0.99
   for (int i = 0; (i * freq * 2) < 10914; i += 1) {
     const int n = 2 * i + 1;
-    const double magnitude = pow(-1.0, i) / (n * n);
+    const double magnitude = (i & 1 ? -1.0 : 1.0) / (n * n);
 
     amplitude -= magnitude * sin(n * radians) / 2;
     amplitude -= magnitude * sin(n * radians2);
