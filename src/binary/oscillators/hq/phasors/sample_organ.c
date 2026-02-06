@@ -13,8 +13,9 @@ int sample_organ(int freq, int t) {
     return 0;
   }
 
-  const double radians = ((double)t / 0x10000) * 2 * M_PI;
-  const double radians2 = ((double)t * 2 / 0x10000) * 2 * M_PI;
+	const double new_t = t + 0xa000;
+  const double radians = (new_t / 0x10000) * 2 * M_PI;
+  const double radians2 = (new_t * 2 / 0x10000) * 2 * M_PI;
 
   double amplitude = 0;
   double normalize = 0;
