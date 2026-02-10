@@ -48,20 +48,20 @@ void mix_organ(int *osc_state, short *chunk_buffer, int chunk_len) {
     double detune_amplitude = 0;
 
     if (osc_buzz) {
-      const int duty_cycle = 0x8000 >> osc_detune_m1;
+      const int m = 1 << osc_detune_m1;
 
       detune_amplitude =
-          (double)sample_pulse(detune_freq, detune_partial, duty_cycle) / 0x10000;
+          (double)sample_square(detune_freq * m, detune_partial * m) / 0x10000;
     } else {
       detune_amplitude =
-          (double)sample_organ(detune_freq, detune_partial) / 0x10000 / 2;
+          (double)sample_organ(detune_freq, detune_partial << osc_detune_m1) / 0x10000 / 2;
     }
 
     /*
      * Mix sample
      */
-    amplitude *= 0x2000;
-    detune_amplitude *= osc_buzz ? 0x17fc : 0x1000;
+    amplitude *= 0x1800;
+    detune_amplitude *= osc_buzz ? 0x17fc : 0x1800;
 
     const double s_prefader = amplitude + detune_amplitude;
     const double s = (s_prefader * osc_amplitude) / 3072;
