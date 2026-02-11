@@ -10,21 +10,23 @@ Pico-8 is the property of [Lexaloffle Games LLP](https://www.lexaloffle.com/). T
 
 ### Project State
 
-Pico-8's oscillators output "naive" waveforms, resulting in [aliasing distortion](https://en.wikipedia.org/wiki/Aliasing). The goal of this project is to provide patches for Pico-8's synthesizer to remove this distortion, allowing for high-quality audio exports suitable for mixing in professional audio applications.
+Pico-8's oscillators output "naive" waveforms, resulting in [aliasing distortion](https://en.wikipedia.org/wiki/Aliasing). Some output signals also contain a [DC offset](https://en.wikipedia.org/wiki/DC_bias#Audio). The goal of this project is to address these issues by providing patches for Pico-8's synthesizer.
 
-* [Aliased oscillators](/src/binary/oscillators/aliased) have been reimplemented.
+* [Aliased oscillators](/src/binary/oscillators/aliased) are reimplemented.
 
-* [High-quality oscillators](/src/binary/oscillators/hq) are implemented (tone-generating oscillators only), but are not completely accurate yet. A fast CPU is recommended for realtime playback.
+* [High-quality oscillators](/src/binary/oscillators/hq) are implemented (tone-generating oscillators only). A fast CPU is recommended for realtime playback.
 
-* [Fast oscillators](/src/binary/fast), such as with [polyblep](https://www.kvraudio.com/forum/viewtopic.php?t=375517) are partially implemented, but the results are not ideal. Oversampling, or other algorithms should be explored. Pull requests welcome.
+* [Fast oscillators](/src/binary/fast), such as using [polyblep](https://www.kvraudio.com/forum/viewtopic.php?t=375517) are partially implemented. Oversampling, or other algorithms should be explored. Pull requests welcome.
 
 ## Development
 
-Please make any pull requests against the [dev branch](https://github.com/ridgekuhn/libz8synth/tree/dev).
+Please make pull requests against the [dev branch](https://github.com/ridgekuhn/libz8synth/tree/dev).
 
 ### Mixer Logic
 
-The Pico-8 host uses SDL2 for audio output, supplied by an [SDL_AudioCallback](https://wiki.libsdl.org/SDL2/SDL_AudioCallback) function. On SDL audio initialization, Pico-8 is capable of requesting either 2-channel stereo output at 44100Hz, or 1-channel mono output at 22050Hz; though internally, the mixing buffer is always a 1-channel 22050Hz stream, and most references to it and related calculations are hard-coded.
+The Pico-8 host uses SDL2 for audio output, supplied by an [SDL_AudioCallback](https://wiki.libsdl.org/SDL2/SDL_AudioCallback) function.
+
+On SDL audio initialization, Pico-8 is capable of requesting either 2-channel stereo output at 44100Hz, or 1-channel mono output at 22050Hz; though internally, the mixing buffer is always a 1-channel 22050Hz stream, and most references to it and related calculations are hard-coded.
 
 Inside the mixer callback:
 
