@@ -24,6 +24,7 @@ void mix_square(int *osc_state, short *chunk_buffer, int chunk_len) {
   const int osc_vol = osc_state[7];
   const int osc_detune_phase_inc = osc_state[4];
   const int osc_detune = osc_state[20];
+  const int osc_detune_m1 = osc_detune == 2 ? 1 : 0;
   const int osc_detune_phase =
       osc_phase_inc == osc_detune_phase_inc ? osc_phase : osc_phase_detuned;
   const int osc_amplitude = (osc_vol * 3) / 2;
@@ -49,11 +50,10 @@ void mix_square(int *osc_state, short *chunk_buffer, int chunk_len) {
     /*
      * Detune phasor
      */
-    const int detune_phase =
-        osc_detune == 2 ? cur_detune_phase << 1 : cur_detune_phase;
-
     double detune_amplitude =
-        (double)sample_square(detune_freq, detune_phase & 0xffff) / 0x10000;
+        (double)sample_square(detune_freq << osc_detune_m1,
+                              (cur_detune_phase << osc_detune_m1) & 0xffff) /
+        0x10000;
 
     /*
      * Mix sample
