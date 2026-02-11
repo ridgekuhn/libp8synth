@@ -24,6 +24,7 @@ void mix_pulse(int *osc_state, short *chunk_buffer, int chunk_len,
   const int osc_detune_phase =
       osc_phase_inc == osc_detune_phase_inc ? osc_phase : osc_phase_detuned;
   const int osc_amplitude = (osc_vol * 3) / 2;
+  const int sfx_step_pitch = osc_state[15];
 
   /*
    * Buffer constants
@@ -56,8 +57,8 @@ void mix_pulse(int *osc_state, short *chunk_buffer, int chunk_len,
     /*
      * Mix sample
      */
-    amplitude *= 0x5ffc;
-    detune_amplitude *= 0x2ffc;
+    amplitude *= 0x5ffc - ((0x2ffe / 64.0) * sfx_step_pitch);
+    detune_amplitude *= 0x2ffc - ((0x17fe / 64.0) * sfx_step_pitch);
 
     // Write new sample
     const double s_prefader = amplitude + detune_amplitude;
