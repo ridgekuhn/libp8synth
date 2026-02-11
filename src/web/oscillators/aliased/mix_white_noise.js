@@ -28,7 +28,6 @@ function mix_white_noise(osc_state, chunk_buffer, chunk_len) {
 
 	const noiz = c[(osc_state + 88) >> 2];
 	const osc_amplitude = (osc_vol * 3) / 2;
-	const osc_11 = c[osc_11_addr >> 2];
 
 	/*
 	 * Buffer state
@@ -41,36 +40,34 @@ function mix_white_noise(osc_state, chunk_buffer, chunk_len) {
 	/*
 	 * Populate buffer
 	 */
-	let osc_11_accumulator = osc_11;
-
 	for (let i = 0; i < chunk_len; i += 1) {
-		let s;
+		let s_pregain;
 
-		if (osc_11) {
-			osc_11_accumulator = osc_11;
+		if (c[osc_11_addr >> 2]) {
+			osc_11_accumulator = c[osc_11_addr >> 2];
 
 			if (noiz > 1) {
-				const x = B(osc_11, osc_amplitude) / pitch_inverse;
+				const x = B(c[osc_11_addr >> 2], osc_amplitude) / pitch_inverse;
 				const y = B(
 					c[osc_12_addr >> 2],
-					B(pitch_inverse - osc_11, osc_amplitude) / pitch_inverse,
+					B(pitch_inverse - c[osc_11_addr >> 2], osc_amplitude) / pitch_inverse,
 				);
 
-				s = (B(c[osc_13_addr >> 2], x) + y) / 2048;
+				s_pregain = B(c[osc_13_addr >> 2], x) + y;
 			} else {
-				s = B(c[osc_12_addr >> 2], osc_amplitude) / 2048;
+				s_pregain = B(c[osc_12_addr >> 2], osc_amplitude);
 			}
 		} else {
-			osc_11_accumulator = c[osc_11_addr >> 2];
 			c[osc_12_addr >> 2] = c[osc_13_addr >> 2];
 			c[osc_13_addr >> 2] = tp(0x2ffe) - 0x17ff;
 
-			s = B(c[osc_12_addr >> 2], osc_amplitude) / 2048;
+			s_pregain = B(c[osc_12_addr >> 2], osc_amplitude);
 		}
 
-		c[osc_11_addr >> 2] = (osc_11_accumulator + 1) % pitch_inverse;
+		c[osc_11_addr >> 2] = (c[osc_11_addr >> 2] + 1) % pitch_inverse;
 
 		// Write new sample
+		const s = s_pregain / 2048;
 		b[(chunk_buffer + (i << 1)) >> 1] = s;
 	}
 

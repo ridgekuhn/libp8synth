@@ -17,13 +17,11 @@ void mix_white_noise(int *osc_state, short *chunk_buffer, int chunk_len) {
   const int osc_phase_inc = osc_state[2];
   const int osc_vol = osc_state[7];
   const int osc_detune_phase_inc = osc_state[4];
-  const int osc_detune_phase = osc_phase_inc == osc_detune_phase_inc
-                                   ? osc_phase
-                                   : osc_phase_detuned;
-
   const int noiz = osc_state[22];
+
+  const int osc_detune_phase =
+      osc_phase_inc == osc_detune_phase_inc ? osc_phase : osc_phase_detuned;
   const int osc_amplitude = (osc_vol * 3) / 2;
-  const int osc_11 = osc_state[11];
 
   /*
    * Buffer state
@@ -39,12 +37,12 @@ void mix_white_noise(int *osc_state, short *chunk_buffer, int chunk_len) {
   for (int i = 0; i < chunk_len; i += 1) {
     double s_pregain;
 
-    if (osc_11) {
+    if (osc_state[11]) {
       if (noiz > 1) {
-        const int x = (osc_11 * osc_amplitude) / pitch_inverse;
+        const int x = (osc_state[11] * osc_amplitude) / pitch_inverse;
         const int y =
             osc_state[12] *
-            (((pitch_inverse - osc_11) * osc_amplitude) / pitch_inverse);
+            (((pitch_inverse - osc_state[11]) * osc_amplitude) / pitch_inverse);
 
         s_pregain = (osc_state[13] * x) + y;
       } else {
@@ -57,6 +55,8 @@ void mix_white_noise(int *osc_state, short *chunk_buffer, int chunk_len) {
       s_pregain = osc_state[12] * osc_amplitude;
     }
 
+    osc_state[11] = (osc_state[11] + 1) % pitch_inverse;
+
     // Write new sample
     const double s = s_pregain / 2048;
     chunk_buffer[i] = (short)s;
@@ -65,5 +65,4 @@ void mix_white_noise(int *osc_state, short *chunk_buffer, int chunk_len) {
   // Update oscillator state
   osc_state[1] = osc_phase;
   osc_state[3] = osc_detune_phase;
-  osc_state[11] = (osc_state[11] + 1) % pitch_inverse;
 }
