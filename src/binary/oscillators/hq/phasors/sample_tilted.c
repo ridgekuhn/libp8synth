@@ -13,7 +13,7 @@ int sample_tilted(int freq, int t, int duty_cycle) {
   }
 
   // Offset phase by 1/2 duty_cycle
-  const double new_t = (t - (duty_cycle / 2.0)) / 0x10000;
+  const double new_t = (t + duty_cycle / 2.0) / 0x10000;
   const double radians = new_t * 2 * M_PI;
   const double duty_radians = ((double)duty_cycle / 0x10000) * M_PI;
 

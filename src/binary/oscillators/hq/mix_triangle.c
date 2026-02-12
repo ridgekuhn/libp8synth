@@ -52,22 +52,22 @@ void mix_triangle(int *osc_state, short *chunk_buffer, int chunk_len) {
      */
     if (osc_buzz) {
       const double tilt_amp =
-          (double)sample_tilted(freq, cur_phase, 0xe000) / 0x10000;
+          (double)sample_tilted(freq, cur_phase, 0x2001) / 0x10000;
 
       const double detune_tilt_amp =
           (double)sample_tilted(detune_freq, cur_detune_phase & 0xffff,
-                                0xe000) /
+                                0x2001) /
           0x10000;
 
-      amplitude = (amplitude * 0.75) - (tilt_amp / 4);
-      detune_amplitude = (detune_amplitude * 0.75) - (detune_tilt_amp / 4);
+      amplitude = amplitude * 0.75 + tilt_amp / 2.1;
+      detune_amplitude = detune_amplitude * 0.75 + detune_tilt_amp / 2.1;
     }
 
     /*
      * Mix sample
      */
-    amplitude *= 0x2000;
-    detune_amplitude *= 0x1000;
+    amplitude *= 0x2380;
+    detune_amplitude *= 0x11c0;
 
     // Write new sample
     const double s_prefader = amplitude + detune_amplitude;

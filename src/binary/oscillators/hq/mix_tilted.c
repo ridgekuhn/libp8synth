@@ -42,25 +42,28 @@ void mix_supersaw(int *osc_state, short *chunk_buffer, int chunk_len) {
     double detune_amplitude = 0;
 
     if (osc_buzz) {
-      amplitude = (double)sample_tilted(freq, cur_phase, 0x1000) / 0x10000 * 4;
+      amplitude = (double)sample_tilted(freq, cur_phase, 0x1001) / 0x10000;
 
       detune_amplitude =
-          (double)sample_tilted(detune_freq, detune_phase & 0xffff, 0x1000) /
-          0x10000 * 4;
+          (double)sample_tilted(detune_freq, detune_phase & 0xffff, 0x1001) /
+          0x10000;
+
+      amplitude *= 0x5554;
+      detune_amplitude *= 0x2aaa;
+    } else {
+      amplitude = (double)sample_tilted(freq, cur_phase, 0x2001) / 0x10000;
+
+      detune_amplitude =
+          (double)sample_tilted(detune_freq, detune_phase & 0xffff, 0x2001) /
+          0x10000;
+
+      amplitude *= 0x4380;
+      detune_amplitude *= 0x21c0;
     }
-
-    amplitude = (double)sample_tilted(freq, cur_phase, 0x2000) / 0x10000;
-
-    detune_amplitude =
-        (double)sample_tilted(detune_freq, detune_phase & 0xffff, 0x2000) /
-        0x10000;
 
     /*
      * Mix sample
      */
-    amplitude *= 0x4000;
-    detune_amplitude *= 0x2000;
-
     const double s_prefader = amplitude + detune_amplitude;
     const double s = (s_prefader * osc_amplitude) / 3072;
     chunk_buffer[i] = (short)s;
