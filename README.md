@@ -1,4 +1,4 @@
-# libp8synth
+# libz8synth
 
 A library for community patching of [Pico-8](https://www.lexaloffle.com/pico-8.php)'s synthesizer.
 
@@ -14,7 +14,7 @@ Pico-8's oscillators output "naive" waveforms, resulting in [aliasing distortion
 
 * [Aliased oscillators](/src/binary/oscillators/aliased) are reimplemented.
 
-* [High-quality oscillators](/src/binary/oscillators/hq) are implemented (tone-generating oscillators only). A fast CPU is recommended for realtime playback.
+* [High-quality oscillators](/src/binary/oscillators/hq) are implemented (tone-generating oscillators only). A very fast CPU is required for realtime playback.
 
 * [Fast oscillators](/src/binary/fast), such as using [polyblep](https://www.kvraudio.com/forum/viewtopic.php?t=375517) are partially implemented. Oversampling, or other algorithms should be explored. Pull requests welcome.
 
