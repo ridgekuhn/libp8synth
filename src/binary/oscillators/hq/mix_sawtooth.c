@@ -27,7 +27,8 @@ void mix_sawtooth(int *osc_state, short *chunk_buffer, int chunk_len) {
    * Buffer Constants
    */
   const int freq = (osc_phase_inc * 22050) >> 16;
-  const int detune_freq = (osc_detune_phase_inc * 22050) >> 16;
+  const int detune_freq = ((osc_detune_phase_inc * 22050) >> 16)
+                          << osc_detune_m1;
 
   /*
    * Populate buffer
@@ -56,11 +57,13 @@ void mix_sawtooth(int *osc_state, short *chunk_buffer, int chunk_len) {
      */
     if (osc_buzz) {
       // Primary phasor
-      amplitude += (double)sample_sawtooth(freq / 2, cur_phase / 2) / 0x10000;
+      amplitude += (double)sample_sawtooth(freq, cur_phase) / 0x10000 / 2;
 
       // Detune phasor
       detune_amplitude +=
-          (double)sample_sawtooth(detune_freq / 2, detune_phase / 2) / 0x10000;
+          ((double)sample_sawtooth(detune_freq / 4, detune_phase / 4) /
+           0x10000) *
+          2;
 
       amplitude /= 2;
       detune_amplitude /= 2;
@@ -69,8 +72,8 @@ void mix_sawtooth(int *osc_state, short *chunk_buffer, int chunk_len) {
     /*
      * Mix sample
      */
-    amplitude *= 0x8000;
-    detune_amplitude *= 0x4000;
+    amplitude *= 0x7000;
+    detune_amplitude *= 0x3800;
 
     // Write new sample
     const double s_prefader = amplitude + detune_amplitude;
