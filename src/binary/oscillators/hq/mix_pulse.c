@@ -51,7 +51,8 @@ void mix_pulse(int *osc_state, short *chunk_buffer, int chunk_len,
      */
     double detune_amplitude =
         (double)sample_pulse(detune_freq << osc_detune_m1,
-                              (cur_detune_phase << osc_detune_m1) & 0xffff) /
+                             (cur_detune_phase << osc_detune_m1) & 0xffff,
+                             duty_cycle) /
         0x10000;
 
     /*
