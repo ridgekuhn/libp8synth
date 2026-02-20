@@ -29,5 +29,5 @@ int sample_tilted(int freq, int t, int duty_cycle) {
     normalize += magnitude;
   }
 
-  return (amplitude / normalize) * 0x10000;
+  return (amplitude / normalize) * 0x100000;
 }

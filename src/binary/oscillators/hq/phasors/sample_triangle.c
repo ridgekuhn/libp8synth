@@ -26,5 +26,5 @@ int sample_triangle(int freq, int t) {
     normalize += magnitude;
   }
 
-  return (amplitude / normalize) * 0x10000;
+  return (amplitude / normalize) * 0x100000;
 }

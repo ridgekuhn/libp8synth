@@ -38,26 +38,26 @@ void mix_triangle(int *osc_state, short *chunk_buffer, int chunk_len) {
     /*
      * Primary phasor
      */
-    double amplitude = (double)sample_triangle(freq, cur_phase) / 0x10000;
+    double amplitude = (double)sample_triangle(freq, cur_phase) / 0x100000;
 
     /*
      * Detune phasor
      */
     double detune_amplitude =
         (double)sample_triangle(detune_freq, cur_detune_phase & 0xffff) /
-        0x10000;
+        0x100000;
 
     /*
      * Buzz phasors
      */
     if (osc_buzz) {
       const double tilt_amp =
-          (double)sample_tilted(freq, cur_phase, 0x2001) / 0x10000;
+          (double)sample_tilted(freq, cur_phase, 0x2001) / 0x100000;
 
       const double detune_tilt_amp =
           (double)sample_tilted(detune_freq, cur_detune_phase & 0xffff,
                                 0x2001) /
-          0x10000;
+          0x100000;
 
       amplitude = amplitude * 0.75 + tilt_amp / 2.1;
       detune_amplitude = detune_amplitude * 0.75 + detune_tilt_amp / 2.1;

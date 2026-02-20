@@ -44,7 +44,7 @@ void mix_pulse(int *osc_state, short *chunk_buffer, int chunk_len,
      * Primary phasor
      */
     double amplitude =
-        (double)sample_pulse(freq, cur_phase, duty_cycle) / 0x10000;
+        (double)sample_pulse(freq, cur_phase, duty_cycle) / 0x100000;
 
     /*
      * Detune phasor
@@ -53,7 +53,7 @@ void mix_pulse(int *osc_state, short *chunk_buffer, int chunk_len,
         (double)sample_pulse(detune_freq << osc_detune_m1,
                              (cur_detune_phase << osc_detune_m1) & 0xffff,
                              duty_cycle) /
-        0x10000;
+        0x100000;
 
     /*
      * Mix sample
