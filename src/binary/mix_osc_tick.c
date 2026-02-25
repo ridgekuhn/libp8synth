@@ -13,11 +13,11 @@
  * @see mix_reverb()
  *
  * @param osc_state Mixer channel oscillator state
- * @param chunk_buffer Mixer channel chunk buffer
- * @param chunk_len Length of chunk_buffer in samples
+ * @param tick_buffer Mixer channel tick buffer
+ * @param chunk_len Length of tick_buffer in samples
  * @param ch_state Mixer channel state
  */
-void mix_osc_tick(int *osc_state, short *chunk_buffer, int chunk_len,
+void mix_osc_tick(int *osc_state, short *tick_buffer, int chunk_len,
                   long ch_state) {
   // Nothing to do
   if (chunk_len <= 0) {
@@ -34,7 +34,7 @@ void mix_osc_tick(int *osc_state, short *chunk_buffer, int chunk_len,
   // 0x2ee4 = 0x2ed8 (-0xc) in asm.js export
   if (osc_vol == 0 && *(int *)(ch_state + 0x2ee4) == 0) {
     osc_state[1] = 0;
-    memset(chunk_buffer, 0, chunk_len << 1);
+    memset(tick_buffer, 0, chunk_len << 1);
     return;
   }
 
@@ -43,46 +43,46 @@ void mix_osc_tick(int *osc_state, short *chunk_buffer, int chunk_len,
    */
   // Wavetable frame
   if (waveform == 8) {
-    mix_wavetable(osc_state, chunk_buffer, chunk_len);
+    mix_wavetable(osc_state, tick_buffer, chunk_len);
   }
 
   // Triangle, phaser waveforms
   if (waveform == 0 || waveform == 7) {
-    mix_triangle(osc_state, chunk_buffer, chunk_len);
+    mix_triangle(osc_state, tick_buffer, chunk_len);
   }
 
   // Tilted sawtooth waveform
   if (waveform == 1) {
-    mix_tilted(osc_state, chunk_buffer, chunk_len);
+    mix_tilted(osc_state, tick_buffer, chunk_len);
   }
 
   // Sawtooth waveform
   if (waveform == 2) {
-    mix_sawtooth(osc_state, chunk_buffer, chunk_len);
+    mix_sawtooth(osc_state, tick_buffer, chunk_len);
   }
 
   // Square waveform
   if (waveform == 3) {
-    mix_square(osc_state, chunk_buffer, chunk_len);
+    mix_square(osc_state, tick_buffer, chunk_len);
   }
 
   // 75% duty cycle pulse waveform
   if (waveform == 4) {
-    mix_pulse(osc_state, chunk_buffer, chunk_len, 0xb000);
+    mix_pulse(osc_state, tick_buffer, chunk_len, 0xb000);
   }
 
   // Organ waveform
   if (waveform == 5) {
-    mix_organ(osc_state, chunk_buffer, chunk_len);
+    mix_organ(osc_state, tick_buffer, chunk_len);
   }
 
   // Noise waveform
   if (waveform == 6) {
-    mix_noise(osc_state, chunk_buffer, chunk_len);
+    mix_noise(osc_state, tick_buffer, chunk_len);
   }
 
   /*
    * Apply buffer reverb
    */
-  mix_reverb(osc_state, chunk_buffer, chunk_len, ch_state);
+  mix_reverb(osc_state, tick_buffer, chunk_len, ch_state);
 }

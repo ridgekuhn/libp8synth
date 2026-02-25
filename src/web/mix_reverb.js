@@ -2,11 +2,11 @@
  * Mix reverb
  *
  * @param osc_state Mixer channel oscillator state
- * @param chunk_buffer Mixer channel chunk buffer
- * @param chunk_len Length of chunk_buffer in bytes
+ * @param tick_buffer Mixer channel tick buffer
+ * @param chunk_len Length of tick_buffer in bytes
  * @param ch_state Mixer channel state
  */
-function mix_reverb(osc_state, chunk_buffer, chunk_len, ch_state) {
+function mix_reverb(osc_state, tick_buffer, chunk_len, ch_state) {
 	/*
 	 * Oscillator state
 	 */
@@ -26,7 +26,7 @@ function mix_reverb(osc_state, chunk_buffer, chunk_len, ch_state) {
 	 * Apply buffer reverb
 	 */
 	for (let i = 0; i < chunk_len; i += 1) {
-		const sample_addr = chunk_buffer + (i << 1);
+		const sample_addr = tick_buffer + (i << 1);
 		const sample = b[sample_addr >> 1];
 		// 0x21a2 = 0x21ae (+0xc) in p8 binary
 		const reverb_addr = ch_state + 0x21a2 + reverb_offset * 366 + (i << 1);

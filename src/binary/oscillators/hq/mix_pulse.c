@@ -4,11 +4,11 @@
  * Mix pulse oscillator
  *
  * @param osc_state Mixer channel oscillator state
- * @param chunk_buffer Mixer channel chunk buffer
- * @param chunk_len Length of chunk_buffer in samples
+ * @param tick_buffer Mixer channel tick buffer
+ * @param chunk_len Length of tick_buffer in samples
  * @param duty_cycle_init 0x10000 - duty cycle
  */
-void mix_pulse(int *osc_state, short *chunk_buffer, int chunk_len,
+void mix_pulse(int *osc_state, short *tick_buffer, int chunk_len,
                int duty_cycle_init) {
   /*
    * Oscillator state
@@ -64,7 +64,7 @@ void mix_pulse(int *osc_state, short *chunk_buffer, int chunk_len,
     // Write new sample
     const double s_prefader = amplitude + detune_amplitude;
     const double s = (s_prefader * osc_amplitude) / 3072;
-    chunk_buffer[i] = (short)s;
+    tick_buffer[i] = (short)s;
 
     // Increment phase
     cur_phase = (cur_phase + osc_phase_inc) & 0xffff;

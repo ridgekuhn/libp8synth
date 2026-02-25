@@ -8,10 +8,10 @@
  * @see mix_white_noise()
  *
  * @param osc_state Mixer channel oscillator state
- * @param chunk_buffer Mixer channel chunk buffer
- * @param chunk_len Length of chunk_buffer in bytes
+ * @param tick_buffer Mixer channel tick buffer
+ * @param chunk_len Length of tick_buffer in bytes
  */
-function mix_noise(osc_state, chunk_buffer, chunk_len) {
+function mix_noise(osc_state, tick_buffer, chunk_len) {
 	/*
 	 * Oscillator state
 	 */
@@ -22,14 +22,14 @@ function mix_noise(osc_state, chunk_buffer, chunk_len) {
 	 * Populate buffer
 	 */
 	if (osc_noiz) {
-		mix_white_noise(osc_state, chunk_buffer, chunk_len);
+		mix_white_noise(osc_state, tick_buffer, chunk_len);
 		return;
 	}
 
 	if (osc_buzz) {
-		mix_brown_noise(osc_state, chunk_buffer, chunk_len);
+		mix_brown_noise(osc_state, tick_buffer, chunk_len);
 		return;
 	}
 
-	mix_pink_noise(osc_state, chunk_buffer, chunk_len);
+	mix_pink_noise(osc_state, tick_buffer, chunk_len);
 }

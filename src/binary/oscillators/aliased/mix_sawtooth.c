@@ -2,10 +2,10 @@
  * Mix sawtooth oscillator
  *
  * @param osc_state Mixer channel oscillator state
- * @param chunk_buffer Mixer channel chunk buffer
- * @param chunk_len Length of chunk_buffer in samples
+ * @param tick_buffer Mixer channel tick buffer
+ * @param chunk_len Length of tick_buffer in samples
  */
-void mix_sawtooth(int *osc_state, short *chunk_buffer, int chunk_len) {
+void mix_sawtooth(int *osc_state, short *tick_buffer, int chunk_len) {
   /*
    * Oscillator state
    */
@@ -17,9 +17,8 @@ void mix_sawtooth(int *osc_state, short *chunk_buffer, int chunk_len) {
   const int osc_detune_phase_inc = osc_state[4];
   const int osc_detune = osc_state[20];
   const int osc_detune_m1 = osc_detune == 2 ? 1 : 0;
-  const int osc_detune_phase = osc_phase_inc == osc_detune_phase_inc
-                                   ? osc_phase
-                                   : osc_phase_detuned;
+  const int osc_detune_phase =
+      osc_phase_inc == osc_detune_phase_inc ? osc_phase : osc_phase_detuned;
   const int osc_amplitude = (osc_vol * 3) / 2;
 
   /*
@@ -49,7 +48,7 @@ void mix_sawtooth(int *osc_state, short *chunk_buffer, int chunk_len) {
     // Write new sample
     const int s_pregain = amplitude + detune_amplitude;
     const int s = (s_pregain * osc_amplitude) / 3072;
-    chunk_buffer[i] = (short)s;
+    tick_buffer[i] = (short)s;
 
     // Increment phase
     cur_phase = (cur_phase + osc_phase_inc) & 0xffff;

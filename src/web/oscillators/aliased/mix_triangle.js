@@ -2,10 +2,10 @@
  * Mix triangle / phaser oscillator
  *
  * @param osc_state Mixer channel oscillator state
- * @param chunk_buffer Mixer channel chunk buffer
- * @param chunk_len Length of chunk_buffer in bytes
+ * @param tick_buffer Mixer channel tick buffer
+ * @param chunk_len Length of tick_buffer in bytes
  */
-function mix_triangle(osc_state, chunk_buffer, chunk_len) {
+function mix_triangle(osc_state, tick_buffer, chunk_len) {
 	/*
 	 * Oscillator state
 	 */
@@ -58,7 +58,7 @@ function mix_triangle(osc_state, chunk_buffer, chunk_len) {
 		// Write buffer
 		const s_pregain = amplitude / 4 + detune_amplitude / 8;
 		const s = B(s_pregain, osc_amplitude) / 3072;
-		b[(chunk_buffer + (i << 1)) >> 1] = s;
+		b[(tick_buffer + (i << 1)) >> 1] = s;
 
 		// Increment phase
 		cur_phase = (cur_phase + osc_phase_inc) & 0xffff;

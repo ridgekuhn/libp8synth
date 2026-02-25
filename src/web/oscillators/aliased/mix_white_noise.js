@@ -4,10 +4,10 @@
  * @see mix_noise()
  *
  * @param osc_state Mixer channel oscillator state
- * @param chunk_buffer Mixer channel chunk buffer
- * @param chunk_len Length of chunk_buffer in bytes
+ * @param tick_buffer Mixer channel tick buffer
+ * @param chunk_len Length of tick_buffer in bytes
  */
-function mix_white_noise(osc_state, chunk_buffer, chunk_len) {
+function mix_white_noise(osc_state, tick_buffer, chunk_len) {
 	/*
 	 * Oscillator state
 	 */
@@ -68,7 +68,7 @@ function mix_white_noise(osc_state, chunk_buffer, chunk_len) {
 
 		// Write new sample
 		const s = s_pregain / 2048;
-		b[(chunk_buffer + (i << 1)) >> 1] = s;
+		b[(tick_buffer + (i << 1)) >> 1] = s;
 	}
 
 	// Update oscillator state

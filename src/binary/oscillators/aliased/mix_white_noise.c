@@ -4,7 +4,7 @@
  * @see mix_noise()
  *
  * @param osc_state Mixer channel oscillator state
- * @param chunk_buffer Mixer channel chunk buffer
+ * @param chunk_buffer Mixer channel tick buffer
  * @param chunk_len Length of chunk_buffer in samples
  */
 void mix_white_noise(int *osc_state, short *chunk_buffer, int chunk_len) {

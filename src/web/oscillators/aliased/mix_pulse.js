@@ -2,11 +2,11 @@
  * Mix pulse oscillator
  *
  * @param osc_state Mixer channel oscillator state
- * @param chunk_buffer Mixer channel chunk buffer
- * @param chunk_len Length of chunk_buffer in bytes
+ * @param tick_buffer Mixer channel tick buffer
+ * @param chunk_len Length of tick_buffer in bytes
  * @param negative_cycle_init 0x10000 - duty cycle
  */
-function mix_pulse(osc_state, chunk_buffer, chunk_len, negative_cycle_init) {
+function mix_pulse(osc_state, tick_buffer, chunk_len, negative_cycle_init) {
 	/*
 	 * Oscillator state
 	 */
@@ -49,7 +49,7 @@ function mix_pulse(osc_state, chunk_buffer, chunk_len, negative_cycle_init) {
 		// Write new sample
 		const s_pregain = amplitude + detune_amplitude;
 		const s = B(s_pregain, osc_amplitude) / 3072;
-		b[(chunk_buffer + (i << 1)) >> 1] = s;
+		b[(tick_buffer + (i << 1)) >> 1] = s;
 
 		// Increment phase
 		cur_phase = (cur_phase + osc_phase_inc) & 0xffff;
