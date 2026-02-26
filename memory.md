@@ -4,7 +4,7 @@
 
 * This document is incomplete and may contain inaccuracies.
 
-* In web exports, memory addressing is optimized and unused memory bytes are not accounted for. As a result, various pointer addresses are offset differently than in the listing below, with increasingly larger discrepancies as addresses increase.
+* This listing is for the binary only. In web exports, memory addressing is optimized and contains no unused bytes. As a result, various pointer addresses are offset differently than in the listing below, with increasingly larger discrepancies as addresses increase.
 
 ## Table of Contents
 
@@ -12,7 +12,7 @@
 
 * [MIXER CHANNEL STATES](#mixer-channel-states)
 
-* [NOTE LOOKUP TABLE](#note-lookup-table)
+* [GLOBALS](#globals)
 
 ## LOADED CART ROM
 
@@ -20,13 +20,14 @@ The host representation of the cart ROM running on the guest. This representatio
 
 ```
 +0x0020: SFX
-+0xae20: MUSIC PATTERNS
++0xaa20: MUSIC PATTERNS
++0xae20: MUSIC PATTERN LOOP FLAGS
 ```
 
 ### SFX
 
 ```
-0xaa00 total, 0x02a8 each
+LOADED_CART_ROM + 0x0020, 0xaa00 total, 0x02a8 each
 
 +0x0000: filter byte
 +0x0004: editor mode
@@ -49,12 +50,20 @@ The host representation of the cart ROM running on the guest. This representatio
 ### MUSIC PATTERNS
 
 ```
-0x0100 total, 0x0004 each
+LOADED_CART_ROM + 0xaa20, 0x0100 total, 0x0004 each
 
 +0x0000: ch 0 sfx idx
 +0x0001: ch 1 sfx idx
 +0x0002: ch 2 sfx idx
 +0x0003: ch 3 sfx idx
+```
+
+### MUSIC PATTERN LOOP FLAGS
+
+```
+LOADED_CART_ROM + 0xae20, 0x0100 total, 0x0004 each
+
++0x0000: x & 4 == 4 if stop loop, x & 2 == 2 if end loop, x & 1 == 1 if start loop
 ```
 
 ---
@@ -63,36 +72,85 @@ The host representation of the cart ROM running on the guest. This representatio
 
 The mixer state accommodates 16 channels, but only channels `8` - `11` are used, for VM channels `0` - `3`.
 
-The oscillator state and mixing functions read address offsets +`0x2020` and above, with the tick buffer being stored somewhere below, possibly along with the current channel state which has already been mixed. Addresses `0x2ee0` and above refer to an unknown grouping.
-
 ```
 0x00037000 total, 0x3700 each
 
++0x0000: channel chunk buffer
++0x2000: ?
++0x2004: unused?
++0x2008: unused?
++0x2010: pointer to voxatron channel? (voxatron-only?)
++0x201c: voxatron samples remaining? (voxatron-only?)
 +0x2020: pointer to LOADED CART ROM
++0x2024: ?
 +0x2028: STEP STATE
-+0x21ae: TICK BUFFER
++0x2040: TICK BUFFER
++0x21ac: ?
++0x21ae: TICK BUFFER HISTORY
 +0x2d20: PATTERN STATE
 +0x2d30: OSCILLATOR STATE
-+0x2e90: ?
-+0x2ee0: ? (0 if OSCILLATOR STATE step does not use meta instrument)
-+0x2ee8: ?
++0x2ee0: cur pattern tick
++0x2ee4: total reverb (sfx + oscillator + global), 1 or 2 if enabled
++0x2ee8: total dampen (sfx + oscillator + global), if enabled: 8 if 1, 12 if 2, 15 if 0x5f43 hi + lo bits set
 +0x2eec: pattern ticks remaining
++0x2ef0: current HISTORY idx
++0x2ef4: previous mix expire
++0x2ef8: mix expire
++0x2f00: HISTORY
 ```
 
 ### STEP STATE
 
+Shared with TICK BUFFER
+
 ```
 CHANNEL STATE + 0x2028
 
-+0x0000: pointer to step sfx addr in LOADED CART ROM
+0x? total, 0x? ea
+
++0x0000: pointer to step parent sfx addr in LOADED CART ROM
++0x0004: unused?
 +0x0008: current sfx tick
 +0x000c: current step tick
 +0x0010: spd
 +0x0014: ch target & 0x3
++0x0018: ?
+
 +0x0028: pitch num
 +0x0030: waveform
 +0x0038: vol
 +0x0040: effect cmd
+```
+
+### TICK BUFFER
+
+Shared with STEP STATE
+
+```
+CHANNEL STATE + 0x2040
+
+0x16e total
+```
+
+### TICK BUFFER HISTORY
+
+Shared with PATTERN STATE
+
+```
+CHANNEL STATE + 0x21ae
+
+0xb70 total, 0x16e ea
+
++0x0000: tick buffer 0
++0x016e: tick buffer 1
++0x02dc: tick buffer 2
++0x034a: tick buffer 3
++0x04b8: tick buffer 4
++0x0626: tick buffer 5
++0x0694: tick buffer 6
++0x0802: tick buffer 7
+
++0x0b72: last mixed tick buffer idx
 ```
 
 ### PATTERN STATE
@@ -102,6 +160,7 @@ CHANNEL STATE + 0x2d20
 
 +0x0000: current pattern tick
 +0x0004: chunk_buffer samples remaining
++0x0008: 1 if channel pattern enabled?
 +0x000c: current pattern idx
 ```
 
@@ -116,7 +175,7 @@ CHANNEL STATE + 0x2d20
 ```
 CHANNEL STATE + 0x2d30
 
-0x???? total, 0x0140(?) ea
+0x???? total, 0x016c(?) ea
 
 +0x0000: waveform 0-7, or 8 if wavetable bit set
 +0x0004: current phase
@@ -135,16 +194,83 @@ CHANNEL STATE + 0x2d30
 +0x0038: sfx step vol
 +0x003c: sfx step pitch
 +0x0040: sfx step waveform
-+0x0044: sfx step effect cmd
-+0x0048: sfx step filter byte
++0x0044: meta instrument effect cmd
++0x0048: meta instrument filter byte
 +0x004c: ?
 +0x0050: detune, 1 or 2 if enabled
 +0x0054: buzz, 1 if enabled
 +0x0058: noiz, 1 if enabled, 2 if (CHANNEL STATE +0x2ee8 < 0xb)
 +0x005c: reverb, 1 or 2 if enabled
+
++0x0160: prev tick pitch
++0x0164: prev tick waveform
++0x0168: prev tick vol
 ```
 
-## NOTE LOOKUP TABLE
+### HISTORY
+
+```
+CHANNEL STATE + 0x2f00
+
+0x800 total, 0x20 ea
+
++0x0000: sfx tick
++0x0004: step tick
++0x0008: pointer to step parent sfx addr in LOADED CART ROM
++0x0010: step idx
++0x0014: pattern idx
++0x0018: # patterns played
+```
+
+# GLOBALS
+
+## Named
+
+### Key / Value Pairs
+
+#### `advanced_pattern`
+
+`1` if pattern boundary crossed in mix_sfx_tick() call
+
+#### `codo_audio_buffer`
+
+Pointer to main audio buffer
+
+#### `codo_post_mix_func`
+
+Pointer to SDL postmix callback, set to `mix_serial_sound_buffer()` at init.
+
+#### `fade_vol`
+
+Current fade in / out gain.
+
+#### `inside_codo_mixer_callback`
+
+`1` if SDL mixer callback is running
+
+#### `last_callback_len`
+
+Chunk length of previous SDL mixer callback
+
+#### `ms0`
+
+Pointer to [MIXER CHANNEL STATES](#mixer-channel-states)
+
+#### `ps0`
+
+Pointer to Voxatron audio state (Voxatron only)
+
+#### `ramp_buf`
+
+Pointer to ramp buffer
+
+#### `xmbuf`
+
+Pointer to xm audio buffer (Voxatron only)
+
+#### `note_dx`
+
+Note lookup table
 
 ```
 +0x0000: 0000020b 523Hz C 5
@@ -159,4 +285,20 @@ CHANNEL STATE + 0x2d30
 +0x0024: 00000370 880Hz A 5
 +0x0028: 000003a4 932Hz A#5
 +0x002c: 000003d8 984Hz B 5
+```
+
+#### `codo_state`
+
+Various virtual machine states
+
+```
++604: guest paused
++608: unused?
++612: audio playing
++632: codo_audio_buffer initialized
++636: # patterns played
++660: program sample rate
++664: # program channels
++668: sdl sample rate
++672: # sdl channels
 ```
