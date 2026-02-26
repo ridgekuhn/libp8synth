@@ -55,6 +55,7 @@ var SOUND_VOLUME = 0x878ef;
 /*
  * Re-minify function names
  */
+// var Jr = sdl_mixer_cb;
 // var nn = mix_serial_sound_buffer;
 var mix_serial_sound_buffer = nn;
 // var Iq = codo_mixer_callback;

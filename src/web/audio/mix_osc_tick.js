@@ -17,7 +17,7 @@
  * @param chunk_len Length of tick_buffer in bytes
  * @param ch_state Mixer channel state
  */
-function Nq(osc_state, tick_buffer, chunk_len, ch_state) {
+function mix_osc_tick(osc_state, tick_buffer, chunk_len, ch_state) {
 	// Nothing to do
 	if (chunk_len <= 0) {
 		return;
@@ -26,14 +26,14 @@ function Nq(osc_state, tick_buffer, chunk_len, ch_state) {
 	/*
 	 * Oscillator state
 	 */
-	const osc_vol = c[(osc_state + 28) >> 2];
+	const osc_vol = c[(osc_state + 0x1c) >> 2];
 	const waveform = c[osc_state >> 2];
 
 	// If no audio to mix, zero-out buffer and return early
 	// 0x2ed8 = 0x2ee4 (+0xc) in p8 binary
 	if (osc_vol == 0 && c[(ch_state + 0x2ed8) >> 2] == 0) {
 		c[(osc_state + 4) >> 2] = 0;
-		Wv(tick_buffer, 0, chunk_len << 1);
+		memset(tick_buffer, 0, chunk_len << 1);
 		return;
 	}
 
