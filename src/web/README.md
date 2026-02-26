@@ -4,8 +4,8 @@ Code in this directory is provided as a reference and will most likely not be ma
 
 ## Installation
 
-* Identify the channel oscillator mixing function and remove it.
+* Identify the channel oscillator mixing function and remove it. In the 0.2.7 export, it is named `Nq()`.
 
-* Paste the contents of [./mix_osc_tick.js](./mix_osc_tick.js) anywhere in the file, ensuring that the function has the same name as the function removed in the step above.
+* Paste the contents of [./audio/mix_osc_tick.js](./audio/mix_osc_tick.js) anywhere in the file, ensuring that the function has the same name as the function removed in the step above.
 
-* Paste [./mix_reverb.js](./mix_reverb.js), and [./oscillators/aliased](./oscillators/aliased) anywhere in the file.
+* Paste [./audio/mix_reverb.js](./audio/mix_reverb.js), and [./audio/oscillators/aliased](./audio/oscillators/aliased) anywhere in the file.
