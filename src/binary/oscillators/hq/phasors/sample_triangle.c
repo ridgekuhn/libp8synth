@@ -17,8 +17,8 @@ int sample_triangle(int freq, int t) {
   double amplitude = 0;
   double normalize = 0;
 
-  // 10914 = 11025 * 0.99
-  for (int i = 0; (i * freq) < 10914; i += 1) {
+  // 9922 = 11025 * 0.90
+  for (int i = 0; (i * freq) < 9922; i += 1) {
     const int n = 2 * i + 1;
     const double magnitude = (i & 1 ? -1.0 : 1.0) / (n * n);
 

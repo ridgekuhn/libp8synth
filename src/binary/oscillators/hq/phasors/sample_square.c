@@ -16,8 +16,8 @@ int sample_square(int freq, int t) {
   double amplitude = 0;
   double normalize = 0;
 
-  // 10914 = 11025 * 0.99
-  for (int i = 1; (i * freq) < 10914; i += 2) {
+  // 9922 = 11025 * 0.90
+  for (int i = 1; (i * freq) < 9922; i += 2) {
     const double magnitude = 1.0 / i;
 
     amplitude -= magnitude * sin(i * radians);

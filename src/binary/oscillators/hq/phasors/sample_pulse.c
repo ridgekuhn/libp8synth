@@ -18,8 +18,8 @@ int sample_pulse(int freq, int t, int duty_cycle) {
   double amplitude = 0;
   double normalize = 0;
 
-  // 10914 = 11025 * 0.99
-  for (int i = 1; i * freq < 10914; i += 1) {
+  // 9922 = 11025 * 0.90
+  for (int i = 1; (i * freq) < 9922; i += 1) {
     const double magnitude = 1.0 / i;
     const double saw1 = magnitude * sin(i * radians);
     const double saw2 = magnitude * sin(i * duty_radians);
