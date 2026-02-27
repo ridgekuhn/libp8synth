@@ -65,8 +65,7 @@ var Jq = codo_mixer_callback_0;
 var Kq = mix_channel;
 var Lq = mix_sfx_channel;
 var Mq = mix_sfx_tick;
-// var Oq = calculate_osc_state;
-var calculate_osc_state = Oq;
+var Oq = calculate_osc_state;
 var Nq = mix_osc_tick;
 
 /*
