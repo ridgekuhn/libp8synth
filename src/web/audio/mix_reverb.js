@@ -10,7 +10,7 @@ function mix_reverb(osc_state, tick_buffer, chunk_len, ch_state) {
 	/*
 	 * Oscillator state
 	 */
-	const osc_reverb = c[(osc_state + 92) >> 2];
+	const osc_reverb = c[(osc_state + 0x5c) >> 2];
 
 	// Nothing to do
 	if (osc_reverb <= 0) {
