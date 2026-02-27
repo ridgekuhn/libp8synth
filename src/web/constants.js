@@ -56,14 +56,13 @@ var SOUND_VOLUME = 0x878ef;
  * Re-minify function names
  */
 // var Jr = sdl_mixer_cb;
+var sdl_mixer_cb = Jr;
 // var nn = mix_serial_sound_buffer;
 var mix_serial_sound_buffer = nn;
 var Iq = codo_mixer_callback;
 var Jq = codo_mixer_callback_0;
 var Kq = mix_channel;
-var sdl_mixer_cb = Jr;
-// var Lq = mix_sfx_channel;
-var mix_sfx_channel = Lq;
+var Lq = mix_sfx_channel;
 // var Mq = mix_sfx_tick;
 var mix_sfx_tick = Mq;
 // var Oq = calculate_osc_state;
