@@ -30,6 +30,7 @@ var last_callback_len = 0x2222;
 var note_dx = 0x75a0;
 var ms0 = 0x2a064c;
 var ps0 = 0x88049;
+var ramp_buf = 0x1a7da0;
 var xmbuf = 0x1a5d20;
 
 /*
@@ -63,8 +64,7 @@ var Iq = codo_mixer_callback;
 var Jq = codo_mixer_callback_0;
 var Kq = mix_channel;
 var Lq = mix_sfx_channel;
-// var Mq = mix_sfx_tick;
-var mix_sfx_tick = Mq;
+var Mq = mix_sfx_tick;
 // var Oq = calculate_osc_state;
 var calculate_osc_state = Oq;
 var Nq = mix_osc_tick;
