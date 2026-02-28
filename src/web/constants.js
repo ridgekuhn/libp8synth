@@ -66,6 +66,7 @@ var Kq = mix_channel;
 var Lq = mix_sfx_channel;
 var Mq = mix_sfx_tick;
 var Oq = calculate_osc_state;
+var Pq = get_pattern_ticks_length;
 var Nq = mix_osc_tick;
 
 /*

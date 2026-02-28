@@ -315,8 +315,10 @@ function mix_sfx_tick(ch_state, tick_buffer) {
 	// chunk buffer samples remaining
 	// 0x2d18 = 0x2d24 in p8 binary
 	b[(ch_state + 0x2d18) >> 1] = 183;
-	// get_pattern_ticks_length()
-	c[pat_ticks_remaining_addr >> 2] = Pq(loaded_cart_rom_ptr, next_pat_addr);
+	c[pat_ticks_remaining_addr >> 2] = get_pattern_ticks_length(
+		loaded_cart_rom_ptr,
+		next_pat_addr,
+	);
 
 	// @TODO asm.js only
 	Ia = e;
