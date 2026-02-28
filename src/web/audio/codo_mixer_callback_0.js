@@ -34,11 +34,11 @@ function codo_mixer_callback_0(_userdata, chunk_buffer, chunk_len) {
 		c[0x2221] = codo_get_time();
 
 		if (expired) {
-			if (ch_chunk_len <= 0) {
+			if (chunk_len <= 0) {
 				return;
 			}
 
-			memset(chunk_buffer, 0, ch_chunk_len << 1);
+			memset(chunk_buffer, 0, chunk_len << 1);
 
 			return;
 		}
