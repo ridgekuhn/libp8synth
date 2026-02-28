@@ -68,6 +68,7 @@ var Mq = mix_sfx_tick;
 var Oq = calculate_osc_state;
 var Pq = get_pattern_ticks_length;
 var Nq = mix_osc_tick;
+var Qq = apply_meta_instrument;
 
 /*
  * Un-minify function names
@@ -77,4 +78,3 @@ var codo_memset = wq;
 var codo_fwrite_int16 = Ko;
 var memcpy = Vv;
 var memset = Wv;
-var apply_meta_instrument = Qq;

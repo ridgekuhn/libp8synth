@@ -44,7 +44,7 @@ LOADED_CART_ROM + 0x0020, 0xaa00 total, 0x02a8 each
 +0x0004: waveform
 +0x0008: vol
 +0x000c: effect cmd
-+0x0010: 1 if step uses meta instrument
++0x0010: 128 if step uses meta instrument
 ```
 
 ### MUSIC PATTERNS
@@ -175,7 +175,7 @@ CHANNEL STATE + 0x2d20
 ```
 CHANNEL STATE + 0x2d30
 
-0x???? total, 0x016c(?) ea
+0x0b60(?) total, 0x016c ea
 
 +0x0000: waveform 0-7, or 8 if wavetable bit set
 +0x0004: current phase
@@ -196,15 +196,33 @@ CHANNEL STATE + 0x2d30
 +0x0040: sfx step waveform
 +0x0044: meta instrument effect cmd
 +0x0048: meta instrument filter byte
-+0x004c: ?
++0x004c: drop dt
 +0x0050: detune, 1 or 2 if enabled
 +0x0054: buzz, 1 if enabled
 +0x0058: noiz, 1 if enabled, 2 if (CHANNEL STATE +0x2ee8 < 0xb)
 +0x005c: reverb, 1 or 2 if enabled
-
++0x0060: WAVETABLE SAMPLES
 +0x0160: prev tick pitch
 +0x0164: prev tick waveform
 +0x0168: prev tick vol
+
++0x0174: meta instrument target_pitch
++0x0178: meta instrument waveform
++0x017c: meta instrument target vol
+```
+
+#### WAVETABLE SAMPLES
+
+8-bit wavetable samples are re-encoded from STEP DATA to reflect the bytes stored in guest RAM. The result is stored as a 32-bit signed integer, shifted left by 7 bits.
+
+```
+OSCILLATOR STATE + 0x60
+
+0x0100 total
+
++0x0000: (lo_byte - ((lo_byte << 1) & 256) << 7
++0x0004: (hi_byte - ((hi_byte << 1) & 256) << 7
+...etc
 ```
 
 ### HISTORY
