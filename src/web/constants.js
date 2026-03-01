@@ -16,6 +16,8 @@ var codo_state_612 = 0x877d4;
 var codo_state_632 = 0x877d9;
 // patterns played
 var codo_state_636 = 0x877da;
+// current pattern index
+var codo_state_640 = 0x877db;
 // program sample rate
 var codo_state_660 = 0x877df;
 // # program channels
@@ -24,6 +26,10 @@ var codo_state_664 = 0x877e0;
 var codo_state_668 = 0x877e1;
 // # sdl channels
 var codo_state_672 = 0x877e2;
+var fade_start_t = 0x88043;
+var fade_len = 0x88044;
+var fade_0 = 0x88045;
+var fade_1 = 0x88046;
 var fade_vol = 0x88047;
 var inside_codo_mixer_callback = 0xb5553;
 var last_callback_len = 0x2222;
@@ -57,9 +63,7 @@ var SOUND_VOLUME = 0x878ef;
  * Re-minify function names
  */
 // var Jr = sdl_mixer_cb;
-var sdl_mixer_cb = Jr;
 // var nn = mix_serial_sound_buffer;
-var mix_serial_sound_buffer = nn;
 var Iq = codo_mixer_callback;
 var Jq = codo_mixer_callback_0;
 var Kq = mix_channel;
@@ -67,8 +71,14 @@ var Lq = mix_sfx_channel;
 var Mq = mix_sfx_tick;
 var Oq = calculate_osc_state;
 var Pq = get_pattern_ticks_length;
-var Nq = mix_osc_tick;
 var Qq = apply_meta_instrument;
+var Nq = mix_osc_tick;
+var fr = codo_play_pico8_song;
+// var Zq = codo_play_sfx_ex;
+// var Rr = codo_lock_audio_plat;
+// var Sr = codo_unlock_audio_plat;
+// var er = init_cart_audio;
+// var gr = codo_update_music_fading;
 
 /*
  * Un-minify function names
@@ -78,3 +88,10 @@ var codo_memset = wq;
 var codo_fwrite_int16 = Ko;
 var memcpy = Vv;
 var memset = Wv;
+var codo_play_sfx_ex = Zq;
+var codo_lock_audio_plat = Rr
+var codo_unlock_audio_plat = Sr;
+var _SDL_LockAudio = P;
+var _SDL_UnlockAudio = T;
+var init_cart_audio = er;
+var codo_update_music_fading = gr;
