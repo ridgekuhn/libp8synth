@@ -80,7 +80,7 @@ var Zq = codo_play_sfx_ex;
 // var Rr = codo_lock_audio_plat;
 // var Sr = codo_unlock_audio_plat;
 var er = codo_stop_pico8_song;
-// var gr = codo_update_music_fading;
+var gr = codo_update_music_fading;
 
 /*
  * Un-minify function names
@@ -94,4 +94,3 @@ var codo_lock_audio_plat = Rr
 var codo_unlock_audio_plat = Sr;
 var _SDL_LockAudio = P;
 var _SDL_UnlockAudio = T;
-var codo_update_music_fading = gr;
