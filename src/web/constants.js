@@ -79,7 +79,7 @@ var fr = codo_play_pico8_song;
 var Zq = codo_play_sfx_ex;
 // var Rr = codo_lock_audio_plat;
 // var Sr = codo_unlock_audio_plat;
-// var er = init_cart_audio;
+var er = codo_stop_pico8_song;
 // var gr = codo_update_music_fading;
 
 /*
@@ -94,5 +94,4 @@ var codo_lock_audio_plat = Rr
 var codo_unlock_audio_plat = Sr;
 var _SDL_LockAudio = P;
 var _SDL_UnlockAudio = T;
-var init_cart_audio = er;
 var codo_update_music_fading = gr;

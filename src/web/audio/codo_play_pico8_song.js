@@ -3,7 +3,7 @@
  */
 function codo_play_pico8_song(cart_ptr, pat_idx, new_fade_len) {
 	codo_lock_audio_plat();
-	init_cart_audio(cart_ptr);
+	codo_stop_pico8_song(cart_ptr);
 
 	if (cart_ptr == 0 || pat_idx > 63) {
 		codo_unlock_audio_plat();
