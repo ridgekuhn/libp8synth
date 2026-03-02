@@ -50,6 +50,8 @@ var GLOBAL_BITCRUSH = 0xbec48;
 var GLOBAL_DAMPEN = 0xbec49;
 // 0x00b5d0f4 in p8 binary
 var GLOBAL_REVERB = 0xbec47;
+// 0x00b5d0ec in p8 binary
+var MUSIC_CH_MASK = 0xbec45;
 // 0x00b34e28 in p8 binary
 var MUSIC_PLAYING = 0xa8192;
 // 0x00a74d80 in p8 binary
@@ -74,7 +76,7 @@ var Pq = get_pattern_ticks_length;
 var Qq = apply_meta_instrument;
 var Nq = mix_osc_tick;
 var fr = codo_play_pico8_song;
-// var Zq = codo_play_sfx_ex;
+var Zq = codo_play_sfx_ex;
 // var Rr = codo_lock_audio_plat;
 // var Sr = codo_unlock_audio_plat;
 // var er = init_cart_audio;
@@ -88,7 +90,6 @@ var codo_memset = wq;
 var codo_fwrite_int16 = Ko;
 var memcpy = Vv;
 var memset = Wv;
-var codo_play_sfx_ex = Zq;
 var codo_lock_audio_plat = Rr
 var codo_unlock_audio_plat = Sr;
 var _SDL_LockAudio = P;
