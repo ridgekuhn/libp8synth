@@ -79,7 +79,7 @@ var Nq = mix_osc_tick;
 var fr = codo_play_pico8_song;
 var Zq = codo_play_sfx_ex;
 var Rr = codo_lock_audio_plat;
-// var Sr = codo_unlock_audio_plat;
+var Sr = codo_unlock_audio_plat;
 var er = codo_stop_pico8_song;
 var gr = codo_update_music_fading;
 
@@ -91,6 +91,5 @@ var codo_memset = wq;
 var codo_fwrite_int16 = Ko;
 var memcpy = Vv;
 var memset = Wv;
-var codo_unlock_audio_plat = Sr;
 var SDL_LockAudio = P;
 var SDL_UnlockAudio = T;
