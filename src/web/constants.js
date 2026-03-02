@@ -5,6 +5,7 @@
  */
 var advanced_pattern = 0x88048;
 var codo_audio_buffer = 0xb555b;
+var codo_audio_is_locked = 0xb556e;
 var codo_post_mix_func = 0xb555a;
 // guest paused
 var codo_state_604 = 0x877d2;
@@ -77,7 +78,7 @@ var Qq = apply_meta_instrument;
 var Nq = mix_osc_tick;
 var fr = codo_play_pico8_song;
 var Zq = codo_play_sfx_ex;
-// var Rr = codo_lock_audio_plat;
+var Rr = codo_lock_audio_plat;
 // var Sr = codo_unlock_audio_plat;
 var er = codo_stop_pico8_song;
 var gr = codo_update_music_fading;
@@ -90,7 +91,6 @@ var codo_memset = wq;
 var codo_fwrite_int16 = Ko;
 var memcpy = Vv;
 var memset = Wv;
-var codo_lock_audio_plat = Rr
 var codo_unlock_audio_plat = Sr;
-var _SDL_LockAudio = P;
-var _SDL_UnlockAudio = T;
+var SDL_LockAudio = P;
+var SDL_UnlockAudio = T;
