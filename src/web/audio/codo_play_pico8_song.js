@@ -64,8 +64,8 @@ function codo_play_pico8_song(cart_ptr, pat_idx, new_fade_len) {
 
 	c[fade_len] = new_fade_len;
 	c[fade_start_t] = codo_get_time();
-	c[fade_0] = 0;
-	c[fade_1] = 0x10000;
+	c[fade0] = 0;
+	c[fade1] = 0x10000;
 
 	codo_update_music_fading();
 
