@@ -82,14 +82,15 @@ var Rr = codo_lock_audio_plat;
 var Sr = codo_unlock_audio_plat;
 var er = codo_stop_pico8_song;
 var gr = codo_update_music_fading;
+var Xr = codo_get_time;
 
 /*
  * Un-minify function names
  */
-var codo_get_time = Xr;
 var codo_memset = wq;
 var codo_fwrite_int16 = Ko;
 var memcpy = Vv;
 var memset = Wv;
+var SDL_GetTicks = M;
 var SDL_LockAudio = P;
 var SDL_UnlockAudio = T;
