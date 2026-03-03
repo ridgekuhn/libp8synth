@@ -1,3 +1,7 @@
+#include "./mix_brown_noise.h"
+#include "./mix_pink_noise.h"
+#include "./mix_white_noise.h"
+
 /**
  * Mix noise oscillator
  *

@@ -1,3 +1,5 @@
+#include "./mix_pulse.h"
+
 /**
  * Mix pulse oscillator
  *

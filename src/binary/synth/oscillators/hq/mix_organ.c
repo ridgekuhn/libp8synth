@@ -1,3 +1,6 @@
+#include "./phasors/sample_organ.h"
+#include "./phasors/sample_square.h"
+
 /**
  * Mix organ oscillator
  *

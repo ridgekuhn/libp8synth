@@ -1,3 +1,5 @@
+#include "./mix_wavetable.h"
+
 /**
  * Mix wavetable frame
  *

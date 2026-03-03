@@ -1,5 +1,5 @@
-// #include "./mix_pulse.c"
-// #include "./phasors/sample_square.c"
+#include "./phasors/sample_square.h"
+#include "./mix_pulse.h"
 
 /**
  * Mix square oscillator

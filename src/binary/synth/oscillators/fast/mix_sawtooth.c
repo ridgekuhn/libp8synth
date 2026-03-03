@@ -1,3 +1,6 @@
+#include "./mix_sawtooth.h"
+#include "../../filters/polyblep.h"
+
 /**
  * Mix sawtooth oscillator
  *
@@ -52,7 +55,7 @@ void mix_sawtooth(int *osc_state, short *chunk_buffer, int chunk_len) {
 
     // Write new sample
     const int s_pregain = amplitude + detune_amplitude;
-    const double s = (s_pregain * osc_amplitude) / 3072;
+    const double s = (double)(s_pregain * osc_amplitude) / 3072;
     chunk_buffer[i] = (short)s;
 
     // Increment phase

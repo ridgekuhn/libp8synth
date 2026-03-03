@@ -1,3 +1,5 @@
+#include "./mix_triangle.h"
+
 /**
  * Mix triangle / phaser oscillator
  *

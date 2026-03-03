@@ -1,3 +1,5 @@
+#include "./polyblep.h"
+
 /**
  * PolyBLEP
  *

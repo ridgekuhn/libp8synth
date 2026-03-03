@@ -1,3 +1,7 @@
+#include "./mix_pink_noise.h"
+// @TODO
+// #include "../../../math/codo_random.h"
+
 /**
  * Mix pink noise oscillator
  *

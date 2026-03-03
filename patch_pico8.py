@@ -35,42 +35,80 @@ phasors = [
     ["sample_organ", "./src/binary/synth/oscillators/hq/phasors/sample_organ.c"],
 ]
 
-oscillators = [
+aliased_oscillators = [
+	["mix_wavetable", "./src/binary/synth/oscillators/aliased/mix_wavetable.c"],
+	["mix_brown_noise", "./src/binary/synth/oscillators/aliased/mix_brown_noise.c"],
+	["mix_pink_noise", "./src/binary/synth/oscillators/aliased/mix_pink_noise.c"],
+	["mix_white_noise", "./src/binary/synth/oscillators/aliased/mix_white_noise.c"],
+	["mix_noise", "./src/binary/synth/oscillators/aliased/mix_noise.c"],
+]
+
+hq_oscillators = [
 	["mix_pulse", "./src/binary/synth/oscillators/hq/mix_pulse.c"],
-	# mix_square must come after mix_pulse
 	["mix_square", "./src/binary/synth/oscillators/hq/mix_square.c"],
 	["mix_tilted", "./src/binary/synth/oscillators/hq/mix_tilted.c"],
 	["mix_triangle", "./src/binary/synth/oscillators/hq/mix_triangle.c"],
 	["mix_organ", "./src/binary/synth/oscillators/hq/mix_organ.c"],
 	["mix_sawtooth", "./src/binary/synth/oscillators/hq/mix_sawtooth.c"],
-	["mix_wavetable", "./src/binary/synth/oscillators/aliased/mix_wavetable.c"],
-	["mix_brown_noise", "./src/binary/synth/oscillators/aliased/mix_brown_noise.c"],
-	["mix_pink_noise", "./src/binary/synth/oscillators/aliased/mix_pink_noise.c"],
-	["mix_white_noise", "./src/binary/synth/oscillators/aliased/mix_white_noise.c"],
-	# mix_noise must come after other noise oscillators
-	["mix_noise", "./src/binary/synth/oscillators/aliased/mix_noise.c"],
 ]
 
 #######
 # Patch
 #######
-p = Patcherex(args.p8path)
+patcher = Patcherex(args.p8path)
 
-# p.patches.append(InsertFunctionPatch("polyblep", Path(
-# 	"./src/binary/synth/filters/polyblep.c").read_text()))
+patcher.patches.append(InsertFunctionPatch(
+	"mix_reverb",
+	Path("./src/binary/synth/mix_reverb.c").read_text(),
+	compile_opts={"extra_compiler_flags": [
+		"-I", os.path.dirname(os.path.realpath(__file__)) + "/src/binary/synth", "-v"]}
+))
 
-for x in phasors:
-	p.patches.append(InsertFunctionPatch(x[0], Path(x[1]).read_text()))
+# patcher.patches.append(InsertFunctionPatch(
+# 	"polyblep",
+# 	Path("./src/binary/synth/filters/polyblep.c").read_text(),
+# 	compile_opts={"extra_compiler_flags": [
+# 		"-I", os.path.dirname(os.path.realpath(__file__)) + "/src/binary/synth/filters", "-v"]}
+# ))
 
-for o in oscillators:
-	p.patches.append(InsertFunctionPatch(o[0], Path(o[1]).read_text()))
+for phasor in phasors:
+	patcher.patches.append(InsertFunctionPatch(
+		phasor[0],
+		Path(phasor[1]).read_text(),
+		compile_opts={"extra_compiler_flags": ["-I", os.path.dirname(
+			os.path.realpath(__file__)) + "/src/binary/synth/oscillators/hq/phasors", "-v"]}
+	))
 
-p.patches.append(InsertFunctionPatch(
-    "mix_reverb", Path("./src/binary/synth/mix_reverb.c").read_text()))
+for oscillator in aliased_oscillators:
+	patcher.patches.append(InsertFunctionPatch(
+		oscillator[0],
+		Path(oscillator[1]).read_text(),
+		compile_opts={"extra_compiler_flags": ["-I", os.path.dirname(
+			os.path.realpath(__file__)) + "/src/binary/synth/oscillators/aliased", "-v"]}
+	))
 
-p.patches.append(ModifyFunctionPatch("mix_osc_tick_new",
-                                     Path("./src/binary/synth/mix_osc_tick.c").read_text()))
+for oscillator in hq_oscillators:
+	patcher.patches.append(InsertFunctionPatch(
+		oscillator[0],
+		Path(oscillator[1]).read_text(),
+		compile_opts={"extra_compiler_flags": [
+			"-I", os.path.dirname(os.path.realpath(__file__)) + "/src/binary/synth/oscillators/hq", "-v"]}
+	))
 
-p.apply_patches()
+patcher.patches.append(InsertFunctionPatch(
+    "mix_reverb",
+   	Path("./src/binary/synth/mix_reverb.c").read_text(),
+   	compile_opts={"extra_compiler_flags": [
+            "-I", os.path.dirname(os.path.realpath(__file__)) + "/src/binary/synth", "-v"]}
+))
 
-p.save_binary(args.out)
+patcher.patches.append(ModifyFunctionPatch(
+	"mix_osc_tick_new",
+	Path("./src/binary/synth/mix_osc_tick.c").read_text(),
+	compile_opts={"extra_compiler_flags": [
+		"-I", os.path.dirname(os.path.realpath(__file__)) + "/src/binary/synth", "-v"]}
+))
+
+patcher.apply_patches()
+
+patcher.save_binary(args.out)

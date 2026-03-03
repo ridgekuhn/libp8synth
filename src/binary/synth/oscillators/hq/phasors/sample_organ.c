@@ -1,4 +1,4 @@
-// #include "./sample_triangle.c"
+#include "./sample_triangle.h"
 
 /**
  * Organ Sample

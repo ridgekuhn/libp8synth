@@ -1,5 +1,5 @@
-// #include "./phasors/sample_tilted.c"
-// #include "./phasors/sample_triangle.c"
+#include "./phasors/sample_tilted.h"
+#include "./phasors/sample_triangle.h"
 
 /**
  * Mix triangle oscillator

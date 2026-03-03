@@ -1,4 +1,4 @@
-// #include "./phasors/sample_pulse.c"
+#include "./phasors/sample_pulse.h"
 
 /**
  * Mix pulse oscillator

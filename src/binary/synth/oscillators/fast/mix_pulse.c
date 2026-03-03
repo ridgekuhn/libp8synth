@@ -1,3 +1,6 @@
+#include "./mix_pulse.h"
+#include "../../filters/polyblep.h"
+
 /**
  * Mix pulse oscillator
  *
@@ -42,7 +45,7 @@ void mix_pulse(int *osc_state, short *tick_buffer, int chunk_len,
                  16;
     amplitude -= (amplitude * polyblep(cur_phase, osc_phase_inc)) >> 16;
 
-    const detune_partial = cur_detune_phase & -0xffff;
+    const int detune_partial = cur_detune_phase & -0xffff;
 
     const _Bool is_detune_duty =
         osc_detune == 2 ? ((cur_detune_phase << 1) & 0xfffe) < duty_cycle
