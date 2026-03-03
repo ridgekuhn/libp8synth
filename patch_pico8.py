@@ -26,29 +26,29 @@ args = parser.parse_args()
 os.makedirs("./out", exist_ok=True)
 
 phasors = [
-    ["sample_pulse", "./src/binary/oscillators/hq/phasors/sample_pulse.c"],
-    ["sample_sawtooth", "./src/binary/oscillators/hq/phasors/sample_sawtooth.c"],
-    ["sample_square", "./src/binary/oscillators/hq/phasors/sample_square.c"],
-    ["sample_tilted", "./src/binary/oscillators/hq/phasors/sample_tilted.c"],
-    ["sample_triangle", "./src/binary/oscillators/hq/phasors/sample_triangle.c"],
-	# must come after sample_square, sample_triangle
-    ["sample_organ", "./src/binary/oscillators/hq/phasors/sample_organ.c"],
+    ["sample_pulse", "./src/binary/synth/oscillators/hq/phasors/sample_pulse.c"],
+    ["sample_sawtooth", "./src/binary/synth/oscillators/hq/phasors/sample_sawtooth.c"],
+    ["sample_square", "./src/binary/synth/oscillators/hq/phasors/sample_square.c"],
+    ["sample_tilted", "./src/binary/synth/oscillators/hq/phasors/sample_tilted.c"],
+    ["sample_triangle", "./src/binary/synth/oscillators/hq/phasors/sample_triangle.c"],
+   	# must come after sample_square, sample_triangle
+    ["sample_organ", "./src/binary/synth/oscillators/hq/phasors/sample_organ.c"],
 ]
 
 oscillators = [
-	["mix_pulse", "./src/binary/oscillators/hq/mix_pulse.c"],
+	["mix_pulse", "./src/binary/synth/oscillators/hq/mix_pulse.c"],
 	# mix_square must come after mix_pulse
-	["mix_square", "./src/binary/oscillators/hq/mix_square.c"],
-	["mix_tilted", "./src/binary/oscillators/hq/mix_tilted.c"],
-	["mix_triangle", "./src/binary/oscillators/hq/mix_triangle.c"],
-	["mix_organ", "./src/binary/oscillators/hq/mix_organ.c"],
-	["mix_sawtooth", "./src/binary/oscillators/hq/mix_sawtooth.c"],
-	["mix_wavetable", "./src/binary/oscillators/aliased/mix_wavetable.c"],
-	["mix_brown_noise", "./src/binary/oscillators/aliased/mix_brown_noise.c"],
-	["mix_pink_noise", "./src/binary/oscillators/aliased/mix_pink_noise.c"],
-	["mix_white_noise", "./src/binary/oscillators/aliased/mix_white_noise.c"],
+	["mix_square", "./src/binary/synth/oscillators/hq/mix_square.c"],
+	["mix_tilted", "./src/binary/synth/oscillators/hq/mix_tilted.c"],
+	["mix_triangle", "./src/binary/synth/oscillators/hq/mix_triangle.c"],
+	["mix_organ", "./src/binary/synth/oscillators/hq/mix_organ.c"],
+	["mix_sawtooth", "./src/binary/synth/oscillators/hq/mix_sawtooth.c"],
+	["mix_wavetable", "./src/binary/synth/oscillators/aliased/mix_wavetable.c"],
+	["mix_brown_noise", "./src/binary/synth/oscillators/aliased/mix_brown_noise.c"],
+	["mix_pink_noise", "./src/binary/synth/oscillators/aliased/mix_pink_noise.c"],
+	["mix_white_noise", "./src/binary/synth/oscillators/aliased/mix_white_noise.c"],
 	# mix_noise must come after other noise oscillators
-	["mix_noise", "./src/binary/oscillators/aliased/mix_noise.c"],
+	["mix_noise", "./src/binary/synth/oscillators/aliased/mix_noise.c"],
 ]
 
 #######
@@ -57,7 +57,7 @@ oscillators = [
 p = Patcherex(args.p8path)
 
 # p.patches.append(InsertFunctionPatch("polyblep", Path(
-# 	"./src/binary/filters/polyblep.c").read_text()))
+# 	"./src/binary/synth/filters/polyblep.c").read_text()))
 
 for x in phasors:
 	p.patches.append(InsertFunctionPatch(x[0], Path(x[1]).read_text()))
@@ -66,10 +66,10 @@ for o in oscillators:
 	p.patches.append(InsertFunctionPatch(o[0], Path(o[1]).read_text()))
 
 p.patches.append(InsertFunctionPatch(
-    "mix_reverb", Path("./src/binary/mix_reverb.c").read_text()))
+    "mix_reverb", Path("./src/binary/synth/mix_reverb.c").read_text()))
 
 p.patches.append(ModifyFunctionPatch("mix_osc_tick_new",
-                                     Path("./src/binary/mix_osc_tick.c").read_text()))
+                                     Path("./src/binary/synth/mix_osc_tick.c").read_text()))
 
 p.apply_patches()
 
