@@ -6,6 +6,7 @@
 var advanced_pattern = 0x88048;
 var codo_audio_buffer = 0xb555b;
 var codo_audio_is_locked = 0xb556e;
+var codo_current_music = undefined;
 var codo_post_mix_func = 0xb555a;
 // guest paused
 var codo_state_604 = 0x877d2;
@@ -37,6 +38,7 @@ var last_callback_len = 0x2222;
 var note_dx = 0x75a0;
 var ms0 = 0x2a064c;
 var ps0 = 0x88049;
+var ps0_sfx_playing = undefined;
 var ramp_buf = 0x1a7da0;
 var xmbuf = 0x1a5d20;
 
