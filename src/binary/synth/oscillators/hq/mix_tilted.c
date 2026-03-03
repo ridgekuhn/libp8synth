@@ -7,7 +7,7 @@
  * @param tick_buffer Mixer channel tick buffer
  * @param chunk_len Length of tick_buffer in samples
  */
-void mix_supersaw(int *osc_state, short *tick_buffer, int chunk_len) {
+void mix_tilted(int *osc_state, short *tick_buffer, int chunk_len) {
   /*
    * Oscillator state
    */
