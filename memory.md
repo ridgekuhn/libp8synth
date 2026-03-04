@@ -91,6 +91,14 @@ The mixer state accommodates 16 channels.
 +0x21ae: TICK BUFFER HISTORY
 +0x2d20: PATTERN STATE
 +0x2d30: OSCILLATOR STATE
++0x2e90: prev tick pitch
++0x2e94: prev tick waveform
++0x2e98: prev tick vol
+
++0x2ea4: meta instrument target_pitch
++0x2ea8: meta instrument oscillator
++0x2eac: meta instrument target_vol
+
 +0x2ee0: cur pattern tick
 +0x2ee4: total reverb (sfx + oscillator + global), 1 or 2 if enabled
 +0x2ee8: total dampen (sfx + oscillator + global), if enabled: 8 if 1, 12 if 2, 15 if 0x5f43 hi + lo bits set
@@ -98,6 +106,7 @@ The mixer state accommodates 16 channels.
 +0x2ef0: current HISTORY idx
 +0x2ef4: previous mix expire
 +0x2ef8: mix expire
++0x2efc: ?
 +0x2f00: HISTORY
 ```
 
@@ -177,7 +186,7 @@ CHANNEL STATE + 0x2d20
 ```
 CHANNEL STATE + 0x2d30
 
-0x0b60(?) total, 0x016c ea
+0x0b60(?) total, 0x0160 ea
 
 +0x0000: waveform 0-7, or 8 if wavetable bit set
 +0x0004: current phase
@@ -204,13 +213,6 @@ CHANNEL STATE + 0x2d30
 +0x0058: noiz, 1 if enabled, 2 if (CHANNEL STATE +0x2ee8 < 0xb)
 +0x005c: reverb, 1 or 2 if enabled
 +0x0060: WAVETABLE SAMPLES
-+0x0160: prev tick pitch
-+0x0164: prev tick waveform
-+0x0168: prev tick vol
-
-+0x0174: meta instrument target_pitch
-+0x0178: meta instrument waveform
-+0x017c: meta instrument target vol
 ```
 
 #### WAVETABLE SAMPLES
