@@ -21,7 +21,7 @@ function codo_music_is_playing() {
 	// voxatron only
   // if (
 	// 	c[codo_current_music] != 0 &&
-	// 	c[ps0_sfx_playing] != 0 &&
+	// 	c[ps0] != 0 &&
 	// 	(fade1 != 0 || fade_vol != 0)
 	// ) {
 	// 	return MUSIC_PLAYING != 0;

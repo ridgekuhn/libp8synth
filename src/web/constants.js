@@ -82,9 +82,6 @@ var xmbuf = 0x1a5d20;
 // 0x00ab4900 in p8 binary
 // Voxatron-only
 var ps0 = 0x88049;
-// 0x00ab4900 in p8 binary
-// @TODO this should be ps0
-var ps0_sfx_playing = undefined;
 
 // UNNAMED
 // Voxatron-only
