@@ -1,13 +1,57 @@
 // COMPATIBILITY: 0.2.7
+// Listed binary addresses are for Linux x86_64 pico8_dyn build
 
 /*
- * Binary named globals
+ * Globals
  */
+// 0x00798c60 in p8 binary
+var last_callback_len = 0x2222;
+
+// 0x00798c80 in p8 binary
+var note_dx = 0x75a0;
+
+// 0x00876c00 in p8 binary
+var inside_codo_mixer_callback = 0xb5553;
+// 0x00876c04 in p8 binary
 var advanced_pattern = 0x88048;
-var codo_audio_buffer = 0xb555b;
-var codo_audio_is_locked = 0xb556e;
+// 0x00876c08 in p8 binary
 var codo_current_music = undefined;
+
+// 0x00876c10 in p8 binary
+var fade_vol = 0x88047;
+// 0x00876c14 in p8 binary
+var fade1 = 0x88046;
+// 0x00876c18 in p8 binary
+var fade0 = 0x88045;
+// 0x00876c1c in p8 binary
+var fade_len = 0x88044;
+// 0x00876c20 in p8 binary
+var fade_start_t = 0x88043;
+
+// 0x00877048 in p8 binary
 var codo_post_mix_func = 0xb555a;
+
+// 0x00877060 in p8 binary
+var ramp_buf = 0x1a7da0;
+
+// 0x008770e0 in p8 binary
+var codo_audio_buffer = 0xb555b;
+
+// 0x0087714c in p8 binary
+var codo_audio_is_locked = 0xb556e;
+
+// UNNAMED
+// 0x00a74d7c in p8 binary
+var SOUND_VOLUME = 0x878ef;
+// UNNAMED
+// 0x00a74d80 in p8 binary
+var MUSIC_VOLUME = 0x878f0;
+
+// UNNAMED
+// 0x00a74dcc in p8 binary
+var SOUND_INITIALIZED = 0x87903;
+
+// codo_state = 0x00a77a60 + _xxx in p8 binary
 // guest paused
 var codo_state_604 = 0x877d2;
 // unused in binary
@@ -28,41 +72,40 @@ var codo_state_664 = 0x877e0;
 var codo_state_668 = 0x877e1;
 // # sdl channels
 var codo_state_672 = 0x877e2;
-var fade_start_t = 0x88043;
-var fade_len = 0x88044;
-var fade0 = 0x88045;
-var fade1 = 0x88046;
-var fade_vol = 0x88047;
-var inside_codo_mixer_callback = 0xb5553;
-var last_callback_len = 0x2222;
-var note_dx = 0x75a0;
+
+// 0x00a7b8e0 in p8 binary
 var ms0 = 0x2a064c;
-var ps0 = 0x88049;
-var ps0_sfx_playing = undefined;
-var ramp_buf = 0x1a7da0;
+
+// 0x00ab28e0 in p8 binary
 var xmbuf = 0x1a5d20;
 
-/*
- * Binary anonymous globals
- */
-// 0x00b5d0f0 in p8 binary
-var AUDIO_CLOCK_MASK = 0xbec46;
-// 0x00b5d0f8 in p8 binary
-var GLOBAL_BITCRUSH = 0xbec48;
-// 0x00b5d0fc in p8 binary
-var GLOBAL_DAMPEN = 0xbec49;
-// 0x00b5d0f4 in p8 binary
-var GLOBAL_REVERB = 0xbec47;
-// 0x00b5d0ec in p8 binary
-var MUSIC_CH_MASK = 0xbec45;
+// 0x00ab4900 in p8 binary
+// Voxatron-only
+var ps0 = 0x88049;
+// 0x00ab4900 in p8 binary
+// @TODO this should be ps0
+var ps0_sfx_playing = undefined;
+
+// UNNAMED
+// Voxatron-only
 // 0x00b34e28 in p8 binary
 var MUSIC_PLAYING = 0xa8192;
-// 0x00a74d80 in p8 binary
-var MUSIC_VOLUME = 0x878f0;
-// 0x00a74dcc in p8 binary
-var SOUND_INITIALIZED = 0x87903;
-// 0x00a74d7c in p8 binary
-var SOUND_VOLUME = 0x878ef;
+
+// UNNAMED
+// 0x00b5d0ec in p8 binary
+var MUSIC_CH_MASK = 0xbec45;
+// UNNAMED
+// 0x00b5d0f0 in p8 binary
+var AUDIO_CLOCK_MASK = 0xbec46;
+// UNNAMED
+// 0x00b5d0f4 in p8 binary
+var GLOBAL_REVERB = 0xbec47;
+// UNNAMED
+// 0x00b5d0f8 in p8 binary
+var GLOBAL_BITCRUSH = 0xbec48;
+// UNNAMED
+// 0x00b5d0fc in p8 binary
+var GLOBAL_DAMPEN = 0xbec49;
 
 /*
  * Re-minify function names
