@@ -1,5 +1,5 @@
 #include "./codo_random.h"
-#include "../constants.h"
+#include "../globals.h"
 
 long codo_random(int n) {
   long result = 0;
