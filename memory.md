@@ -58,34 +58,36 @@ LOADED_CART_ROM + 0xaa20, 0x0100 total, 0x0004 each
 +0x0003: ch 3 sfx idx
 ```
 
-### MUSIC PATTERN LOOP FLAGS
+### MUSIC PATTERN LOOP MASKS
 
 ```
 LOADED_CART_ROM + 0xae20, 0x0100 total, 0x0004 each
 
-+0x0000: x & 4 == 4 if stop loop, x & 2 == 2 if end loop, x & 1 == 1 if start loop
++0x0000: (1 << 2) = stop loop, (1 << 1) = end loop, 1 = start loop
 ```
 
 ---
 
 ## MIXER CHANNEL STATES
 
-The mixer state accommodates 16 channels, but only channels `8` - `11` are used, for VM channels `0` - `3`.
+The mixer state accommodates 16 channels.
 
 ```
 0x00037000 total, 0x3700 each
 
 +0x0000: channel chunk buffer
 +0x2000: ?
-+0x2004: unused?
-+0x2008: unused?
++0x2004: ?
++0x2008: ?
++0x200c: ?
 +0x2010: pointer to voxatron channel? (voxatron-only?)
++0x2014: ?
++0x2018: ?
 +0x201c: voxatron samples remaining? (voxatron-only?)
 +0x2020: pointer to LOADED CART ROM
 +0x2024: ?
 +0x2028: STEP STATE
 +0x2040: TICK BUFFER
-+0x21ac: ?
 +0x21ae: TICK BUFFER HISTORY
 +0x2d20: PATTERN STATE
 +0x2d30: OSCILLATOR STATE
@@ -220,8 +222,8 @@ OSCILLATOR STATE + 0x60
 
 0x0100 total
 
-+0x0000: (lo_byte - ((lo_byte << 1) & 256) << 7
-+0x0004: (hi_byte - ((hi_byte << 1) & 256) << 7
++0x0000: (lo_byte - ((lo_byte << 1) & 0x100) << 7
++0x0004: (hi_byte - ((hi_byte << 1) & 0x100) << 7
 ...etc
 ```
 
@@ -254,37 +256,66 @@ CHANNEL STATE + 0x2f00
 
 Pointer to main audio buffer
 
+#### `codo_audio_is_locked`
+
+`1` if SDL audio is locked
+
+#### `codo_current_music`
+
+Voxatron-only
+
 #### `codo_post_mix_func`
 
-Pointer to SDL postmix callback, set to `mix_serial_sound_buffer()` at init.
+Pointer to SDL postmix callback, set to `mix_serial_sound_buffer` at init.
+
+#### `codo_state`
+
+Various virtual machine states
+
+```
++604: 1 if pause menu active
++608: unused?
++612: 1 if audio playing
++632: codo_audio_buffer initialized
++636: # patterns played
++640: current pattern idx
++660: program sample rate
++664: # program channels
++668: sdl sample rate
++672: # sdl channels
+```
+
+#### `fade_start_t`
+
+Music fade start time
+
+#### `fade_len`
+
+Music fade time remaining
+
+#### `fade0`
+
+Previous fade volume
+
+#### `fade1`
+
+Next fade volume
 
 #### `fade_vol`
 
-Current fade in / out gain.
+Current fade volume
 
 #### `inside_codo_mixer_callback`
 
-`1` if SDL mixer callback is running
+`1` if mixer callback is running
 
 #### `last_callback_len`
 
-Chunk length of previous SDL mixer callback
+Chunk length of previous mixer callback
 
 #### `ms0`
 
 Pointer to [MIXER CHANNEL STATES](#mixer-channel-states)
-
-#### `ps0`
-
-Pointer to Voxatron audio state (Voxatron only)
-
-#### `ramp_buf`
-
-Pointer to ramp buffer
-
-#### `xmbuf`
-
-Pointer to xm audio buffer (Voxatron only)
 
 #### `note_dx`
 
@@ -305,18 +336,18 @@ Note lookup table
 +0x002c: 000003d8 984Hz B 5
 ```
 
-#### `codo_state`
+#### `ps0`
 
-Various virtual machine states
+Pointer to Voxatron audio state
 
-```
-+604: guest paused
-+608: unused?
-+612: audio playing
-+632: codo_audio_buffer initialized
-+636: # patterns played
-+660: program sample rate
-+664: # program channels
-+668: sdl sample rate
-+672: # sdl channels
-```
+#### `ps0_sfx_playing`
+
+`1` if Voxatron music playing
+
+#### `ramp_buf`
+
+Pointer to ramp buffer
+
+#### `xmbuf`
+
+Pointer to xm audio buffer (Voxatron only)
