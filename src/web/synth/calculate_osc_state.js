@@ -50,7 +50,7 @@ function calculate_osc_state(ch_state, osc_state) {
 	c[(osc_state + 0x40) >> 2] = sfx_step_waveform;
 
 	// sfx_ptr + 0x14 = sfx_ptr + 0x20 in p8 binary
-	const sfx_effect_addr = sfx_ptr + 0x14 + sfx_step * 20 + 12;
+	const sfx_effect_addr = sfx_ptr + 0x14 + sfx_step * 0x14 + 0xc;
 	const sfx_effect = c[sfx_effect_addr >> 2];
 
 	let new_target_pitch = 0;
@@ -117,7 +117,7 @@ function calculate_osc_state(ch_state, osc_state) {
 				((sfx_tick / (is_lo_spd ? 2 : 4)) % 4) + (sfx_step & 0x1c);
 
 			// sfx_ptr + 0x14 = sfx_ptr + 0x20 in p8 binary
-			new_target_pitch = c[(sfx_ptr + 0x14 + step_offset * 20) >> 2] << 16;
+			new_target_pitch = c[(sfx_ptr + 0x14 + step_offset * 0x14) >> 2] << 16;
 			new_target_vol = sfx_step_vol_256;
 
 			c[osc_step_target_pitch_addr >> 2] = new_target_pitch;
@@ -130,7 +130,7 @@ function calculate_osc_state(ch_state, osc_state) {
 				((sfx_tick / (is_lo_spd ? 4 : 8)) % 4) + (sfx_step & 0x1c);
 
 			// sfx_ptr + 0x14 = sfx_ptr + 0x20 in p8 binary
-			new_target_pitch = c[(sfx_ptr + 0x14 + step_offset * 20) >> 2] << 16;
+			new_target_pitch = c[(sfx_ptr + 0x14 + step_offset * 0x14) >> 2] << 16;
 			new_target_vol = sfx_step_vol_256;
 
 			c[osc_step_target_pitch_addr >> 2] = new_target_pitch;
@@ -147,16 +147,16 @@ function calculate_osc_state(ch_state, osc_state) {
 	c[(osc_state + 0x24) >> 2] = sfx_step_pitch;
 	c[(osc_state + 0x28) >> 2] = new_target_vol;
 
-	const osc_effect_addr = osc_state + 68;
+	const osc_effect_addr = osc_state + 0x44;
 
 	c[osc_effect_addr >> 2] = 0;
 
-	const osc_filter_addr = osc_state + 72;
+	const osc_filter_addr = osc_state + 0x48;
 
 	c[osc_filter_addr >> 2] = 0;
 
 	// sfx_ptr + 0x14 = sfx_ptr + 0x20 in p8 binary
-	const sfx_step_is_meta_addr = sfx_ptr + 0x14 + sfx_step * 20 + 0x10;
+	const sfx_step_is_meta_addr = sfx_ptr + 0x14 + sfx_step * 0x14 + 0x10;
 
 	// 0x201c = 0x2020 (+0x4) in p8 binary
 	const loaded_cart_ptr = c[(ch_state + 0x201c) >> 2];
@@ -166,7 +166,7 @@ function calculate_osc_state(ch_state, osc_state) {
 
 	// loaded_cart_ptr + 0x10 = loaded_cart_ptr + 0x20 in p8 binary
 	const loop_start =
-		c[(loaded_cart_ptr + 0x10 + meta_inst_idx * 680 + 12) >> 2];
+		c[(loaded_cart_ptr + 0x10 + meta_inst_idx * 680 + 0xc) >> 2];
 
 	// If step does not use meta instrument
 	if (!c[sfx_step_is_meta_addr >> 2]) {

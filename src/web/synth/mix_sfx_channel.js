@@ -60,6 +60,7 @@ function mix_sfx_channel(ch_state, chunk_len) {
 		/*
 		 * Add history record
 		 */
+		// 0x2ee4 = 0x2ef0 in p8 binary
 		if (c[(ch_state + 0x2ee4) >> 2] < 64) {
 			add_mixer_state_history_record(ch_state);
 		}
@@ -139,7 +140,6 @@ function mix_sfx_channel(ch_state, chunk_len) {
 		// 0x2034 = 0x2040 in p8 binary
 		const tick_buffer = ch_state + 0x2034;
 
-		// @TODO this overwrites step state?
 		mix_sfx_tick(ch_state, tick_buffer);
 
 		/*
@@ -172,7 +172,7 @@ function mix_sfx_channel(ch_state, chunk_len) {
 
 		if (total_dampen > 0) {
 			const dampen_dx = 16 - total_dampen;
-			// 0x21a0 = 0x21ac in p8 binary
+			// 0x21a0 = 0x21ac in p8 binary (final sample of tick buffer 0)
 			const dampen_seed =
 				(B(dampen_dx, b[tick_buffer >> 1]) +
 					B(total_dampen, (b[(ch_state + 0x21a0) >> 1] << 16) >> 16)) /

@@ -36,6 +36,7 @@ function apply_meta_instrument(ch_state, sfx_step, osc_state) {
 	const arp_slow_spd = fast_spd ? 4 : 8;
 	const arp_fast_spd = fast_spd ? 2 : 4;
 	const loop_end = c[(meta_sfx_addr + 0x10) >> 2];
+	// 0x2ed4 = 0x2ee0 in p8 binary
 	const cur_pat_tick_addr = ch_state + 0x2ed4;
 	const cur_pat_tick = c[cur_pat_tick_addr >> 2];
 
@@ -154,7 +155,7 @@ function apply_meta_instrument(ch_state, sfx_step, osc_state) {
 		case 7: {
 			const arp_step = (Math.floor(meta_tick / arp_slow_spd) % 4) + (step & 28);
 
-			new_target_pitch = c[(meta_sfx_addr + 20 + arp_step * 0x14) >> 2] << 16;
+			new_target_pitch = c[(meta_sfx_addr + 0x14 + arp_step * 0x14) >> 2] << 16;
 
 			new_target_vol = meta_target_vol;
 

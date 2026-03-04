@@ -204,9 +204,9 @@ function mix_sfx_tick(ch_state, tick_buffer) {
 	 */
 	// 0x201c = 0x2020 in p8 binary
 	const loaded_cart_rom_addr = ch_state + 0x201c;
-	const loaded_cart_rom_ptr = c[loaded_cart_rom_addr >> 2];
+	const cart_ptr = c[loaded_cart_rom_addr >> 2];
 
-	if (!loaded_cart_rom_ptr) {
+	if (!cart_ptr) {
 		Ia = e;
 		return;
 	}
@@ -235,7 +235,7 @@ function mix_sfx_tick(ch_state, tick_buffer) {
 	c[0x88048] = 1;
 
 	// loaded_cart_rom + 0xae10 = loaded_cart_rom + 0xae20 in p8 binary
-	const loop_mask = c[(loaded_cart_rom_ptr + 0xae10 + (cur_pat_idx << 2)) >> 2];
+	const loop_mask = c[(cart_ptr + 0xae10 + (cur_pat_idx << 2)) >> 2];
 
 	// Stop loop set
 	if ((loop_mask & 4) != 0) {
@@ -262,7 +262,7 @@ function mix_sfx_tick(ch_state, tick_buffer) {
 			next_pat_idx > 0 &&
 			// next_pat begin loop unset
 			// loaded_cart_rom + 0xae10 = loaded_cart_rom + 0xae20 in p8 binary
-			(c[(loaded_cart_rom_ptr + 0xae10 + (next_pat_idx << 2)) >> 2] & 1) == 0
+			(c[(cart_ptr + 0xae10 + (next_pat_idx << 2)) >> 2] & 1) == 0
 		) {
 			next_pat_idx -= 1;
 		}
@@ -277,7 +277,7 @@ function mix_sfx_tick(ch_state, tick_buffer) {
 	}
 
 	// loaded_cart_rom + 0xaa10 = loaded_cart_rom + 0xaa20 in p8 binary
-	const next_pat_addr = loaded_cart_rom_ptr + 0xaa10 + (next_pat_idx << 4);
+	const next_pat_addr = cart_ptr + 0xaa10 + (next_pat_idx << 4);
 
 	if (
 		c[next_pat_addr >> 2] > 63 &&
@@ -298,7 +298,7 @@ function mix_sfx_tick(ch_state, tick_buffer) {
 	// 0x2030 = 0x203c in p8 binary
 	let sfx_idx =
 		c[
-			(loaded_cart_rom_ptr +
+			(cart_ptr +
 				0xaa10 +
 				(next_pat_idx << 4) +
 				(c[(ch_state + 0x2030) >> 2] << 2)) >>
@@ -308,15 +308,15 @@ function mix_sfx_tick(ch_state, tick_buffer) {
 	sfx_idx = sfx_idx > 0 ? sfx_idx : 0;
 
 	c[sfx_ptr_addr >> 2] =
-		// loaded_cart_rom_ptr + 0x10 = loaded_cart_ptr + 0x20 in p8 binary
-		sfx_idx <= 63 ? loaded_cart_rom_ptr + 0x10 + sfx_idx * 680 : 0;
+		// cart_ptr + 0x10 = loaded_cart_ptr + 0x20 in p8 binary
+		sfx_idx <= 63 ? cart_ptr + 0x10 + sfx_idx * 680 : 0;
 	c[cur_sfx_tick_addr >> 2] = 0;
 	c[cur_step_tick_addr >> 2] = 0;
 	// chunk buffer samples remaining
 	// 0x2d18 = 0x2d24 in p8 binary
 	b[(ch_state + 0x2d18) >> 1] = 183;
 	c[pat_ticks_remaining_addr >> 2] = get_pattern_ticks_length(
-		loaded_cart_rom_ptr,
+		cart_ptr,
 		next_pat_addr,
 	);
 

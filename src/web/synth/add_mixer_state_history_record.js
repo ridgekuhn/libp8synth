@@ -17,6 +17,7 @@ function add_mixer_state_history_record(ch_state) {
 	c[(ch_state + 0x2ef0 + history_idx * 0x18 + 4) >> 2] =
 		c[(ch_state + 0x2028) >> 2];
 
+	// 0x2020 = 0x2028 (+0x8) in p8 binary
 	const sfx_ptr = c[(ch_state + 0x2020) >> 2];
 
 	// sfx ptr
