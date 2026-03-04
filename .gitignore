@@ -9,9 +9,9 @@ pico8_dyn*
 *.tsbuildinfo
 
 # Compiled project
-**/*/build
-**/*/dist
-**/*/out
+build/
+dist/
+out/
 
 # Dotenv
 *.env
