@@ -4,7 +4,6 @@
 function apply_meta_instrument(ch_state, sfx_step, osc_state) {
 	// 0x201c = 0x2020 in p8 binary
 	const cart_ptr = c[(ch_state + 0x201c) >> 2];
-	const meta_sfx_addr = meta_sfx_addr;
 
 	if (!cart_ptr) {
 		return;
@@ -13,6 +12,9 @@ function apply_meta_instrument(ch_state, sfx_step, osc_state) {
 	let meta_idx = c[(sfx_step + 4) >> 2];
 	meta_idx = meta_idx < 7 ? meta_idx : 7;
 	meta_idx = meta_idx > 0 ? meta_idx : 0;
+
+	// cart_ptr + 0x10 = cart_ptr + 0x20 in p8 binary
+	const meta_sfx_addr = cart_ptr + 0x10 + meta_idx * 680;
 
 	c[(osc_state + 0x48) >> 2] = c[meta_sfx_addr >> 2];
 
