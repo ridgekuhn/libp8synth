@@ -1,6 +1,5 @@
 #include "./mix_brown_noise.h"
-// @TODO
-// #include "../../../math/codo_random.h"
+#include "../../../math/codo_random.h"
 
 /**
  * Mix brown noise oscillator
