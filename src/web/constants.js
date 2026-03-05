@@ -105,6 +105,11 @@ var GLOBAL_BITCRUSH = 0xbec48;
 var GLOBAL_DAMPEN = 0xbec49;
 
 /*
+ * New constants
+ */
+var SAMPLES_PER_TICK = 183;
+
+/*
  * Re-minify function names
  */
 // var Jr = sdl_mixer_cb;

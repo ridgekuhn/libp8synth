@@ -35,8 +35,8 @@ function mix_sfx_channel(ch_state, chunk_len) {
 		// 0x2d18 = 0x2d24 in p8 binary
 		const samples_remaining = b[(ch_state + 0x2d18) >> 1];
 
-		if (samples_remaining < 183) {
-			let samples_to_mix = 183 - samples_remaining;
+		if (samples_remaining < SAMPLES_PER_TICK) {
+			let samples_to_mix = SAMPLES_PER_TICK - samples_remaining;
 			samples_to_mix =
 				samples_to_mix < tick_samples_remaining
 					? samples_to_mix
@@ -149,7 +149,7 @@ function mix_sfx_channel(ch_state, chunk_len) {
 
 		// distort
 		if (lo_filter_mask & global_bitcrush) {
-			for (let i = 0; i < 183; i += 1) {
+			for (let i = 0; i < SAMPLES_PER_TICK; i += 1) {
 				const sample_addr = tick_buffer + (i << 1);
 				const old_sample = b[sample_addr >> 1];
 				let new_sample = (old_sample << 16) >> 16;
@@ -163,7 +163,7 @@ function mix_sfx_channel(ch_state, chunk_len) {
 				b[sample_addr >> 1] = new_sample;
 			}
 		} else if (hi_filter_mask & global_bitcrush) {
-			for (let i = 0; i < 183; i += 1) {
+			for (let i = 0; i < SAMPLES_PER_TICK; i += 1) {
 				const sample_addr = tick_buffer + (i << 1);
 
 				b[sample_addr >> 1] = b[sample_addr >> 1] & -0xff9;
@@ -180,7 +180,7 @@ function mix_sfx_channel(ch_state, chunk_len) {
 
 			b[tick_buffer >> 1] = dampen_seed;
 
-			for (let i = 1; i < 183; i += 1) {
+			for (let i = 1; i < SAMPLES_PER_TICK; i += 1) {
 				const sample_addr = tick_buffer + (i << 1);
 
 				const sample =
