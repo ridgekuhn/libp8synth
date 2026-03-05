@@ -43,5 +43,6 @@ typedef struct CodoState CodoState;
 extern CodoState codo_state;
 extern int m_low;
 extern int m_high;
+extern int SAMPLES_PER_TICK;
 
 #endif

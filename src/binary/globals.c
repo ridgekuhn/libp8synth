@@ -14,3 +14,4 @@ CodoState codo_state = {
 
 int m_high = 0x1234567;
 int m_low = 0xdeadbeef;
+int SAMPLES_PER_TICK = 183;
