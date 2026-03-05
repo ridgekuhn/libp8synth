@@ -272,7 +272,7 @@ function calculate_osc_state(ch_state, osc_state) {
 	/*
 	 * Phase increment (dt)
 	 */
-	let dt = (freq1 + freq2) / 22050;
+	let dt = (freq1 + freq2) / c[codo_state_660];
 	let octave_target = Math.floor((new_target_pitch_64 + 48) / 12) - 4;
 
 	if (new_target_pitch < 0x240000) {
