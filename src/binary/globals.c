@@ -12,6 +12,8 @@ CodoState codo_state = {
   .sdl_channels = 0,
 };
 
+long *g_cart_ptr = 0;
+int g_version = 43;
 int m_high = 0x1234567;
 int m_low = 0xdeadbeef;
 int SAMPLES_PER_TICK = 183;
