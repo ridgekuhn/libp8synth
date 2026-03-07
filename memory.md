@@ -52,10 +52,10 @@ LOADED_CART_ROM + 0x0020, 0xaa00 total, 0x02a8 each
 ```
 LOADED_CART_ROM + 0xaa20, 0x0100 total, 0x0004 each
 
-+0x0000: ch 0 sfx idx
-+0x0001: ch 1 sfx idx
-+0x0002: ch 2 sfx idx
-+0x0003: ch 3 sfx idx
++0x0000: ch 0 sfx idx | (0x80 if enabled)
++0x0001: ch 1 sfx idx | (0x80 if enabled)
++0x0002: ch 2 sfx idx | (0x80 if enabled)
++0x0003: ch 3 sfx idx | (0x80 if enabled)
 ```
 
 ### MUSIC PATTERN LOOP MASKS
