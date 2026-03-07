@@ -54,7 +54,7 @@ struct CData {
   // +0xab20
   int32_t UNKNOWN_0xab20[0xc0];
   // +0xae20
-  int32_t pattern_loop_mask[64][4];
+  int32_t pattern_loop_mask[64];
 };
 
 typedef struct CData CData;
