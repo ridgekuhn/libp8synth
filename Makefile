@@ -51,7 +51,7 @@ $(CLI_OBJ): $(OUT)/cli/%.o : $(SRC)/cli/%.c $(SRC)/cli/%.h cli_dir globals cart
 main: $(CART_OBJ) $(CLI_OBJ) $(OUT)/main.o $(OUT)/globals.o
 	$(CC) $(CFLAGS) -o $(OUT)/$(NAME) $^ -lm
 
-$(OUT)/main.o: $(SRC)/main.h out_dir
+$(OUT)/main.o: $(SRC)/main.h out_dir globals
 	mkdir -p $(OUT)
 	$(CC) $(CFLAGS) -o $@ -c $(SRC)/main.c
 
