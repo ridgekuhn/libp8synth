@@ -1,3 +1,4 @@
+#include "./cart/cdata.h"
 #include <stdint.h>
 
 #ifndef GLOBALS
@@ -41,7 +42,7 @@ typedef struct CodoState CodoState;
  * Variables
  */
 extern CodoState codo_state;
-extern long *g_cart_ptr;
+extern CData *g_cdata;
 extern int g_version;
 extern int m_low;
 extern int m_high;
