@@ -1,3 +1,4 @@
+#include "../cart/codo_load_pico8_cart.h"
 #include "../globals.h"
 #include "./arg_parser.h"
 #include <math.h>
@@ -7,6 +8,14 @@
 void main_init(int argc, char **argv) {
   Input input = arg_parser(argc, argv);
 
+  /*
+   * Cart init
+   */
+  g_cdata = codo_load_pico8_cart(input.args[0]);
+
+  /*
+   * Audio init
+   */
   float sample_multiplier = codo_state.prog_sample_rate / 22050.0;
 
   if (codo_state.prog_sample_rate < 22050 || fmod(sample_multiplier, 1) != 0) {
