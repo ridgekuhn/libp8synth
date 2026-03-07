@@ -1,3 +1,6 @@
+#ifndef CDATA
+#define CDATA
+
 #include <stdint.h>
 
 /*
@@ -55,3 +58,5 @@ struct CData {
 };
 
 typedef struct CData CData;
+
+#endif
