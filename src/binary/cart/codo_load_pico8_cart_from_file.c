@@ -5,6 +5,7 @@
 #include "./cdata.h"
 #include "./codo_create_pico8_cart.h"
 #include "./load_music.h"
+#include "./load_sfx.h"
 #include "./verify_cart_header.h"
 #include <regex.h>
 #include <stdio.h>
@@ -35,6 +36,10 @@ CData *codo_load_pico8_cart_from_file(FILE *file_ptr, int unknown) {
   while (fgets(str, 0x30001, file_ptr)) {
     // If current line is section tag
     if (regexec(&regex, str, 0, NULL, 0) == 0) {
+      if (strstr(str, "__sfx__")) {
+        load_sfx(file_ptr, cdata);
+      }
+
       if (strstr(str, "__music__")) {
         load_music(file_ptr, cdata);
       }
