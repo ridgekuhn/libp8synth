@@ -1,3 +1,4 @@
+#include "./sample_triangle.h"
 #include <math.h>
 
 /**

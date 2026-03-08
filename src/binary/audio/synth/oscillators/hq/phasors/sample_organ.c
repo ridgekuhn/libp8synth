@@ -1,3 +1,4 @@
+#include "./sample_organ.h"
 #include "./sample_triangle.h"
 
 /**
@@ -11,7 +12,7 @@ double sample_organ(int freq, int t) {
     return 0;
   }
 
-  const int tri1 = sample_triangle(freq * 2, t * 2);
-  const int tri2 = sample_triangle(freq, (t + 0xc000) & 0xffff) * 0.45;
+  const double tri1 = sample_triangle(freq * 2, t * 2);
+  const double tri2 = sample_triangle(freq, (t + 0xc000) & 0xffff) * 0.45;
   return (tri1 - tri2) * 0.82;
 }

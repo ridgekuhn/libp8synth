@@ -1,3 +1,4 @@
+#include "./sample_square.h"
 #include <math.h>
 
 /**

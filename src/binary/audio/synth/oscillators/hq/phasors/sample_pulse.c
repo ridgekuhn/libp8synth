@@ -1,3 +1,4 @@
+#include "./sample_pulse.h"
 #include <math.h>
 
 /**
