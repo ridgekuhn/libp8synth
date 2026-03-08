@@ -1,6 +1,7 @@
 #include "./mix_osc_tick.h"
 #include "./mix_reverb.h"
 #include "./oscillators/aliased/mix_noise.h"
+#include "./oscillators/aliased/mix_wavetable.h"
 #include "./oscillators/hq/mix_organ.h"
 #include "./oscillators/hq/mix_pulse.h"
 #include "./oscillators/hq/mix_sawtooth.h"
