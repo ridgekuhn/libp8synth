@@ -6,7 +6,7 @@
  * @param freq Frequency
  * @param t Oscillator phase, 0 <= t < 0x10000
  */
-int sample_sawtooth(int freq, int t) {
+double sample_sawtooth(int freq, int t) {
   if (freq == 0) {
     return 0;
   }
@@ -24,5 +24,5 @@ int sample_sawtooth(int freq, int t) {
     normalize += magnitude;
   }
 
-  return (amplitude / normalize) * 0x100000;
+  return amplitude / normalize;
 }

@@ -6,7 +6,7 @@
  * @param freq Frequency
  * @param t Oscillator phase, 0 <= t < 0x10000
  */
-int sample_organ(int freq, int t) {
+double sample_organ(int freq, int t) {
   if (freq == 0) {
     return 0;
   }

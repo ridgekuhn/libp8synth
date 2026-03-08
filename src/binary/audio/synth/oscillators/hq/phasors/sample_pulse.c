@@ -7,7 +7,7 @@
  * @param t Oscillator phase, 0 <= t < 0x10000
  * @param duty_cycle Duty cycle len, 1 <= duty_cycle < 0xffff
  */
-int sample_pulse(int freq, int t, int duty_cycle) {
+double sample_pulse(int freq, int t, int duty_cycle) {
   if (freq == 0) {
     return 0;
   }
@@ -28,5 +28,5 @@ int sample_pulse(int freq, int t, int duty_cycle) {
     normalize += magnitude;
   }
 
-  return (amplitude /normalize) * 0x100000;
+  return amplitude / normalize;
 }

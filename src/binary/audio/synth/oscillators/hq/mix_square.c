@@ -1,5 +1,5 @@
-#include "./phasors/sample_square.h"
 #include "./mix_pulse.h"
+#include "./phasors/sample_square.h"
 
 /**
  * Mix square oscillator
@@ -46,15 +46,14 @@ void mix_square(int *osc_state, short *tick_buffer, int chunk_len) {
     /*
      * Primary phasor
      */
-    double amplitude = (double)sample_square(freq, cur_phase) / 0x100000;
+    double amplitude = sample_square(freq, cur_phase);
 
     /*
      * Detune phasor
      */
     double detune_amplitude =
-        (double)sample_square(detune_freq << osc_detune_m1,
-                              (cur_detune_phase << osc_detune_m1) & 0xffff) /
-        0x100000;
+        sample_square(detune_freq << osc_detune_m1,
+                      (cur_detune_phase << osc_detune_m1) & 0xffff);
 
     /*
      * Mix sample
