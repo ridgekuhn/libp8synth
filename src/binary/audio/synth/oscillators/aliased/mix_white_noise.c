@@ -1,5 +1,5 @@
 #include "./mix_white_noise.h"
-#include "../../../math/codo_random.h"
+#include "../../../../math/codo_random.h"
 
 /**
  * Mix white noise oscillator
