@@ -46,14 +46,14 @@ void mix_square(int *osc_state, short *tick_buffer, int chunk_len) {
     /*
      * Primary phasor
      */
-    double amplitude = phasor_hq_square(freq, cur_phase);
+    double amplitude = phasor_hq_square( cur_phase, freq);
 
     /*
      * Detune phasor
      */
     double detune_amplitude =
-        phasor_hq_square(detune_freq << osc_detune_m1,
-                      (cur_detune_phase << osc_detune_m1) & 0xffff);
+        phasor_hq_square((cur_detune_phase << osc_detune_m1) & 0xffff,
+                         detune_freq << osc_detune_m1);
 
     /*
      * Mix sample

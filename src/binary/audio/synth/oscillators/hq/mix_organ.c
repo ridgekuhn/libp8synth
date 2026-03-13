@@ -40,7 +40,7 @@ void mix_organ(int *osc_state, short *tick_buffer, int chunk_len) {
     /*
      * Primary phasor
      */
-    double amplitude = phasor_hq_organ(freq, cur_phase);
+    double amplitude = phasor_hq_organ(cur_phase, freq);
 
     /*
      * Detune phasor
@@ -52,10 +52,11 @@ void mix_organ(int *osc_state, short *tick_buffer, int chunk_len) {
     if (osc_buzz) {
       const int m = 1 << osc_detune_m1;
 
-      detune_amplitude = phasor_hq_square(detune_freq * m, detune_partial * m);
+      detune_amplitude = phasor_hq_square(detune_partial * m, detune_freq * m);
     } else {
-      detune_amplitude =
-          phasor_hq_organ(detune_freq, detune_partial << osc_detune_m1) / 2;
+      detune_amplitude = phasor_hq_organ(detune_partial << osc_detune_m1,
+                                         detune_freq << osc_detune_m1) /
+                         2;
     }
 
     /*

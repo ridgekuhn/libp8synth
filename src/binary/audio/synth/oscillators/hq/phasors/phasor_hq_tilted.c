@@ -8,7 +8,7 @@
  * @param t Oscillator phase, 0 <= t < 0x10000
  * @param duty_cycle Duty cycle len, 1 <= duty_cycle < 0xffff
  */
-double phasor_hq_tilted(int freq, int t, int duty_cycle) {
+double phasor_hq_tilted(int t, int freq, int duty_cycle) {
   if (freq == 0) {
     return 0;
   }

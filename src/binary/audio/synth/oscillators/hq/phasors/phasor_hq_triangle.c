@@ -7,7 +7,7 @@
  * @param freq Frequency
  * @param t Oscillator phase, 0 <= t < 0x10000
  */
-double phasor_hq_triangle(int freq, int t) {
+double phasor_hq_triangle(int t, int freq) {
   if (freq == 0) {
     return 0;
   }

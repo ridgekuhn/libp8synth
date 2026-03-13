@@ -40,7 +40,7 @@ void mix_sawtooth(int *osc_state, short *tick_buffer, int chunk_len) {
     /*
      * Primary phasor
      */
-    double amplitude = phasor_hq_sawtooth(freq, cur_phase);
+    double amplitude = phasor_hq_sawtooth(cur_phase, freq);
 
     /*
      * Detune phasor
@@ -48,7 +48,7 @@ void mix_sawtooth(int *osc_state, short *tick_buffer, int chunk_len) {
     const int detune_phase = cur_detune_phase << osc_detune_m1;
 
     double detune_amplitude =
-        phasor_hq_sawtooth(detune_freq, detune_phase & 0xffff);
+        phasor_hq_sawtooth(detune_phase & 0xffff, detune_freq);
 
     /*
      * Buzz phasors
@@ -57,11 +57,11 @@ void mix_sawtooth(int *osc_state, short *tick_buffer, int chunk_len) {
      */
     if (osc_buzz) {
       // Primary phasor
-      amplitude += phasor_hq_sawtooth(freq, cur_phase) / 2;
+      amplitude += phasor_hq_sawtooth(cur_phase, freq) / 2;
 
       // Detune phasor
       detune_amplitude +=
-          (phasor_hq_sawtooth(detune_freq / 4, detune_phase / 4)) * 2;
+          (phasor_hq_sawtooth(detune_phase / 4, detune_freq / 4)) * 2;
 
       amplitude /= 2;
       detune_amplitude /= 2;
