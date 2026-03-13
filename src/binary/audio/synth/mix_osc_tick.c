@@ -1,7 +1,7 @@
 #include "./mix_osc_tick.h"
 #include "./mix_reverb.h"
 #include "./mixers/aliased/mix_noise.h"
-#include "./mixers/aliased/mix_wavetable.h"
+#include "./oscillators/aliased/osc_aliased_wavetable.h"
 #include "./oscillators/hq/osc_hq_organ.h"
 #include "./oscillators/hq/osc_hq_pulse.h"
 #include "./oscillators/hq/osc_hq_sawtooth.h"
@@ -53,11 +53,6 @@ void mix_osc_tick(int *osc_state, short *tick_buffer, int chunk_len,
   /*
    * Select and mix oscillator
    */
-  // Wavetable frame
-  if (waveform == 8) {
-    mix_wavetable(osc_state, tick_buffer, chunk_len);
-  }
-
   // Noise waveform
   if (waveform == 6) {
     mix_noise(osc_state, tick_buffer, chunk_len);
@@ -65,7 +60,6 @@ void mix_osc_tick(int *osc_state, short *tick_buffer, int chunk_len,
 
   int t = osc_state[1];
   int detune_t = osc_state[3];
-
 
   for (int i = 0; i < chunk_len; i += 1) {
     int sample = 0;
@@ -82,6 +76,8 @@ void mix_osc_tick(int *osc_state, short *tick_buffer, int chunk_len,
       sample = osc_hq_pulse(osc_state, t, detune_t);
     } else if (waveform == 5) {
       sample = osc_hq_organ(osc_state, t, detune_t);
+    } else if (waveform == 8) {
+      sample = osc_aliased_wavetable(osc_state, t, detune_t);
     } else {
       sample = osc_hq_triangle(osc_state, t, detune_t);
     }

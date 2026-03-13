@@ -35,6 +35,11 @@ hq_phasors = [
     ["phasor_hq_organ", "./src/binary/audio/synth/phasors/hq/phasor_hq_organ.c"],
 ]
 
+aliased_oscillators = [
+    ["osc_aliased_wavetable",
+    	"./src/binary/audio/synth/oscillators/aliased/osc_aliased_wavetable.c"],
+]
+
 hq_oscillators = [
     ["osc_hq_organ", "./src/binary/audio/synth/oscillators/hq/osc_hq_organ.c"],
     ["osc_hq_pulse", "./src/binary/audio/synth/oscillators/hq/osc_hq_pulse.c"],
@@ -86,6 +91,14 @@ for phasor in hq_phasors:
 		Path(phasor[1]).read_text(),
 		compile_opts={"extra_compiler_flags": ["-I", os.path.dirname(
 			os.path.realpath(__file__)) + "/src/binary/audio/synth/phasors/hq", "-v"]}
+	))
+
+for oscillator in aliased_oscillators:
+	patcher.patches.append(InsertFunctionPatch(
+		oscillator[0],
+		Path(oscillator[1]).read_text(),
+		compile_opts={"extra_compiler_flags": ["-I", os.path.dirname(
+			os.path.realpath(__file__)) + "/src/binary/audio/synth/oscillators/aliased", "-v"]}
 	))
 
 for oscillator in hq_oscillators:
