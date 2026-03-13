@@ -3,11 +3,11 @@
 #include "./mixers/aliased/mix_noise.h"
 #include "./mixers/aliased/mix_wavetable.h"
 #include "./mixers/hq/mix_organ.h"
-#include "./mixers/hq/mix_pulse.h"
 #include "./mixers/hq/mix_sawtooth.h"
 #include "./mixers/hq/mix_square.h"
 #include "./mixers/hq/mix_tilted.h"
 #include "./mixers/hq/mix_triangle.h"
+#include "./oscillators/hq/osc_hq_pulse.h"
 #include <string.h>
 
 /**
@@ -78,11 +78,6 @@ void mix_osc_tick(int *osc_state, short *tick_buffer, int chunk_len,
     mix_square(osc_state, tick_buffer, chunk_len);
   }
 
-  // 75% duty cycle pulse waveform
-  if (waveform == 4) {
-    mix_pulse(osc_state, tick_buffer, chunk_len);
-  }
-
   // Organ waveform
   if (waveform == 5) {
     mix_organ(osc_state, tick_buffer, chunk_len);
@@ -91,6 +86,29 @@ void mix_osc_tick(int *osc_state, short *tick_buffer, int chunk_len,
   // Noise waveform
   if (waveform == 6) {
     mix_noise(osc_state, tick_buffer, chunk_len);
+  }
+
+  if (waveform == 4) {
+    int t = osc_state[1];
+    int detune_t = osc_state[3];
+
+    for (int i = 0; i < chunk_len; i += 1) {
+      int sample = 0;
+
+      // Osc selection must be made this way for patch function
+      // @TODO Make separate function using jump array for standalone binary
+      if (waveform == 4) {
+        sample = osc_hq_pulse(osc_state, t, detune_t);
+      }
+
+      tick_buffer[i] = (short)sample;
+
+      t = (t + osc_state[2]) & 0xffff;
+      detune_t = (detune_t + osc_state[4]) & 0x1ffff;
+    }
+
+    osc_state[1] = t;
+    osc_state[3] = detune_t;
   }
 
   /*
