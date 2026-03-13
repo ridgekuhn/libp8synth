@@ -3,10 +3,10 @@
 #include "./mixers/aliased/mix_noise.h"
 #include "./mixers/aliased/mix_wavetable.h"
 #include "./mixers/hq/mix_organ.h"
-#include "./mixers/hq/mix_sawtooth.h"
 #include "./mixers/hq/mix_tilted.h"
 #include "./mixers/hq/mix_triangle.h"
 #include "./oscillators/hq/osc_hq_pulse.h"
+#include "./oscillators/hq/osc_hq_sawtooth.h"
 #include "./oscillators/hq/osc_hq_square.h"
 #include <string.h>
 
@@ -68,11 +68,6 @@ void mix_osc_tick(int *osc_state, short *tick_buffer, int chunk_len,
     mix_tilted(osc_state, tick_buffer, chunk_len);
   }
 
-  // Sawtooth waveform
-  if (waveform == 2) {
-    mix_sawtooth(osc_state, tick_buffer, chunk_len);
-  }
-
   // Organ waveform
   if (waveform == 5) {
     mix_organ(osc_state, tick_buffer, chunk_len);
@@ -92,7 +87,9 @@ void mix_osc_tick(int *osc_state, short *tick_buffer, int chunk_len,
 
     // Osc selection must be made this way for patch function
     // @TODO Make separate function using jump array for standalone binary
-    if (waveform == 3) {
+    if (waveform == 2) {
+      sample = osc_hq_sawtooth(osc_state, t, detune_t);
+    } else if (waveform == 3) {
       sample = osc_hq_square(osc_state, t, detune_t);
     } else if (waveform == 4) {
       sample = osc_hq_pulse(osc_state, t, detune_t);
