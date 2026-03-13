@@ -1,5 +1,5 @@
-#include "./phasors/phasor_hq_organ.h"
-#include "./phasors/phasor_hq_square.h"
+#include "../../phasors/hq/phasor_hq_organ.h"
+#include "../../phasors/hq/phasor_hq_square.h"
 
 /**
  * Mix organ oscillator

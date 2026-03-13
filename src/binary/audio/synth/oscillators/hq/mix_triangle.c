@@ -1,5 +1,5 @@
-#include "./phasors/phasor_hq_tilted.h"
-#include "./phasors/phasor_hq_triangle.h"
+#include "../../phasors/hq/phasor_hq_tilted.h"
+#include "../../phasors/hq/phasor_hq_triangle.h"
 
 /**
  * Mix triangle oscillator

@@ -1,4 +1,4 @@
-#include "./phasors/phasor_hq_sawtooth.h"
+#include "../../phasors/hq/phasor_hq_sawtooth.h"
 
 /**
  * Mix sawtooth oscillator

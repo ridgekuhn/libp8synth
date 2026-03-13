@@ -25,14 +25,14 @@ args = parser.parse_args()
 ############
 os.makedirs("./out", exist_ok=True)
 
-phasors = [
-    ["phasor_hq_pulse", "./src/binary/audio/synth/oscillators/hq/phasors/phasor_hq_pulse.c"],
-    ["phasor_hq_sawtooth", "./src/binary/audio/synth/oscillators/hq/phasors/phasor_hq_sawtooth.c"],
-    ["phasor_hq_square", "./src/binary/audio/synth/oscillators/hq/phasors/phasor_hq_square.c"],
-    ["phasor_hq_tilted", "./src/binary/audio/synth/oscillators/hq/phasors/phasor_hq_tilted.c"],
-    ["phasor_hq_triangle", "./src/binary/audio/synth/oscillators/hq/phasors/phasor_hq_triangle.c"],
+hq_phasors = [
+    ["phasor_hq_pulse", "./src/binary/audio/synth/phasors/hq/phasor_hq_pulse.c"],
+    ["phasor_hq_sawtooth", "./src/binary/audio/synth/phasors/hq/phasor_hq_sawtooth.c"],
+    ["phasor_hq_square", "./src/binary/audio/synth/phasors/hq/phasor_hq_square.c"],
+    ["phasor_hq_tilted", "./src/binary/audio/synth/phasors/hq/phasor_hq_tilted.c"],
+    ["phasor_hq_triangle", "./src/binary/audio/synth/phasors/hq/phasor_hq_triangle.c"],
    	# must come after phasor_hq_square, phasor_hq_triangle
-    ["phasor_hq_organ", "./src/binary/audio/synth/oscillators/hq/phasors/phasor_hq_organ.c"],
+    ["phasor_hq_organ", "./src/binary/audio/synth/phasors/hq/phasor_hq_organ.c"],
 ]
 
 aliased_oscillators = [
@@ -71,7 +71,7 @@ patcher.patches.append(InsertFunctionPatch(
 # 		"-I", os.path.dirname(os.path.realpath(__file__)) + "/src/binary/audio/synth/filters", "-v"]}
 # ))
 
-for phasor in phasors:
+for phasor in hq_phasors:
 	patcher.patches.append(InsertFunctionPatch(
 		phasor[0],
 		Path(phasor[1]).read_text(),
