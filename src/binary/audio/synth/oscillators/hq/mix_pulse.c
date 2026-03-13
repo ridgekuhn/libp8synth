@@ -1,3 +1,4 @@
+#include "./mix_pulse.h"
 #include "./phasors/phasor_hq_pulse.h"
 
 /**
@@ -6,10 +7,8 @@
  * @param osc_state Mixer channel oscillator state
  * @param tick_buffer Mixer channel tick buffer
  * @param chunk_len Length of tick_buffer in samples
- * @param duty_cycle_init 0x10000 - duty cycle
  */
-void mix_pulse(int *osc_state, short *tick_buffer, int chunk_len,
-               int duty_cycle_init) {
+void mix_pulse(int *osc_state, short *tick_buffer, int chunk_len) {
   /*
    * Oscillator state
    */
@@ -29,7 +28,12 @@ void mix_pulse(int *osc_state, short *tick_buffer, int chunk_len,
   /*
    * Buffer constants
    */
-  const int duty_cycle = osc_buzz ? duty_cycle_init + 0x1800 : duty_cycle_init;
+  int duty_cycle = *osc_state == 4 ? 0xb000 : 0x8000;
+
+  if (osc_buzz) {
+    duty_cycle += 0x1800;
+  }
+
   const int freq = (osc_phase_inc * 22050) >> 16;
   const int detune_freq = (osc_detune_phase_inc * 22050) >> 16;
 

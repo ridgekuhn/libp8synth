@@ -11,7 +11,7 @@
 void mix_square(int *osc_state, short *tick_buffer, int chunk_len) {
   // If osc_buzz, use mix_pulse instead
   if (osc_state[21]) {
-    mix_pulse(osc_state, tick_buffer, chunk_len, 0x8000);
+    mix_pulse(osc_state, tick_buffer, chunk_len);
     return;
   }
 

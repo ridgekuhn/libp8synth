@@ -80,7 +80,7 @@ void mix_osc_tick(int *osc_state, short *tick_buffer, int chunk_len,
 
   // 75% duty cycle pulse waveform
   if (waveform == 4) {
-    mix_pulse(osc_state, tick_buffer, chunk_len, 0xb000);
+    mix_pulse(osc_state, tick_buffer, chunk_len);
   }
 
   // Organ waveform
