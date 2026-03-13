@@ -4,10 +4,10 @@
 #include "./mixers/aliased/mix_wavetable.h"
 #include "./mixers/hq/mix_organ.h"
 #include "./mixers/hq/mix_tilted.h"
-#include "./mixers/hq/mix_triangle.h"
 #include "./oscillators/hq/osc_hq_pulse.h"
 #include "./oscillators/hq/osc_hq_sawtooth.h"
 #include "./oscillators/hq/osc_hq_square.h"
+#include "./oscillators/hq/osc_hq_triangle.h"
 #include <string.h>
 
 /**
@@ -58,11 +58,6 @@ void mix_osc_tick(int *osc_state, short *tick_buffer, int chunk_len,
     mix_wavetable(osc_state, tick_buffer, chunk_len);
   }
 
-  // Triangle, phaser waveforms
-  if (waveform == 0 || waveform == 7) {
-    mix_triangle(osc_state, tick_buffer, chunk_len);
-  }
-
   // Tilted sawtooth waveform
   if (waveform == 1) {
     mix_tilted(osc_state, tick_buffer, chunk_len);
@@ -93,6 +88,8 @@ void mix_osc_tick(int *osc_state, short *tick_buffer, int chunk_len,
       sample = osc_hq_square(osc_state, t, detune_t);
     } else if (waveform == 4) {
       sample = osc_hq_pulse(osc_state, t, detune_t);
+    } else {
+      sample = osc_hq_triangle(osc_state, t, detune_t);
     }
 
     tick_buffer[i] = (short)sample;

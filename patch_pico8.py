@@ -39,6 +39,7 @@ hq_oscillators = [
     ["osc_hq_pulse", "./src/binary/audio/synth/oscillators/hq/osc_hq_pulse.c"],
     ["osc_hq_sawtooth", "./src/binary/audio/synth/oscillators/hq/osc_hq_sawtooth.c"],
     ["osc_hq_square", "./src/binary/audio/synth/oscillators/hq/osc_hq_square.c"],
+    ["osc_hq_triangle", "./src/binary/audio/synth/oscillators/hq/osc_hq_triangle.c"],
 ]
 
 aliased_mixers = [
