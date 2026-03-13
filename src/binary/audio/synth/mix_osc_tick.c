@@ -1,13 +1,13 @@
 #include "./mix_osc_tick.h"
 #include "./mix_reverb.h"
-#include "./oscillators/aliased/mix_noise.h"
-#include "./oscillators/aliased/mix_wavetable.h"
-#include "./oscillators/hq/mix_organ.h"
-#include "./oscillators/hq/mix_pulse.h"
-#include "./oscillators/hq/mix_sawtooth.h"
-#include "./oscillators/hq/mix_square.h"
-#include "./oscillators/hq/mix_tilted.h"
-#include "./oscillators/hq/mix_triangle.h"
+#include "./mixers/aliased/mix_noise.h"
+#include "./mixers/aliased/mix_wavetable.h"
+#include "./mixers/hq/mix_organ.h"
+#include "./mixers/hq/mix_pulse.h"
+#include "./mixers/hq/mix_sawtooth.h"
+#include "./mixers/hq/mix_square.h"
+#include "./mixers/hq/mix_tilted.h"
+#include "./mixers/hq/mix_triangle.h"
 #include <string.h>
 
 /**

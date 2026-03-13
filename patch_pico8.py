@@ -16,7 +16,7 @@ parser.add_argument(
 	"-o, ", "--out", help="output path. default=\"./out/pico8_patched\"", default="./out/pico8_patched")
 
 parser.add_argument(
-	"-s", "--synth", help="synth oscillators to use for patching. default=\"aliased\"", default="aliased")
+	"-s", "--synth", help="synth mixers to use for patching. default=\"aliased\"", default="aliased")
 
 args = parser.parse_args()
 
@@ -35,21 +35,21 @@ hq_phasors = [
     ["phasor_hq_organ", "./src/binary/audio/synth/phasors/hq/phasor_hq_organ.c"],
 ]
 
-aliased_oscillators = [
-	["mix_wavetable", "./src/binary/audio/synth/oscillators/aliased/mix_wavetable.c"],
-	["mix_brown_noise", "./src/binary/audio/synth/oscillators/aliased/mix_brown_noise.c"],
-	["mix_pink_noise", "./src/binary/audio/synth/oscillators/aliased/mix_pink_noise.c"],
-	["mix_white_noise", "./src/binary/audio/synth/oscillators/aliased/mix_white_noise.c"],
-	["mix_noise", "./src/binary/audio/synth/oscillators/aliased/mix_noise.c"],
+aliased_mixers = [
+	["mix_wavetable", "./src/binary/audio/synth/mixers/aliased/mix_wavetable.c"],
+	["mix_brown_noise", "./src/binary/audio/synth/mixers/aliased/mix_brown_noise.c"],
+	["mix_pink_noise", "./src/binary/audio/synth/mixers/aliased/mix_pink_noise.c"],
+	["mix_white_noise", "./src/binary/audio/synth/mixers/aliased/mix_white_noise.c"],
+	["mix_noise", "./src/binary/audio/synth/mixers/aliased/mix_noise.c"],
 ]
 
-hq_oscillators = [
-	["mix_pulse", "./src/binary/audio/synth/oscillators/hq/mix_pulse.c"],
-	["mix_square", "./src/binary/audio/synth/oscillators/hq/mix_square.c"],
-	["mix_tilted", "./src/binary/audio/synth/oscillators/hq/mix_tilted.c"],
-	["mix_triangle", "./src/binary/audio/synth/oscillators/hq/mix_triangle.c"],
-	["mix_organ", "./src/binary/audio/synth/oscillators/hq/mix_organ.c"],
-	["mix_sawtooth", "./src/binary/audio/synth/oscillators/hq/mix_sawtooth.c"],
+hq_mixers = [
+	["mix_pulse", "./src/binary/audio/synth/mixers/hq/mix_pulse.c"],
+	["mix_square", "./src/binary/audio/synth/mixers/hq/mix_square.c"],
+	["mix_tilted", "./src/binary/audio/synth/mixers/hq/mix_tilted.c"],
+	["mix_triangle", "./src/binary/audio/synth/mixers/hq/mix_triangle.c"],
+	["mix_organ", "./src/binary/audio/synth/mixers/hq/mix_organ.c"],
+	["mix_sawtooth", "./src/binary/audio/synth/mixers/hq/mix_sawtooth.c"],
 ]
 
 #######
@@ -76,23 +76,23 @@ for phasor in hq_phasors:
 		phasor[0],
 		Path(phasor[1]).read_text(),
 		compile_opts={"extra_compiler_flags": ["-I", os.path.dirname(
-			os.path.realpath(__file__)) + "/src/binary/audio/synth/oscillators/hq/phasors", "-v"]}
+			os.path.realpath(__file__)) + "/src/binary/audio/synth/phasors/hq", "-v"]}
 	))
 
-for oscillator in aliased_oscillators:
+for mixer in aliased_mixers:
 	patcher.patches.append(InsertFunctionPatch(
-		oscillator[0],
-		Path(oscillator[1]).read_text(),
+		mixer[0],
+		Path(mixer[1]).read_text(),
 		compile_opts={"extra_compiler_flags": ["-I", os.path.dirname(
-			os.path.realpath(__file__)) + "/src/binary/audio/synth/oscillators/aliased", "-v"]}
+			os.path.realpath(__file__)) + "/src/binary/audio/synth/mixers/aliased", "-v"]}
 	))
 
-for oscillator in hq_oscillators:
+for mixer in hq_mixers:
 	patcher.patches.append(InsertFunctionPatch(
-		oscillator[0],
-		Path(oscillator[1]).read_text(),
+		mixer[0],
+		Path(mixer[1]).read_text(),
 		compile_opts={"extra_compiler_flags": [
-			"-I", os.path.dirname(os.path.realpath(__file__)) + "/src/binary/audio/synth/oscillators/hq", "-v"]}
+			"-I", os.path.dirname(os.path.realpath(__file__)) + "/src/binary/audio/synth/mixers/hq", "-v"]}
 	))
 
 patcher.patches.append(InsertFunctionPatch(
