@@ -1,5 +1,4 @@
-#ifndef CODO_RANDOM
-#define CODO_RANDOM
+#ifndef codo_random
 
 long codo_random(int n);
 
