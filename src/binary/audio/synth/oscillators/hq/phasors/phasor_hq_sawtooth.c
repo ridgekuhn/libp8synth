@@ -1,13 +1,13 @@
-#include "./sample_square.h"
+#include "./phasor_hq_sawtooth.h"
 #include <math.h>
 
 /**
- * Square Sample
+ * Sawtooth Sample
  *
  * @param freq Frequency
  * @param t Oscillator phase, 0 <= t < 0x10000
  */
-double sample_square(int freq, int t) {
+double phasor_hq_sawtooth(int freq, int t) {
   if (freq == 0) {
     return 0;
   }
@@ -18,7 +18,7 @@ double sample_square(int freq, int t) {
   double normalize = 0;
 
   // 10914 = 11025 * 0.99
-  for (int i = 1; (i * freq) < 10914; i += 2) {
+  for (int i = 1; (i * freq) < 10914; i += 1) {
     const double magnitude = 1.0 / i;
 
     amplitude -= magnitude * sin(i * radians);

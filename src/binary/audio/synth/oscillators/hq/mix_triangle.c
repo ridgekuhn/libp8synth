@@ -1,5 +1,5 @@
-#include "./phasors/sample_tilted.h"
-#include "./phasors/sample_triangle.h"
+#include "./phasors/phasor_hq_tilted.h"
+#include "./phasors/phasor_hq_triangle.h"
 
 /**
  * Mix triangle oscillator
@@ -38,22 +38,22 @@ void mix_triangle(int *osc_state, short *tick_buffer, int chunk_len) {
     /*
      * Primary phasor
      */
-    double amplitude = sample_triangle(freq, cur_phase);
+    double amplitude = phasor_hq_triangle(freq, cur_phase);
 
     /*
      * Detune phasor
      */
     double detune_amplitude =
-        sample_triangle(detune_freq, cur_detune_phase & 0xffff);
+        phasor_hq_triangle(detune_freq, cur_detune_phase & 0xffff);
 
     /*
      * Buzz phasors
      */
     if (osc_buzz) {
-      const double tilt_amp = sample_tilted(freq, cur_phase, 0x2001);
+      const double tilt_amp = phasor_hq_tilted(freq, cur_phase, 0x2001);
 
       const double detune_tilt_amp =
-          sample_tilted(detune_freq, cur_detune_phase & 0xffff, 0x2001);
+          phasor_hq_tilted(detune_freq, cur_detune_phase & 0xffff, 0x2001);
 
       amplitude = amplitude * 0.75 + tilt_amp / 2.1;
       detune_amplitude = detune_amplitude * 0.75 + detune_tilt_amp / 2.1;

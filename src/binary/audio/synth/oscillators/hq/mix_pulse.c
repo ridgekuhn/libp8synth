@@ -1,4 +1,4 @@
-#include "./phasors/sample_pulse.h"
+#include "./phasors/phasor_hq_pulse.h"
 
 /**
  * Mix pulse oscillator
@@ -43,13 +43,13 @@ void mix_pulse(int *osc_state, short *tick_buffer, int chunk_len,
     /*
      * Primary phasor
      */
-    double amplitude = sample_pulse(freq, cur_phase, duty_cycle);
+    double amplitude = phasor_hq_pulse(freq, cur_phase, duty_cycle);
 
     /*
      * Detune phasor
      */
     double detune_amplitude =
-        sample_pulse(detune_freq << osc_detune_m1,
+        phasor_hq_pulse(detune_freq << osc_detune_m1,
                      (cur_detune_phase << osc_detune_m1) & 0xffff, duty_cycle);
 
     /*

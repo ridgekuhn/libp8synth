@@ -1,4 +1,4 @@
-#include "./sample_triangle.h"
+#include "./phasor_hq_triangle.h"
 #include <math.h>
 
 /**
@@ -7,7 +7,7 @@
  * @param freq Frequency
  * @param t Oscillator phase, 0 <= t < 0x10000
  */
-double sample_triangle(int freq, int t) {
+double phasor_hq_triangle(int freq, int t) {
   if (freq == 0) {
     return 0;
   }
