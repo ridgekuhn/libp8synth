@@ -2,6 +2,7 @@ import argparse
 from patcherex2 import InsertFunctionPatch, ModifyFunctionPatch, Patcherex
 from pathlib import Path
 import os
+import re
 
 ################
 # Parse CLI Args
@@ -36,6 +37,15 @@ hq_phasors = [
 ]
 
 aliased_oscillators = [
+    ["osc_aliased_brown_noise",
+    	"./src/binary/audio/synth/oscillators/aliased/osc_aliased_brown_noise.c"],
+    ["osc_aliased_pink_noise",
+    	"./src/binary/audio/synth/oscillators/aliased/osc_aliased_pink_noise.c"],
+    ["osc_aliased_white_noise",
+    	"./src/binary/audio/synth/oscillators/aliased/osc_aliased_white_noise.c"],
+   	# must come after other noise oscillators
+    ["osc_aliased_noise",
+    	"./src/binary/audio/synth/oscillators/aliased/osc_aliased_noise.c"],
     ["osc_aliased_wavetable",
     	"./src/binary/audio/synth/oscillators/aliased/osc_aliased_wavetable.c"],
 ]
@@ -94,9 +104,12 @@ for phasor in hq_phasors:
 	))
 
 for oscillator in aliased_oscillators:
+	code = Path(oscillator[1]).read_text()
+	code = re.sub("#include .*codo_random\\.h\"", "", code)
+
 	patcher.patches.append(InsertFunctionPatch(
 		oscillator[0],
-		Path(oscillator[1]).read_text(),
+		code,
 		compile_opts={"extra_compiler_flags": ["-I", os.path.dirname(
 			os.path.realpath(__file__)) + "/src/binary/audio/synth/oscillators/aliased", "-v"]}
 	))
