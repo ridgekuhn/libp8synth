@@ -3,7 +3,7 @@
  */
 function mix_sfx_tick(ch_state, tick_buffer) {
 	// @TODO asm.js only
-	const e = Ia;
+	const prev_osc_state = Ia;
 	Ia = Ia + 352;
 
 	/*
@@ -32,7 +32,7 @@ function mix_sfx_tick(ch_state, tick_buffer) {
 		// 0x2d24 = 0x2d30 in p8 binary
 		const osc_state_addr = ch_state + 0x2d24;
 
-		memcpy(e, osc_state_addr, 0x160);
+		memcpy(prev_osc_state, osc_state_addr, 0x160);
 
 		if (!(cur_sfx_tick % spd)) {
 			// step waveform
@@ -57,7 +57,7 @@ function mix_sfx_tick(ch_state, tick_buffer) {
 		}
 
 		// mix_osc_tick()
-		mix_osc_tick(e, ramp_buf, 64, ch_state);
+		mix_osc_tick(prev_osc_state, ramp_buf, 64, ch_state);
 
 		for (let i = 0; i < 64; i += 1) {
 			const sample_addr = tick_buffer + (i << 1);
@@ -207,7 +207,7 @@ function mix_sfx_tick(ch_state, tick_buffer) {
 	const cart_ptr = c[loaded_cart_rom_addr >> 2];
 
 	if (!cart_ptr) {
-		Ia = e;
+		Ia = prev_osc_state;
 		return;
 	}
 
@@ -215,7 +215,7 @@ function mix_sfx_tick(ch_state, tick_buffer) {
 	const ch_enabled_addr = ch_state + 0x2d1c;
 
 	if (!(pat_ticks_remaining == 0 && c[ch_enabled_addr >> 2] != 0)) {
-		Ia = e;
+		Ia = prev_osc_state;
 		return;
 	}
 
@@ -224,7 +224,7 @@ function mix_sfx_tick(ch_state, tick_buffer) {
 	const cur_pat_idx = c[cur_pat_idx_addr >> 2];
 
 	if (cur_pat_idx > 63) {
-		Ia = e;
+		Ia = prev_osc_state;
 		return;
 	}
 
@@ -246,7 +246,7 @@ function mix_sfx_tick(ch_state, tick_buffer) {
 		init_ch_state(ch_state);
 
 		// @TODO asm.js only
-		Ia = e;
+		Ia = prev_osc_state;
 
 		return;
 	}
@@ -288,7 +288,7 @@ function mix_sfx_tick(ch_state, tick_buffer) {
 		init_ch_state(ch_state);
 
 		// @TODO asm.js only
-		Ia = e;
+		Ia = prev_osc_state;
 
 		return;
 	}
@@ -321,5 +321,5 @@ function mix_sfx_tick(ch_state, tick_buffer) {
 	);
 
 	// @TODO asm.js only
-	Ia = e;
+	Ia = prev_osc_state;
 }
