@@ -193,7 +193,7 @@ CHANNEL STATE + 0x2d30
 +0x0008: phase increment (freq << 16 / 22050)
 +0x000c: current detune phase
 +0x0010: detune phase increment (same as phase increment if no detune)
-+0x0014: ?
++0x0014: pink noise accumulator
 +0x0018: base sfx step pitch (sliding from)
 +0x001c: target vol (sfx step vol << 8) (post-fx)
 +0x0020: target pitch (sfx step pitch << 16) (post-fx)
