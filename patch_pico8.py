@@ -59,23 +59,6 @@ hq_oscillators = [
     ["osc_hq_tilted", "./src/binary/audio/synth/oscillators/hq/osc_hq_tilted.c"],
 ]
 
-aliased_mixers = [
-	["mix_wavetable", "./src/binary/audio/synth/mixers/aliased/mix_wavetable.c"],
-	["mix_brown_noise", "./src/binary/audio/synth/mixers/aliased/mix_brown_noise.c"],
-	["mix_pink_noise", "./src/binary/audio/synth/mixers/aliased/mix_pink_noise.c"],
-	["mix_white_noise", "./src/binary/audio/synth/mixers/aliased/mix_white_noise.c"],
-	["mix_noise", "./src/binary/audio/synth/mixers/aliased/mix_noise.c"],
-]
-
-hq_mixers = [
-	["mix_pulse", "./src/binary/audio/synth/mixers/hq/mix_pulse.c"],
-	["mix_square", "./src/binary/audio/synth/mixers/hq/mix_square.c"],
-	["mix_tilted", "./src/binary/audio/synth/mixers/hq/mix_tilted.c"],
-	["mix_triangle", "./src/binary/audio/synth/mixers/hq/mix_triangle.c"],
-	["mix_organ", "./src/binary/audio/synth/mixers/hq/mix_organ.c"],
-	["mix_sawtooth", "./src/binary/audio/synth/mixers/hq/mix_sawtooth.c"],
-]
-
 #######
 # Patch
 #######
@@ -120,22 +103,6 @@ for oscillator in hq_oscillators:
 		Path(oscillator[1]).read_text(),
 		compile_opts={"extra_compiler_flags": ["-I", os.path.dirname(
 			os.path.realpath(__file__)) + "/src/binary/audio/synth/oscillators/hq", "-v"]}
-	))
-
-for mixer in aliased_mixers:
-	patcher.patches.append(InsertFunctionPatch(
-		mixer[0],
-		Path(mixer[1]).read_text(),
-		compile_opts={"extra_compiler_flags": ["-I", os.path.dirname(
-			os.path.realpath(__file__)) + "/src/binary/audio/synth/mixers/aliased", "-v"]}
-	))
-
-for mixer in hq_mixers:
-	patcher.patches.append(InsertFunctionPatch(
-		mixer[0],
-		Path(mixer[1]).read_text(),
-		compile_opts={"extra_compiler_flags": [
-			"-I", os.path.dirname(os.path.realpath(__file__)) + "/src/binary/audio/synth/mixers/hq", "-v"]}
 	))
 
 patcher.patches.append(InsertFunctionPatch(
