@@ -1,20 +1,41 @@
 #include "./globals.h"
 #include "./cart/cdata.h"
 
-CodoState codo_state = {
-    .is_paused = 0,
-    .audio_playing = 0,
-    .codo_audio_buffer_init = 0,
-    .patterns_played = 0,
-    .cur_pat_idx = 0,
-    .prog_sample_rate = 22050,
-    .prog_channels = 1,
-    .sdl_sample_rate = 0,
-    .sdl_channels = 0,
+/*
+ * Named globals
+ */
+int codo_state[172] = {
+    // is_paused
+    [604 >> 2] = 0,
+    // chunks mixed
+    [608 >> 2] = 0,
+    // audio playing
+    [612 >> 2] = 0,
+    // codo_audio_buffer_init
+    [632 >> 2] = 0,
+    // patterns_played
+    [636 >> 2] = 0,
+    // cur_pat_idx
+    [640 >> 2] = 0,
+    // prog_sample_rate = 22050,
+    [660 >> 2] = 0,
+    // prog_channels
+    [664 >> 2] = 0,
+    // sdl_sample_rate
+    [668 >> 2] = 0,
+    // sdl_channels
+    [672 >> 2] = 0,
 };
 
-CData *g_cdata = 0;
-int g_version = 43;
 int m_high = 0x1234567;
 int m_low = 0xdeadbeef;
+
+/*
+ * Custom globals
+ */
+int audio_clock_mask = 0;
+int global_reverb = 0;
+CData *g_cdata = 0;
+int g_version = 43;
+int music_volume = 256;
 int SAMPLES_PER_TICK = 183;

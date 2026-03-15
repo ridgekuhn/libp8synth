@@ -16,9 +16,9 @@ void main_init(int argc, char **argv) {
   /*
    * Audio init
    */
-  float sample_multiplier = codo_state.prog_sample_rate / 22050.0;
+  float sample_multiplier = codo_state[660 >> 2] / 22050.0;
 
-  if (codo_state.prog_sample_rate < 22050 || fmod(sample_multiplier, 1) != 0) {
+  if (codo_state[660 >> 2] < 22050 || fmod(sample_multiplier, 1) != 0) {
     printf("ERROR: Sample rate must be a multiple of 22050");
     exit(1);
   }
