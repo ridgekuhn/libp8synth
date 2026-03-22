@@ -76,6 +76,41 @@ $(PHASOR_HQ_OBJ): $(OUT)/$(PHASOR_HQ_DIR)/%.o : $(SRC)/$(PHASOR_HQ_DIR)/%.c $(SR
 
 phasors: $(PHASOR_HQ_OBJ)
 
+# Aliased Oscillators
+OSC_ALIASED_DIR=audio/synth/oscillators/aliased
+
+osc_aliased_dir:
+	mkdir -p $(OUT)/$(OSC_ALIASED_DIR)
+
+OSC_ALIASED_OBJ=$(patsubst $(SRC)/$(OSC_ALIASED_DIR)/%.c,$(OUT)/$(OSC_ALIASED_DIR)/%.o,$(wildcard $(SRC)/$(OSC_ALIASED_DIR)/*.c))
+
+$(OSC_ALIASED_OBJ): $(OUT)/$(OSC_ALIASED_DIR)/%.o : $(SRC)/$(OSC_ALIASED_DIR)/%.c $(SRC)/$(OSC_ALIASED_DIR)/%.h osc_aliased_dir math
+	$(CC) $(CFLAGS) -o $@ -c $<
+
+# HQ Oscillators
+OSC_HQ_DIR=audio/synth/oscillators/hq
+
+osc_hq_dir:
+	mkdir -p $(OUT)/$(OSC_HQ_DIR)
+
+OSC_HQ_OBJ=$(patsubst $(SRC)/$(OSC_HQ_DIR)/%.c,$(OUT)/$(OSC_HQ_DIR)/%.o,$(wildcard $(SRC)/$(OSC_HQ_DIR)/*.c))
+
+$(OSC_HQ_OBJ): $(OUT)/$(OSC_HQ_DIR)/%.o : $(SRC)/$(OSC_HQ_DIR)/%.c $(SRC)/$(OSC_HQ_DIR)/%.h osc_hq_dir math
+	$(CC) $(CFLAGS) -o $@ -c $<
+
+# Oscllator Helpers
+OSC_DIR=audio/synth/oscillators
+
+osc_dir:
+	mkdir -p $(OUT)/$(OSC_DIR)
+
+OSC_OBJ=$(patsubst $(SRC)/$(OSC_DIR)/%.c,$(OUT)/$(OSC_DIR)/%.o,$(wildcard $(SRC)/$(OSC_DIR)/*.c))
+
+$(OSC_OBJ): $(OUT)/$(OSC_DIR)/%.o : $(SRC)/$(OSC_DIR)/%.c $(SRC)/$(OSC_DIR)/%.h osc_dir globals $(OSC_ALIASED_OBJ) $(OSC_HQ_OBJ)
+	$(CC) $(CFLAGS) -o $@ -c $<
+
+oscillators: $(OSC_OBJ)
+
 ######
 # Main
 ######
