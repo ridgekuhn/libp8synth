@@ -45,6 +45,19 @@ CLI_OBJ=$(patsubst $(SRC)/cli/%.c,$(OUT)/cli/%.o,$(wildcard $(SRC)/cli/*.c))
 $(CLI_OBJ): $(OUT)/cli/%.o : $(SRC)/cli/%.c $(SRC)/cli/%.h cli_dir globals cart
 	$(CC) $(CFLAGS) -o $@ -c $<
 
+######
+# Math
+######
+math_dir:
+	mkdir -p $(OUT)/math
+
+MATH_OBJ=$(patsubst $(SRC)/math/%.c,$(OUT)/math/%.o,$(wildcard $(SRC)/math/*.c))
+
+$(MATH_OBJ): $(OUT)/math/%.o : $(SRC)/math/%.c $(SRC)/math/%.h math_dir globals cart
+	$(CC) $(CFLAGS) -o $@ -c $<
+
+math: $(MATH_OBJ)
+
 #######
 # Synth
 #######
