@@ -45,6 +45,22 @@ CLI_OBJ=$(patsubst $(SRC)/cli/%.c,$(OUT)/cli/%.o,$(wildcard $(SRC)/cli/*.c))
 $(CLI_OBJ): $(OUT)/cli/%.o : $(SRC)/cli/%.c $(SRC)/cli/%.h cli_dir globals cart
 	$(CC) $(CFLAGS) -o $@ -c $<
 
+#######
+# Synth
+#######
+# HQ Phasors
+PHASOR_HQ_DIR=audio/synth/phasors/hq
+
+phasor_hq_dir:
+	mkdir -p $(OUT)/$(PHASOR_HQ_DIR)
+
+PHASOR_HQ_OBJ=$(patsubst $(SRC)/$(PHASOR_HQ_DIR)/%.c,$(OUT)/$(PHASOR_HQ_DIR)/%.o,$(wildcard $(SRC)/$(PHASOR_HQ_DIR)/*.c))
+
+$(PHASOR_HQ_OBJ): $(OUT)/$(PHASOR_HQ_DIR)/%.o : $(SRC)/$(PHASOR_HQ_DIR)/%.c $(SRC)/$(PHASOR_HQ_DIR)/%.h phasor_hq_dir
+	$(CC) $(CFLAGS) -o $@ -c $<
+
+phasors: $(PHASOR_HQ_OBJ)
+
 ######
 # Main
 ######
