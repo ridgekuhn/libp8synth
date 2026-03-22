@@ -45,6 +45,8 @@ CLI_OBJ=$(patsubst $(SRC)/cli/%.c,$(OUT)/cli/%.o,$(wildcard $(SRC)/cli/*.c))
 $(CLI_OBJ): $(OUT)/cli/%.o : $(SRC)/cli/%.c $(SRC)/cli/%.h cli_dir globals cart
 	$(CC) $(CFLAGS) -o $@ -c $<
 
+cli: $(CLI_OBJ)
+
 ######
 # Math
 ######
