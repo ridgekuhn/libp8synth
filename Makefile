@@ -16,10 +16,10 @@ out_dir:
 #########
 # GLOBALS
 #########
-globals: $(OUT)/globals.o out_dir
-
 $(OUT)/globals.o: $(SRC)/globals.h
 	$(CC) $(CFLAGS) -o $@ -c $(SRC)/globals.c
+
+globals: $(OUT)/globals.o out_dir
 
 ######
 # Cart
