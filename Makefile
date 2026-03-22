@@ -24,8 +24,6 @@ $(OUT)/globals.o: $(SRC)/globals.h
 ######
 # Cart
 ######
-cart: cart_dir $(CART_OBJ)
-
 CART_OBJ=$(patsubst $(SRC)/cart/%.c,$(OUT)/cart/%.o,$(wildcard $(SRC)/cart/*.c))
 
 cart_dir:
@@ -33,6 +31,8 @@ cart_dir:
 
 $(CART_OBJ): $(OUT)/cart/%.o : $(SRC)/cart/%.c $(SRC)/cart/%.h cart_dir globals
 	$(CC) $(CFLAGS) -o $@ -c $<
+
+cart: $(CART_OBJ)
 
 #####
 # CLI
