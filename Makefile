@@ -77,12 +77,12 @@ phasors: $(PHASOR_HQ_OBJ)
 ######
 # Main
 ######
-main: $(CART_OBJ) $(CLI_OBJ) $(OUT)/main.o $(OUT)/globals.o
-	$(CC) $(CFLAGS) -o $(OUT)/$(NAME) $^ -lm
-
 $(OUT)/main.o: $(SRC)/main.h out_dir globals
 	mkdir -p $(OUT)
 	$(CC) $(CFLAGS) -o $@ -c $(SRC)/main.c
+
+main: $(CART_OBJ) $(CLI_OBJ) $(OUT)/main.o $(OUT)/globals.o
+	$(CC) $(CFLAGS) -o $(OUT)/$(NAME) $^ -lm
 
 #######
 # Clean
