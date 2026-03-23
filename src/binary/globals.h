@@ -33,6 +33,7 @@ extern int fade_vol;
 
 extern int audio_clock_mask;
 extern int bytes_per_tick;
+extern int global_dampen;
 extern int global_reverb;
 extern int music_volume;
 extern CData *g_cdata;
