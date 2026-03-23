@@ -33,6 +33,7 @@ _Bool inside_codo_mixer_callback = 0;
 int last_callback_len = 0;
 int m_high = 0x1234567;
 int m_low = 0xdeadbeef;
+int8_t ms0[0x37000];
 
 /*
  * Custom globals

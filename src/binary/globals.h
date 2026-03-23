@@ -29,6 +29,10 @@ extern int m_low;
 extern int m_high;
 #endif
 
+#ifndef ms0
+extern int8_t ms0[0x37000];
+#endif
+
 #ifndef fade_vol
 extern int fade_vol;
 #endif
