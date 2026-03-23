@@ -4,6 +4,8 @@
 /*
  * Named globals
  */
+_Bool advanced_pattern = 0;
+
 int codo_state[172] = {
     // is_paused
     [604 >> 2] = 0,

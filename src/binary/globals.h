@@ -1,9 +1,14 @@
 #include "./cart/cdata.h"
+#include <stdbool.h>
 #include <stdint.h>
 
 /*
  * Named globals
  */
+#ifndef advanced_pattern
+extern _Bool advanced_pattern;
+#endif
+
 #ifndef codo_state
 extern int codo_state[172];
 #endif
