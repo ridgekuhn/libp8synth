@@ -37,6 +37,7 @@ int m_low = 0xdeadbeef;
  */
 int audio_clock_mask = 0;
 int bytes_per_tick = 366;
+int global_bitcrush = 0;
 int global_dampen = 0;
 int global_reverb = 0;
 CData *g_cdata = 0;
