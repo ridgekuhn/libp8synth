@@ -111,6 +111,19 @@ $(OSC_OBJ): $(OUT)/$(OSC_DIR)/%.o : $(SRC)/$(OSC_DIR)/%.c $(SRC)/$(OSC_DIR)/%.h 
 
 oscillators: $(OSC_OBJ)
 
+# Synth helpers
+SYNTH_DIR=audio/synth
+
+synth_dir:
+	mkdir -p $(OUT)/$(SYNTH_DIR)
+
+SYNTH_OBJ=$(patsubst $(SRC)/$(SYNTH_DIR)/%.c,$(OUT)/$(SYNTH_DIR)/%.o,$(wildcard $(SRC)/$(SYNTH_DIR)/*.c))
+
+$(SYNTH_OBJ): $(OUT)/$(SYNTH_DIR)/%.o : $(SRC)/$(SYNTH_DIR)/%.c $(SRC)/$(SYNTH_DIR)/%.h synth_dir globals oscillators
+	$(CC) $(CFLAGS) -o $@ -c $<
+
+synth: $(SYNTH_OBJ)
+
 ######
 # Main
 ######
