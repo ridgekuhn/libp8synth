@@ -9,6 +9,10 @@
 extern _Bool advanced_pattern;
 #endif
 
+#ifndef codo_audio_buffer
+extern int8_t codo_audio_buffer[0x55f00];
+#endif
+
 #ifndef codo_state
 extern int codo_state[172];
 #endif
