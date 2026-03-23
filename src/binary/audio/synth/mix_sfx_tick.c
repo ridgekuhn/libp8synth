@@ -15,7 +15,7 @@ void mix_sfx_tick(long ch_state, short *tick_buffer) {
   /*
    * Mix oscillator tick
    */
-  memset(tick_buffer, 0, 366);
+  memset(tick_buffer, 0, bytes_per_tick);
 
   long *sfx_ptr = &ch_state + 0x2028;
   long *cur_sfx_tick = &ch_state + 0x2030;
@@ -68,7 +68,7 @@ void mix_sfx_tick(long ch_state, short *tick_buffer) {
     cur_step = (*cur_sfx_tick + 1) / spd;
   } else {
     // @TODO didn't we already do this at the top?
-    memset(tick_buffer, 0, 366);
+    memset(tick_buffer, 0, bytes_per_tick);
 
     int *osc_state = (int *)(&ch_state + 0x2d24);
     long *osc_target_vol_addr = &ch_state + 0x2d4c;

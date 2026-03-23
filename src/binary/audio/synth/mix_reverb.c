@@ -1,4 +1,5 @@
 #include "./mix_reverb.h"
+#include "../../globals.h"
 
 /**
  * Mix reverb
@@ -31,8 +32,8 @@ void mix_reverb(int *osc_state, short *tick_buffer, int chunk_len,
   for (int i = 0; i < chunk_len; i += 1) {
     const short sample = tick_buffer[i];
     // 0x21ae = 0x21a2 (-0xc) in asm.js export
-    const short reverb_sample =
-        *(short *)(ch_state + 0x21ae + reverb_offset * 366 + (i << 1));
+    const short reverb_sample = *(
+        short *)(ch_state + 0x21ae + reverb_offset * bytes_per_tick + (i << 1));
     const int s = ((reverb_sample << 1) + (sample << 2)) / 4;
 
     tick_buffer[i] = (short)s;
