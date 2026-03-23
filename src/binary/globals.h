@@ -13,6 +13,10 @@ extern _Bool advanced_pattern;
 extern int codo_state[172];
 #endif
 
+#ifndef inside_codo_mixer_callback
+extern _Bool inside_codo_mixer_callback;
+#endif
+
 #ifndef last_callback_len
 extern int last_callback_len;
 #endif
