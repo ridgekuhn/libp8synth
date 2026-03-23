@@ -48,3 +48,4 @@ int g_version = 43;
 int music_volume = 256;
 int SAMPLES_PER_TICK = 183;
 int sound_initialized = 0;
+int sound_volume = 256;

@@ -53,5 +53,6 @@ extern CData *g_cdata;
 extern int g_version;
 extern int SAMPLES_PER_TICK;
 extern int sound_initialized;
+extern int sound_volume;
 
 #endif
