@@ -32,6 +32,7 @@ extern int fade_vol;
 #define GLOBALS
 
 extern int audio_clock_mask;
+extern int bytes_per_tick;
 extern int global_reverb;
 extern int music_volume;
 extern CData *g_cdata;
