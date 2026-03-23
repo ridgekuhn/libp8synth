@@ -204,7 +204,7 @@ void mix_sfx_tick(long ch_state, short *tick_buffer) {
     *cur_pat_idx = -1;
     codo_state[640 >> 2] = -1;
 
-    init_ch_state(&ch_state);
+    stop_ch(&ch_state);
 
     return;
   }
@@ -235,7 +235,7 @@ void mix_sfx_tick(long ch_state, short *tick_buffer) {
 
   if (*next_pat > 63 && *(next_pat + 4) > 63 && *(next_pat + 8) > 63 &&
       *(next_pat + 0xc) > 63) {
-    init_ch_state(&ch_state);
+    stop_ch(&ch_state);
 
     return;
   }
