@@ -1,1 +1,1 @@
-void calculate_osc_wavetable(int *cart_ptr, int *osc_state, int frame_idx);
+void calculate_osc_wavetable(long *cart_ptr, int *osc_state, int frame_idx);

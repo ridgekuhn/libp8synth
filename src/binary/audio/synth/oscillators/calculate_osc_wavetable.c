@@ -3,8 +3,8 @@
 /**
  * Calculate Oscillator Wavetable
  */
-void calculate_osc_wavetable(int *cart_ptr, int *osc_state, int frame_idx) {
-  const int *sfx_ptr = cart_ptr + 0x20 + frame_idx * 680;
+void calculate_osc_wavetable(long *cart_ptr, int *osc_state, int frame_idx) {
+  const long *sfx_ptr = cart_ptr + 0x20 + frame_idx * 680;
 
   // Set phasor
   *osc_state = 8;
@@ -17,7 +17,7 @@ void calculate_osc_wavetable(int *cart_ptr, int *osc_state, int frame_idx) {
 
   // Populate wavetable
   for (int i = 0; i < 32; i += 1) {
-    const int *step_ptr = sfx_ptr + 0x14 + i * 0x14;
+    const long *step_ptr = sfx_ptr + 0x14 + i * 0x14;
 
     /*
      * Re-encode sfx bytes

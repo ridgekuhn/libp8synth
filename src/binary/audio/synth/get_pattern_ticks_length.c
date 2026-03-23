@@ -5,15 +5,15 @@
  *
  * @returns length of pattern in ticks
  */
-int get_pattern_ticks_length(int *cart_ptr, int *pattern_ptr) {
+int get_pattern_ticks_length(long cart_ptr, int *pattern_ptr) {
   int result = 0;
 
   for (int i = 0; i < 4; i += 1) {
     const int sfx_idx = *(pattern_ptr + 4 * i);
-    const int loop_start = *(cart_ptr + 0x20 + sfx_idx * 680 + 0xc);
-    const int loop_end = *(cart_ptr + 0x20 + sfx_idx * 680 + 0x10);
+    const int loop_start = *(&cart_ptr + 0x20 + sfx_idx * 680 + 0xc);
+    const int loop_end = *(&cart_ptr + 0x20 + sfx_idx * 680 + 0x10);
 
-    int spd = *(cart_ptr + 0x20 + sfx_idx * 680 + 8);
+    int spd = *(&cart_ptr + 0x20 + sfx_idx * 680 + 8);
     spd = spd > 1 ? spd : 1;
 
     int sfx_len = 0;

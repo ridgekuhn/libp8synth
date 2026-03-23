@@ -1,1 +1,1 @@
-void init_ch_state(int *ch_state);
+void init_ch_state(long *ch_state);

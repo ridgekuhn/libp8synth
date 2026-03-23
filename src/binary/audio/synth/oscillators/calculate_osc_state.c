@@ -10,8 +10,8 @@ static int note_dx[12] = {
 /**
  * Calculate Oscillator State
  */
-void calculate_osc_state(int *ch_state, int *osc_state) {
-  int *sfx_ptr = ch_state + 0x2028;
+void calculate_osc_state(long ch_state, int *osc_state) {
+  long *sfx_ptr = &ch_state + 0x2028;
 
   if (sfx_ptr == 0) {
     stop_osc(osc_state);
@@ -23,7 +23,7 @@ void calculate_osc_state(int *ch_state, int *osc_state) {
    */
   const int sfx_spd = *(sfx_ptr + 8);
   const int sfx_spd_min = sfx_spd > 1 ? sfx_spd : 1;
-  const int sfx_tick = *(ch_state + 0x2030);
+  const int sfx_tick = *(&ch_state + 0x2030);
   const int sfx_step = sfx_tick / sfx_spd_min;
 
   if (sfx_step > 31) {
@@ -31,7 +31,7 @@ void calculate_osc_state(int *ch_state, int *osc_state) {
     return;
   }
 
-  int *sfx_step_ptr = sfx_ptr + 0x14 + sfx_step * 0x14;
+  long *sfx_step_ptr = sfx_ptr + 0x14 + sfx_step * 0x14;
   const int sfx_step_tick = sfx_tick - (sfx_step * sfx_spd_min);
   const int is_lo_spd = sfx_spd < 9;
   const int sfx_step_waveform = *(sfx_step_ptr + 4);
@@ -69,8 +69,8 @@ void calculate_osc_state(int *ch_state, int *osc_state) {
     int prev_step_target_vol = 0;
 
     if (sfx_step > 0) {
-      prev_base_step_pitch = *(ch_state + 0x2e90);
-      prev_step_target_vol = *(ch_state + 0x2e98) << 8;
+      prev_base_step_pitch = *(&ch_state + 0x2e90);
+      prev_step_target_vol = *(&ch_state + 0x2e98) << 8;
     } else {
       prev_base_step_pitch = 24;
       prev_step_target_vol = sfx_step_vol_256;
@@ -157,16 +157,16 @@ void calculate_osc_state(int *ch_state, int *osc_state) {
    */
   const _Bool sfx_step_is_meta = *(sfx_step_ptr + 0x10);
 
-  const int *cart_ptr = ch_state + 0x2020;
+  const long *cart_ptr = &ch_state + 0x2020;
 
   int meta_inst_idx = sfx_step_waveform < 7 ? sfx_step_waveform : 7;
   meta_inst_idx = meta_inst_idx > 0 ? meta_inst_idx : 0;
 
-  const int *meta_sfx_ptr = cart_ptr + 0x20 + meta_inst_idx * 680;
+  const long *meta_sfx_ptr = cart_ptr + 0x20 + meta_inst_idx * 680;
   const int loop_start = *(meta_sfx_ptr + 0xc);
 
   if (!sfx_step_is_meta) {
-    *(ch_state + 0x2ee0) = 0;
+    *(&ch_state + 0x2ee0) = 0;
   } else {
     if (sfx_step_tick == 0) {
       int meta_inst_step_len = 0;
@@ -197,8 +197,8 @@ void calculate_osc_state(int *ch_state, int *osc_state) {
       }
 
       if ((sfx_effect != 1 &&
-           (sfx_step == 0 || sfx_step_pitch != *(ch_state + 0x2e90))) ||
-          *(ch_state + 0x2ee0) >= meta_inst_tick_len) {
+           (sfx_step == 0 || sfx_step_pitch != *(&ch_state + 0x2e90))) ||
+          *(&ch_state + 0x2ee0) >= meta_inst_tick_len) {
         if (sfx_effect == 3) {
           is_meta = 0;
         }
@@ -206,12 +206,12 @@ void calculate_osc_state(int *ch_state, int *osc_state) {
         is_meta = 0;
       }
 
-      if (is_meta || sfx_step_waveform != *(ch_state + 0x2e94)) {
-        *(ch_state + 0x2ee0) = 0;
+      if (is_meta || sfx_step_waveform != *(&ch_state + 0x2e94)) {
+        *(&ch_state + 0x2ee0) = 0;
       }
     }
 
-    apply_meta_instrument(ch_state, sfx_step_ptr, osc_state);
+    apply_meta_instrument(ch_state, *sfx_step_ptr, osc_state);
 
     new_target_pitch = *osc_step_target_pitch;
   }
@@ -219,7 +219,7 @@ void calculate_osc_state(int *ch_state, int *osc_state) {
   /*
    * Phase increment (dt)
    */
-  const int target_ch = *(ch_state + 0x203c);
+  const int target_ch = *(&ch_state + 0x203c);
   const int hi_filter_mask = 1 << (target_ch + 4);
   const int lo_filter_mask = 1 << target_ch;
 
@@ -301,7 +301,7 @@ void calculate_osc_state(int *ch_state, int *osc_state) {
   /*
    * Apply global music volume
    */
-  if (*(ch_state + 0x2d28)) {
+  if (*(&ch_state + 0x2d28)) {
     const int new_target_vol = ((fade_vol >> 8) * *(osc_state + 0x1c)) / 256;
 
     *(osc_state + 0x1c) = (new_target_vol * music_volume) / 256;
@@ -361,13 +361,13 @@ void calculate_osc_state(int *ch_state, int *osc_state) {
   } else {
     // if total dampen == 2 or 3 (0x5f43 hi+lo)
     // 0x2edc = 0x2ee8 in p8 binary
-    if (*(ch_state + 0x2edc) > 11) {
+    if (*(&ch_state + 0x2edc) > 11) {
       // set noiz to 2
       *(osc_state + 88) = 2;
 
       // set dampen to 0
       // 0x2edc = 0x2ee8 in p8 binary
-      *(ch_state + 0x2edc) = 0;
+      *(&ch_state + 0x2edc) = 0;
     }
   }
 
@@ -378,7 +378,7 @@ void calculate_osc_state(int *ch_state, int *osc_state) {
    */
   const int sfx_reverb = sfx_ptr ? ((*sfx_ptr >> 3) / 3) % 3 : 0;
 
-  int osc_reverb = ((*(ch_state + 0x2d78) >> 3) / 3) % 3;
+  int osc_reverb = ((*(&ch_state + 0x2d78) >> 3) / 3) % 3;
   int reverb = sfx_reverb > osc_reverb ? sfx_reverb : osc_reverb;
 
   if (global_reverb & hi_filter_mask) {

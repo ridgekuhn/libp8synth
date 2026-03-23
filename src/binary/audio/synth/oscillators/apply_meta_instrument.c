@@ -4,8 +4,8 @@
 /**
  * Apply Meta Instrument
  */
-void apply_meta_instrument(int *ch_state, int *sfx_step, int *osc_state) {
-  int *cart_ptr = ch_state + 0x2020;
+void apply_meta_instrument(long ch_state, long sfx_step, int *osc_state) {
+  long *cart_ptr = &ch_state + 0x2020;
 
   if (*cart_ptr == 0) {
     return;
@@ -14,11 +14,11 @@ void apply_meta_instrument(int *ch_state, int *sfx_step, int *osc_state) {
   /*
    * Filter
    */
-  int meta_idx = *(sfx_step + 4);
+  int meta_idx = *(&sfx_step + 4);
   meta_idx = meta_idx < 7 ? meta_idx : 7;
   meta_idx = meta_idx > 0 ? meta_idx : 0;
 
-  const int *meta_sfx_ptr = cart_ptr + 0x20 + meta_idx * 680;
+  const long *meta_sfx_ptr = cart_ptr + 0x20 + meta_idx * 680;
 
   *(osc_state + 0x48) = *meta_sfx_ptr;
 
@@ -44,7 +44,7 @@ void apply_meta_instrument(int *ch_state, int *sfx_step, int *osc_state) {
 
   const int loop_end = *(meta_sfx_ptr + 0x10);
 
-  int *cur_pat_tick = ch_state + 0x2ee0;
+  long *cur_pat_tick = &ch_state + 0x2ee0;
   int meta_tick = 0;
 
   if (loop_end <= loop_start || *cur_pat_tick < (spd * loop_end)) {
@@ -68,16 +68,16 @@ void apply_meta_instrument(int *ch_state, int *sfx_step, int *osc_state) {
     return;
   }
 
-  const int *step_ptr = meta_sfx_ptr + 0x14 + step * 0x14;
+  const long *step_ptr = meta_sfx_ptr + 0x14 + step * 0x14;
   const int meta_pitch = *step_ptr;
   const int meta_target_pitch = meta_pitch << 16;
   const int meta_vol = *(step_ptr + 8);
   const int meta_target_vol = meta_vol << 8;
 
   if (step_tick == spd - 1) {
-    *(ch_state + 0x2ea4) = meta_pitch;
-    *(ch_state + 0x2ea8) = *(step_ptr + 4);
-    *(ch_state + 0x2eac) = meta_vol;
+    *(&ch_state + 0x2ea4) = meta_pitch;
+    *(&ch_state + 0x2ea8) = *(step_ptr + 4);
+    *(&ch_state + 0x2eac) = meta_vol;
   }
 
   /*
@@ -96,8 +96,8 @@ void apply_meta_instrument(int *ch_state, int *sfx_step, int *osc_state) {
     int slide_target_vol = 0;
 
     if (step > 0) {
-      slide_target_pitch = *(ch_state + 0x2ea4) << 16;
-      slide_target_vol = *(ch_state + 0x2eac) << 8;
+      slide_target_pitch = *(&ch_state + 0x2ea4) << 16;
+      slide_target_vol = *(&ch_state + 0x2eac) << 8;
     } else {
       slide_target_pitch = 0x180000;
       slide_target_vol = meta_target_vol;
