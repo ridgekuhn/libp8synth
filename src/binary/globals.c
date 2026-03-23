@@ -47,3 +47,4 @@ CData *g_cdata = 0;
 int g_version = 43;
 int music_volume = 256;
 int SAMPLES_PER_TICK = 183;
+int sound_initialized = 0;
