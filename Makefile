@@ -3,7 +3,7 @@ CC=cc
 CFLAGS=$(INC)
 OUT=./out
 SRC=./src/binary
-INC=-I $(SRC)
+INC=-I $(SRC) -I /usr/include/SDL2
 
 default: main
 
@@ -125,6 +125,19 @@ $(SYNTH_OBJ): $(OUT)/$(SYNTH_DIR)/%.o : $(SRC)/$(SYNTH_DIR)/%.c $(SRC)/$(SYNTH_D
 synth: $(SYNTH_OBJ)
 
 ######
+# Time
+######
+time_dir:
+	mkdir -p $(OUT)/time
+
+TIME_OBJ=$(patsubst $(SRC)/time/%.c,$(OUT)/time/%.o,$(wildcard $(SRC)/time/*.c))
+
+$(TIME_OBJ): $(OUT)/time/%.o : $(SRC)/time/%.c $(SRC)/time/%.h time_dir
+	$(CC) $(CFLAGS) -o $@ -c $<
+
+time: $(TIME_OBJ)
+
+######
 # Main
 ######
 $(OUT)/main.o: $(SRC)/main.h out_dir globals
@@ -132,7 +145,7 @@ $(OUT)/main.o: $(SRC)/main.h out_dir globals
 	$(CC) $(CFLAGS) -o $@ -c $(SRC)/main.c
 
 main: $(CART_OBJ) $(CLI_OBJ) $(OUT)/main.o $(OUT)/globals.o
-	$(CC) $(CFLAGS) -o $(OUT)/$(NAME) $^ -lm
+	$(CC) $(CFLAGS) -o $(OUT)/$(NAME) $^ -lm -lSDL2
 
 #######
 # Clean

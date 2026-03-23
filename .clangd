@@ -1,2 +1,2 @@
 CompileFlags:
-  Add: [-Wunused-variable]
+  Add: [-Wunused-variable, -I, /usr/include/SDL2]
