@@ -13,6 +13,10 @@ extern _Bool advanced_pattern;
 extern int codo_state[172];
 #endif
 
+#ifndef last_callback_len
+extern int last_callback_len;
+#endif
+
 #ifndef m_low
 extern int m_low;
 #endif

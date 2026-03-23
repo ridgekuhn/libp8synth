@@ -29,6 +29,7 @@ int codo_state[172] = {
     [672 >> 2] = 0,
 };
 
+int last_callback_len = 0;
 int m_high = 0x1234567;
 int m_low = 0xdeadbeef;
 
