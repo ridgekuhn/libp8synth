@@ -132,7 +132,7 @@ synth_dir:
 
 SYNTH_OBJ=$(patsubst $(SRC)/$(SYNTH_DIR)/%.c,$(OUT)/$(SYNTH_DIR)/%.o,$(wildcard $(SRC)/$(SYNTH_DIR)/*.c))
 
-$(SYNTH_OBJ): $(OUT)/$(SYNTH_DIR)/%.o : $(SRC)/$(SYNTH_DIR)/%.c $(SRC)/$(SYNTH_DIR)/%.h synth_dir globals oscillators
+$(SYNTH_OBJ): $(OUT)/$(SYNTH_DIR)/%.o : $(SRC)/$(SYNTH_DIR)/%.c $(SRC)/$(SYNTH_DIR)/%.h synth_dir globals memory oscillators time
 	$(CC) $(CFLAGS) -o $@ -c $<
 
 synth: $(SYNTH_OBJ)
