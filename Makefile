@@ -60,6 +60,19 @@ $(MATH_OBJ): $(OUT)/math/%.o : $(SRC)/math/%.c $(SRC)/math/%.h math_dir globals 
 
 math: $(MATH_OBJ)
 
+########
+# Memory
+########
+memory_dir:
+	mkdir -p $(OUT)/memory
+
+MEMORY_OBJ=$(patsubst $(SRC)/memory/%.c,$(OUT)/memory/%.o,$(wildcard $(SRC)/memory/*.c))
+
+$(MEMORY_OBJ): $(OUT)/memory/%.o : $(SRC)/memory/%.c $(SRC)/memory/%.h memory_dir globals cart
+	$(CC) $(CFLAGS) -o $@ -c $<
+
+memory: $(MEMORY_OBJ)
+
 #######
 # Synth
 #######
